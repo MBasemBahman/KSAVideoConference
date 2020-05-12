@@ -1,0 +1,75 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KSAVideoConference.AppAdmin", "KSAVideoConference.AppAdmin\KSAVideoConference.AppAdmin.csproj", "{9E79A857-3D61-4F44-8960-1B12AE8AC394}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BaseRepository", "BaseRepository", "{AAAE4B83-0F76-456D-856C-A8A05CDBF3E1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAL", "DAL", "{F8242756-0B7D-4E43-B04D-B9ED14A89796}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{9004AB8C-6101-4483-9D9E-6C8D188B276D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KSAVideoConference.Entity", "KSAVideoConference.Entity\KSAVideoConference.Entity.csproj", "{288C104A-2722-4DAF-AB66-B9AAE5754292}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KSAVideoConference.CommonBL", "KSAVideoConference.CommonBL\KSAVideoConference.CommonBL.csproj", "{6A719829-7764-4E45-AE02-456FB6CD0F5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KSAVideoConference.DAL", "KSAVideoConference.DAL\KSAVideoConference.DAL.csproj", "{5D9B5AE1-8B0F-4781-9F53-FC71B5A9CEDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KSAVideoConference.BaseRepository", "KSAVideoConference.BaseRepository\KSAVideoConference.BaseRepository.csproj", "{5C11C892-950F-41E5-A781-C954DF69207C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KSAVideoConference.Repository", "KSAVideoConference.Repository\KSAVideoConference.Repository.csproj", "{A279BEDF-93EE-4C2B-9472-1A5638EE827B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KSAVideoConference.ServiceModel", "KSAVideoConference.ServiceModel\KSAVideoConference.ServiceModel.csproj", "{26A88C5B-6C3D-444B-AEF0-13D3FFB3FAF4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9E79A857-3D61-4F44-8960-1B12AE8AC394}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E79A857-3D61-4F44-8960-1B12AE8AC394}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E79A857-3D61-4F44-8960-1B12AE8AC394}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E79A857-3D61-4F44-8960-1B12AE8AC394}.Release|Any CPU.Build.0 = Release|Any CPU
+		{288C104A-2722-4DAF-AB66-B9AAE5754292}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{288C104A-2722-4DAF-AB66-B9AAE5754292}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{288C104A-2722-4DAF-AB66-B9AAE5754292}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{288C104A-2722-4DAF-AB66-B9AAE5754292}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A719829-7764-4E45-AE02-456FB6CD0F5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A719829-7764-4E45-AE02-456FB6CD0F5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A719829-7764-4E45-AE02-456FB6CD0F5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A719829-7764-4E45-AE02-456FB6CD0F5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D9B5AE1-8B0F-4781-9F53-FC71B5A9CEDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D9B5AE1-8B0F-4781-9F53-FC71B5A9CEDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D9B5AE1-8B0F-4781-9F53-FC71B5A9CEDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D9B5AE1-8B0F-4781-9F53-FC71B5A9CEDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C11C892-950F-41E5-A781-C954DF69207C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C11C892-950F-41E5-A781-C954DF69207C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C11C892-950F-41E5-A781-C954DF69207C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C11C892-950F-41E5-A781-C954DF69207C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A279BEDF-93EE-4C2B-9472-1A5638EE827B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A279BEDF-93EE-4C2B-9472-1A5638EE827B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A279BEDF-93EE-4C2B-9472-1A5638EE827B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A279BEDF-93EE-4C2B-9472-1A5638EE827B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26A88C5B-6C3D-444B-AEF0-13D3FFB3FAF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26A88C5B-6C3D-444B-AEF0-13D3FFB3FAF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26A88C5B-6C3D-444B-AEF0-13D3FFB3FAF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26A88C5B-6C3D-444B-AEF0-13D3FFB3FAF4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{288C104A-2722-4DAF-AB66-B9AAE5754292} = {9004AB8C-6101-4483-9D9E-6C8D188B276D}
+		{6A719829-7764-4E45-AE02-456FB6CD0F5A} = {9004AB8C-6101-4483-9D9E-6C8D188B276D}
+		{5D9B5AE1-8B0F-4781-9F53-FC71B5A9CEDE} = {F8242756-0B7D-4E43-B04D-B9ED14A89796}
+		{5C11C892-950F-41E5-A781-C954DF69207C} = {AAAE4B83-0F76-456D-856C-A8A05CDBF3E1}
+		{A279BEDF-93EE-4C2B-9472-1A5638EE827B} = {9004AB8C-6101-4483-9D9E-6C8D188B276D}
+		{26A88C5B-6C3D-444B-AEF0-13D3FFB3FAF4} = {9004AB8C-6101-4483-9D9E-6C8D188B276D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {68A61A5C-A481-43A7-9375-980C2479E5D7}
+	EndGlobalSection
+EndGlobal
