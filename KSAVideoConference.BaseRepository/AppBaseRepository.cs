@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace KSAVideoConference.BaseRepository
@@ -26,6 +25,11 @@ namespace KSAVideoConference.BaseRepository
         public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> expression)
         {
             return await MedicalAppContext.Set<T>().Where(expression).ToListAsync();
+        }
+
+        public async Task<bool> CheckExisting(Expression<Func<T, bool>> expression)
+        {
+            return await MedicalAppContext.Set<T>().Where(expression).AnyAsync();
         }
 
         public async Task<T> GetByIDAsync(int id)

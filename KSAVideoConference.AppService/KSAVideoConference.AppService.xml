@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>KSAVideoConference.AppService</name>
+    </assembly>
+    <members>
+        <member name="M:KSAVideoConference.AppService.Controllers.AppController.GetMemberTypes(KSAVideoConference.ServiceModel.Paging,System.Guid)">
+            <summary>
+            Get : All Member Types 
+            </summary>
+        </member>
+        <member name="M:KSAVideoConference.AppService.Controllers.AppController.GetAttachmentTypes(KSAVideoConference.ServiceModel.Paging,System.Guid)">
+            <summary>
+            Get : All Attachment Types
+            </summary>
+        </member>
+        <member name="M:KSAVideoConference.AppService.Controllers.GroupController.CreateGroup(System.Guid,KSAVideoConference.ServiceModel.AppModel.IGroupModel)">
+            <summary>
+            Post : Create Group
+            </summary>
+        </member>
+        <member name="M:KSAVideoConference.AppService.Controllers.GroupController.UpdateGroup(System.Guid,KSAVideoConference.ServiceModel.AppModel.IGroupModel)">
+            <summary>
+            Patch : Update Group
+            </summary>
+        </member>
+        <member name="M:KSAVideoConference.AppService.Controllers.GroupController.GetGroups(KSAVideoConference.ServiceModel.Paging,System.Guid,System.String,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Get : Groups
+            </summary>
+        </member>
+        <member name="M:KSAVideoConference.AppService.Controllers.GroupController.GetGroupProfile(System.Guid,System.Int32)">
+            <summary>
+            Get : Group Profile
+            </summary>
+        </member>
+        <member name="M:KSAVideoConference.AppService.Controllers.GroupMemberController.JoinGroup(System.Guid,KSAVideoConference.ServiceModel.AppModel.IGroupMemberModel)">
+            <summary>
+            Post : Join Group
+            </summary>
+        </member>
+        <member name="M:KSAVideoConference.AppService.Controllers.GroupMemberController.ExitGroup(System.Guid,KSAVideoConference.ServiceModel.AppModel.IGroupMemberModel)">
+            <summary>
+            Patch : Exit Group
+            </summary>
+        </member>
+        <member name="M:KSAVideoConference.AppService.Controllers.GroupMessageController.SendMessage(System.Guid,KSAVideoConference.ServiceModel.AppModel.IGroupMessageModel)">
+            <summary>
+            Post : Send Message
+            </summary>
+        </member>
+        <member name="M:KSAVideoConference.AppService.Controllers.GroupMessageController.DeleteMessage(System.Guid,KSAVideoConference.ServiceModel.AppModel.IGroupMessageModel)">
+            <summary>
+            Delete : Delete Message
+            </summary>
+        </member>
+        <member name="M:KSAVideoConference.AppService.Controllers.UserContactController.AddContact(System.Guid,KSAVideoConference.ServiceModel.AppModel.IUserContactModel)">
+            <summary>
+            Post : Add Contact
+            </summary>
+        </member>
+        <member name="M:KSAVideoConference.AppService.Controllers.UserContactController.DeleteContact(System.Guid,KSAVideoConference.ServiceModel.AppModel.IUserContactModel)">
+            <summary>
+            Delete : Delete Contact
+            </summary>
+        </member>
+        <member name="M:KSAVideoConference.AppService.Controllers.UserController.CreateAccount(KSAVideoConference.ServiceModel.AppModel.IUserModel)">
+            <summary>
+            Post : Create User Account
+            </summary>
+        </member>
+        <member name="M:KSAVideoConference.AppService.Controllers.UserController.UpdateAccount(System.Guid,KSAVideoConference.ServiceModel.AppModel.IUserModel)">
+            <summary>
+            Patch : Update User Account Profile
+            </summary>
+        </member>
+        <member name="M:KSAVideoConference.AppService.Controllers.UserController.Login(KSAVideoConference.ServiceModel.AppModel.IUserModel)">
+            <summary>
+            Post : Login With Phone
+            </summary>
+        </member>
+        <member name="M:KSAVideoConference.AppService.Controllers.UserController.GetUsers(KSAVideoConference.ServiceModel.Paging,System.Guid,System.String,System.Boolean)">
+            <summary>
+            Get : Users
+            </summary>
+        </member>
+    </members>
+</doc>

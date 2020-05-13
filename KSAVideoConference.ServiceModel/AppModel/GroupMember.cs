@@ -1,32 +1,27 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace KSAVideoConference.ServiceModel.AppModel
+﻿namespace KSAVideoConference.ServiceModel.AppModel
 {
-    public class GroupMemberModel : BaseModel
+    public interface IGroupMemberModel
     {
-        [ForeignKey(nameof(User))]
-        [DisplayName(nameof(User))]
+        int Id { get; set; }
+        int Fk_Group { get; set; }
+        int Fk_MemberType { get; set; }
+        int Fk_User { get; set; }
+    }
+
+    public class GroupMemberModel : BaseModel, IGroupMemberModel
+    {
         public int Fk_User { get; set; }
 
-        [DisplayName("المستخدم")]
         public UserModel User { get; set; }
 
-        [ForeignKey(nameof(Group))]
-        [DisplayName(nameof(Group))]
         public int Fk_Group { get; set; }
 
-        [DisplayName("المجموعه")]
         public GroupModel Group { get; set; }
 
-        [ForeignKey(nameof(MemberType))]
-        [DisplayName(nameof(MemberType))]
         public int Fk_MemberType { get; set; }
 
-        [DisplayName("نوع المستخدم")]
         public MemberTypeModel MemberType { get; set; }
 
-        [DisplayName("التنشيط")]
         public bool IsActive { get; set; } = true;
     }
 }

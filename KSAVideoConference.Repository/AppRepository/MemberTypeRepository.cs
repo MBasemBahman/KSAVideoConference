@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
 using KSAVideoConference.BaseRepository;
-using KSAVideoConference.CommonBL;
 using KSAVideoConference.DAL;
 using KSAVideoConference.Entity.AppModel;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace KSAVideoConference.Repository.AppRepository

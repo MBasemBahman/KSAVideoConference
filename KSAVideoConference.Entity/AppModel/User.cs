@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KSAVideoConference.Entity.AppModel
 {
@@ -23,7 +24,7 @@ namespace KSAVideoConference.Entity.AppModel
         public string ImageURL { get; set; }
 
         [DisplayName("المعرف")]
-        public Guid Token { get; set; } = new Guid();
+        public Guid Token { get; set; } = Guid.NewGuid();
 
         [Required(ErrorMessage = "العنصر مطلوب")]
         [DisplayName("نسخة التطبيق")]
@@ -40,6 +41,16 @@ namespace KSAVideoConference.Entity.AppModel
         [Required(ErrorMessage = "العنصر مطلوب")]
         [DisplayName("رمز الإخطارات")]
         public string NotificationToken { get; set; }
+
+        [DisplayName("التنشيط")]
+        public bool IsActive { get; set; } = true;
+
+        [ForeignKey(nameof(Language))]
+        [DisplayName(nameof(Language))]
+        public int Fk_Language { get; set; }
+
+        [DisplayName("اللغه")]
+        public Language Language { get; set; }
 
         [DisplayName("المجموعات الخاصة")]
         public ICollection<Group> Groups { get; set; }

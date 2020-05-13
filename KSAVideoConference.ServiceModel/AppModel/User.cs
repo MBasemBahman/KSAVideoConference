@@ -1,59 +1,60 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 
 namespace KSAVideoConference.ServiceModel.AppModel
 {
-    public class UserModel : BaseModel
+    public class IUserModel
     {
-        [Required(ErrorMessage = "العنصر مطلوب")]
-        [DisplayName("الاسم بالكامل")]
+        public int Id { get; set; }
+
         public string FullName { get; set; }
 
-        [Required(ErrorMessage = "العنصر مطلوب")]
-        [DisplayName("رقم الجوال")]
-        [DataType(DataType.PhoneNumber)]
-        [Phone]
         public string Phone { get; set; }
 
-        [DisplayName("الصوره")]
-        [DataType(DataType.ImageUrl)]
-        [Url]
-        public string ImageURL { get; set; }
-
-        [DisplayName("المعرف")]
-        public Guid Token { get; set; } = new Guid();
-
-        [Required(ErrorMessage = "العنصر مطلوب")]
-        [DisplayName("نسخة التطبيق")]
         public string AppVersion { get; set; }
 
-        [Required(ErrorMessage = "العنصر مطلوب")]
-        [DisplayName("إصدار الجهاز")]
         public string DeviceVersion { get; set; }
 
-        [Required(ErrorMessage = "العنصر مطلوب")]
-        [DisplayName("طراز الجهاز")]
         public string DeviceModel { get; set; }
 
-        [Required(ErrorMessage = "العنصر مطلوب")]
-        [DisplayName("رمز الإخطارات")]
         public string NotificationToken { get; set; }
 
-        [DisplayName("المجموعات الخاصة")]
+        public int Fk_Language { get; set; }
+
+        public IFormFile ImageFile { get; set; }
+    }
+
+    public class UserModel : BaseModel
+    {
+        public string FullName { get; set; }
+
+        public string Phone { get; set; }
+
+        public string ImageURL { get; set; }
+
+        public Guid Token { get; set; }
+
+        public string AppVersion { get; set; }
+
+        public string DeviceVersion { get; set; }
+
+        public string DeviceModel { get; set; }
+
+        public string NotificationToken { get; set; }
+
+        public int Fk_Language { get; set; }
+
+        public LanguageModel Language { get; set; }
+
         public ICollection<GroupModel> Groups { get; set; }
 
-        [DisplayName("أعضاء المجموعة")]
         public ICollection<GroupMemberModel> GroupMembers { get; set; }
 
-        [DisplayName("رسائل المجموعه")]
         public ICollection<GroupMessageModel> GroupMessages { get; set; }
 
-        [DisplayName("جهات اتصال الخاصة بي")]
         public ICollection<UserContactModel> MyUserContacts { get; set; }
 
-        [DisplayName("أنا في جهات اتصال")]
         public ICollection<UserContactModel> MeInUserContacts { get; set; }
     }
 }

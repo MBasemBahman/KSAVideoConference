@@ -16,7 +16,6 @@ namespace KSAVideoConference.Entity
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm tt}")]
         public DateTime CreatedAt { get; set; } = LocalCurrentTime.GetLocalCurrentTime();
 
-        [Required(ErrorMessage = "العنصر مطلوب")]
         [DisplayName("انشأ من قبل")]
         public string CreatedBy { get; set; } = AppMainData.Email;
 
@@ -25,7 +24,6 @@ namespace KSAVideoConference.Entity
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm tt}")]
         public DateTime LastModifiedAt { get; set; } = LocalCurrentTime.GetLocalCurrentTime();
 
-        [Required(ErrorMessage = "العنصر مطلوب")]
         [DisplayName("التعديل الأخير من قبل")]
         public string LastModifiedBy { get; set; } = AppMainData.Email;
     }

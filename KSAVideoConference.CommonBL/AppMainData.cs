@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace KSAVideoConference.CommonBL
+﻿namespace KSAVideoConference.CommonBL
 {
     public class AppMainData
     {
@@ -33,6 +31,12 @@ namespace KSAVideoConference.CommonBL
         {
             All = 1,
             Owner = 2
+        };
+
+        public enum LanguageEnum
+        {
+            English = 1,
+            Arabic = 2,
         };
     }
 }

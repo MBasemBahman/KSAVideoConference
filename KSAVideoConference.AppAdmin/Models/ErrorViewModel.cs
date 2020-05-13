@@ -1,5 +1,3 @@
-using System;
-
 namespace KSAVideoConference.AppAdmin.Models
 {
     public class ErrorViewModel

@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace KSAVideoConference.BaseRepository
@@ -25,8 +22,8 @@ namespace KSAVideoConference.BaseRepository
             string FilePath = Path.Combine(FileFullPath, FileName);
 
             // Create new local file and copy contents of uploaded file
-            using (var localFile = File.OpenWrite(FilePath))
-            using (var uploadedFile = ImgFile.OpenReadStream())
+            using (FileStream localFile = File.OpenWrite(FilePath))
+            using (Stream uploadedFile = ImgFile.OpenReadStream())
             {
                 await uploadedFile.CopyToAsync(localFile);
             }

@@ -1,13 +1,11 @@
 ﻿using AutoMapper;
 using KSAVideoConference.BaseRepository;
-using KSAVideoConference.CommonBL;
 using KSAVideoConference.DAL;
 using KSAVideoConference.Entity.AppModel;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace KSAVideoConference.Repository.AppRepository
@@ -43,6 +41,20 @@ namespace KSAVideoConference.Repository.AppRepository
                                   .Include(a => a.GroupMessages)
                                   .Include(a => a.MyUserContacts)
                                   .Include(a => a.MeInUserContacts)
+                                  .FirstOrDefaultAsync();
+        }
+
+        public async Task<User> GetByTokenAsync(Guid Token)
+        {
+            return await DBContext.User
+                                  .Where(a => a.Token == Token)
+                                  .FirstOrDefaultAsync();
+        }
+
+        public async Task<User> GetByPhoneAsync(string Phone)
+        {
+            return await DBContext.User
+                                  .Where(a => a.Phone == Phone)
                                   .FirstOrDefaultAsync();
         }
     }

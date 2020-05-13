@@ -2,7 +2,6 @@
 using KSAVideoConference.DAL;
 using KSAVideoConference.Repository.AppRepository;
 using KSAVideoConference.Repository.AuthRepository;
-using System;
 
 namespace KSAVideoConference.Repository
 {
@@ -30,5 +29,9 @@ namespace KSAVideoConference.Repository
         public MemberTypeRepository MemberTypeRepository => new MemberTypeRepository(DataContext, _Mapper);
         public UserContactRepository UserContactRepository => new UserContactRepository(DataContext, _Mapper);
         public UserRepository UserRepository => new UserRepository(DataContext, _Mapper);
+        public LanguageRepository LanguageRepository => new LanguageRepository(DataContext, _Mapper);
+        public AppStaticWordRepository AppStaticWordRepository => new AppStaticWordRepository(DataContext, _Mapper);
+        public AppStaticMessageRepository AppStaticMessageRepository => new AppStaticMessageRepository(DataContext, _Mapper);
+
     }
 }

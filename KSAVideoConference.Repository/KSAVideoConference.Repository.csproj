@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\KSAVideoConference.BaseRepository\KSAVideoConference.BaseRepository.csproj" />
     <ProjectReference Include="..\KSAVideoConference.DAL\KSAVideoConference.DAL.csproj" />
+    <ProjectReference Include="..\KSAVideoConference.ServiceModel\KSAVideoConference.ServiceModel.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,13 +1,13 @@
-﻿using KSAVideoConference.DAL;
+﻿using AutoMapper;
 using KSAVideoConference.BaseRepository;
 using KSAVideoConference.CommonBL;
+using KSAVideoConference.DAL;
 using KSAVideoConference.Entity.AuthModel;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using static KSAVideoConference.CommonBL.EnumModel;
-using AutoMapper;
 
 namespace KSAVideoConference.Repository.AuthRepository
 {

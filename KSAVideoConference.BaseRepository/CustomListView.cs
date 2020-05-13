@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace KSAVideoConference.BaseRepository
+﻿namespace KSAVideoConference.BaseRepository
 {
     public class CustomListView
     {

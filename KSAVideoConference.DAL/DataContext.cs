@@ -1,8 +1,8 @@
 ﻿using KSAVideoConference.CommonBL;
+using KSAVideoConference.Entity;
 using KSAVideoConference.Entity.AppModel;
 using KSAVideoConference.Entity.AuthModel;
 using Microsoft.EntityFrameworkCore;
-using System;
 using static KSAVideoConference.CommonBL.EnumModel;
 
 namespace KSAVideoConference.DAL
@@ -26,6 +26,11 @@ namespace KSAVideoConference.DAL
         public DbSet<SystemUser> SystemUser { get; set; }
         public DbSet<SystemUserPermission> SystemUserPermission { get; set; }
         public DbSet<SystemView> SystemView { get; set; }
+        public DbSet<Language> Language { get; set; }
+        public DbSet<AppStaticWord> AppStaticWord { get; set; }
+        public DbSet<AppStaticWordLang> AppStaticWordLang { get; set; }
+        public DbSet<AppStaticMessage> AppStaticMessage { get; set; }
+        public DbSet<AppStaticMessageLang> AppStaticMessageLang { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -38,6 +43,24 @@ namespace KSAVideoConference.DAL
                         .HasMany(a => a.MeInUserContacts)
                         .WithOne(a => a.Contact)
                         .HasForeignKey(a => a.Fk_Contact);
+
+            //////////////////////////////////////////////////////////
+
+            modelBuilder.Entity<Language>()
+           .HasData(
+               new Language
+               {
+                   Id = (int)LanguageEnum.English,
+                   Name = "English",
+                   CreatedBy = AppMainData.SeedData
+               },
+               new Language
+               {
+                   Id = (int)LanguageEnum.Arabic,
+                   Name = "Arabic",
+                   CreatedBy = AppMainData.SeedData
+               }
+           );
 
             modelBuilder.Entity<AccessLevel>()
            .HasData(

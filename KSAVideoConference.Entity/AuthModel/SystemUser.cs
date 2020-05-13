@@ -8,7 +8,7 @@ namespace KSAVideoConference.Entity.AuthModel
     {
         [Required(ErrorMessage = "العنصر مطلوب")]
         [DisplayName("البريد الالكتروني")]
-        [DataType(DataType.EmailAddress,ErrorMessage = "البريد الالكتروني مكتوب بشكل خاطيء")]
+        [DataType(DataType.EmailAddress, ErrorMessage = "البريد الالكتروني مكتوب بشكل خاطيء")]
         [EmailAddress(ErrorMessage = "البريد الالكتروني مكتوب بشكل خاطيء")]
         public string Email { get; set; }
 
