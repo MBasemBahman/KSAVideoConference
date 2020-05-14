@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using KSAVideoConference.AppService.Service;
 using KSAVideoConference.CommonBL;
 using KSAVideoConference.DAL;
 using KSAVideoConference.Entity.AppModel;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
@@ -19,8 +21,6 @@ using System.Threading.Tasks;
 
 namespace KSAVideoConference.AppService.Controllers
 {
-    [Produces("application/json")]
-    [Consumes("application/json")]
     [ApiExplorerSettings(GroupName = "User")]
     [ApiController]
     [Route("api/[controller]/v{version:apiVersion}")]
@@ -32,6 +32,7 @@ namespace KSAVideoConference.AppService.Controllers
         private readonly DataContext _DBContext;
         private readonly AppUnitOfWork _UnitOfWork;
         private readonly IMapper _Mapper;
+
 
         public UserController(ILogger<UserController> logger, DataContext dataContext,
                             AppUnitOfWork unitOfWork, IMapper mapper)
@@ -45,9 +46,9 @@ namespace KSAVideoConference.AppService.Controllers
         /// <summary>
         /// Post : Create User Account
         /// </summary>
-        [HttpPost, DisableRequestSizeLimit]
+        [HttpPost]
         [Route(nameof(CreateAccount))]
-        public async Task<UserModel> CreateAccount([FromBody]IUserModel User)
+        public async Task<UserModel> CreateAccount([FromForm]IUserModel User)
         {
             UserModel returnData = new UserModel();
             Status Status = new Status();
@@ -107,9 +108,9 @@ namespace KSAVideoConference.AppService.Controllers
         /// <summary>
         /// Patch : Update User Account Profile
         /// </summary>
-        [HttpPatch, DisableRequestSizeLimit]
+        [HttpPatch]
         [Route(nameof(UpdateAccount))]
-        public async Task<UserModel> UpdateAccount([FromQuery]Guid Token, [FromBody]IUserModel User)
+        public async Task<UserModel> UpdateAccount([FromQuery]Guid Token, [FromForm]IUserModel User)
         {
             UserModel returnData = new UserModel();
             Status Status = new Status();
@@ -165,7 +166,7 @@ namespace KSAVideoConference.AppService.Controllers
                 Status.ExceptionMessage = ex.Message;
             }
 
-            Response.Headers.Add("X-Status", JsonSerializer.Serialize(Status));
+            Response.Headers.Add("X-Status", JsonSerializer.Serialize(Status, new JsonSerializerOptions() { Encoder = JavaScriptEncoder.Create(UnicodeRanges.All) }));
 
             return returnData;
         }
@@ -203,7 +204,7 @@ namespace KSAVideoConference.AppService.Controllers
                 Status.ExceptionMessage = ex.Message;
             }
 
-            Response.Headers.Add("X-Status", JsonSerializer.Serialize(Status));
+            Response.Headers.Add("X-Status", JsonSerializer.Serialize(Status, new JsonSerializerOptions() { Encoder = JavaScriptEncoder.Create(UnicodeRanges.All) }));
 
             return returnData;
         }
@@ -263,7 +264,7 @@ namespace KSAVideoConference.AppService.Controllers
                 Status.ExceptionMessage = ex.Message;
             }
 
-            Response.Headers.Add("X-Status", JsonSerializer.Serialize(Status));
+            Response.Headers.Add("X-Status", JsonSerializer.Serialize(Status, new JsonSerializerOptions() { Encoder = JavaScriptEncoder.Create(UnicodeRanges.All) }));
 
             return PagedData;
         }

@@ -8,13 +8,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.Unicode;
 using System.Threading.Tasks;
 
 namespace KSAVideoConference.AppService.Controllers
 {
-    [Produces("application/json")]
-    [Consumes("application/json")]
     [ApiExplorerSettings(GroupName = "App")]
     [ApiController]
     [Route("api/[controller]/v{version:apiVersion}")]
@@ -84,7 +84,7 @@ namespace KSAVideoConference.AppService.Controllers
                 Status.ExceptionMessage = ex.Message;
             }
 
-            Response.Headers.Add("X-Status", JsonSerializer.Serialize(Status));
+            Response.Headers.Add("X-Status", JsonSerializer.Serialize(Status, new JsonSerializerOptions() { Encoder = JavaScriptEncoder.Create(UnicodeRanges.All) }));
 
             return PagedData;
         }
@@ -138,7 +138,7 @@ namespace KSAVideoConference.AppService.Controllers
                 Status.ExceptionMessage = ex.Message;
             }
 
-            Response.Headers.Add("X-Status", JsonSerializer.Serialize(Status));
+            Response.Headers.Add("X-Status", JsonSerializer.Serialize(Status, new JsonSerializerOptions() { Encoder = JavaScriptEncoder.Create(UnicodeRanges.All) }));
 
             return PagedData;
         }

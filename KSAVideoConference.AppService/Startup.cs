@@ -1,6 +1,7 @@
 using AutoMapper;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
+using KSAVideoConference.AppService.Service;
 using KSAVideoConference.DAL;
 using KSAVideoConference.Repository;
 using KSAVideoConference.Repository.AutoMapper;
@@ -11,11 +12,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.WebEncoders;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Reflection;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 
 namespace KSAVideoConference.AppService
 {
@@ -31,8 +35,7 @@ namespace KSAVideoConference.AppService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews()
-                    .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
+            services.AddTransient<AppSetting>();
 
             services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("dbConnection")));
             services.AddScoped<AppUnitOfWork>();
@@ -47,6 +50,7 @@ namespace KSAVideoConference.AppService
                 c.SwaggerDoc("GroupMember", new OpenApiInfo { Title = "Group Member APIs", Version = "1" });
                 c.SwaggerDoc("GroupMessage", new OpenApiInfo { Title = "Group Message APIs", Version = "1" });
                 c.SwaggerDoc("UserContact", new OpenApiInfo { Title = "User Contact APIs", Version = "1" });
+                //c.OperationFilter<FileOperation>();
 
                 string xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 string xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
@@ -73,7 +77,8 @@ namespace KSAVideoConference.AppService
                 Credential = GoogleCredential.FromJson(googleCredential)
             });
 
-            services.AddControllers();
+            services.AddControllers()
+                    .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
