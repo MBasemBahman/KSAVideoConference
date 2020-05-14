@@ -1,7 +1,7 @@
 using AutoMapper;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
-using KSAVideoConference.AppService.Service;
+using KSAVideoConference.CommonBL;
 using KSAVideoConference.DAL;
 using KSAVideoConference.Repository;
 using KSAVideoConference.Repository.AutoMapper;
@@ -35,7 +35,6 @@ namespace KSAVideoConference.AppService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<AppSetting>();
 
             services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("dbConnection")));
             services.AddScoped<AppUnitOfWork>();
@@ -50,7 +49,6 @@ namespace KSAVideoConference.AppService
                 c.SwaggerDoc("GroupMember", new OpenApiInfo { Title = "Group Member APIs", Version = "1" });
                 c.SwaggerDoc("GroupMessage", new OpenApiInfo { Title = "Group Message APIs", Version = "1" });
                 c.SwaggerDoc("UserContact", new OpenApiInfo { Title = "User Contact APIs", Version = "1" });
-                //c.OperationFilter<FileOperation>();
 
                 string xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 string xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
@@ -67,6 +65,11 @@ namespace KSAVideoConference.AppService
                 config.ReportApiVersions = true;
             });
 
+            services.AddControllers()
+                    .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
+
+            AppMainData.DomainName = Configuration.GetValue<string>("DomainName");
+
             JToken jAppSettings = JToken.Parse(
                                   File.ReadAllText(Path.Combine(Environment.CurrentDirectory, "appsettings.json")));
 
@@ -76,9 +79,6 @@ namespace KSAVideoConference.AppService
             {
                 Credential = GoogleCredential.FromJson(googleCredential)
             });
-
-            services.AddControllers()
-                    .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -88,6 +88,9 @@ namespace KSAVideoConference.AppService
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            AppMainData.WebRootPath = env.ContentRootPath;
+            AppMainData.Email = "AppService@Domain.com";
 
             app.UseHttpsRedirection();
 

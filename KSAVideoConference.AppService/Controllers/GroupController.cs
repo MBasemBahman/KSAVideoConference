@@ -70,7 +70,7 @@ namespace KSAVideoConference.AppService.Controllers
 
                     _Mapper.Map(Group, GroupDB);
 
-                    GroupDB.SessionId = OpenTokManager.CreateSessionId();
+                    //GroupDB.SessionId = OpenTokManager.CreateSessionId();
                     GroupDB.Fk_Creator = UserDB.Id;
 
                     _UnitOfWork.GroupRepository.CreateEntityAsync(GroupDB);
