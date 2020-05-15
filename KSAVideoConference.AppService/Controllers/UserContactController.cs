@@ -39,9 +39,9 @@ namespace KSAVideoConference.AppService.Controllers
         /// </summary>
         [HttpPost]
         [Route("AddContact")]
-        public async Task<UserContactModel> AddContact([FromQuery]Guid Token, [FromBody]IUserContactModel UserContact)
+        public async Task<UserModel> AddContact([FromQuery]Guid Token, [FromBody]IUserContactModel UserContact)
         {
-            UserContactModel returnData = new UserContactModel();
+            UserModel returnData = new UserModel();
             Status Status = new Status();
 
             try
@@ -71,9 +71,9 @@ namespace KSAVideoConference.AppService.Controllers
                     _UnitOfWork.UserRepository.UpdateEntity(UserDB);
                     _UnitOfWork.UserRepository.Save();
 
-                    Status = new Status(true);
+                    returnData = await _UnitOfWork.UserRepository.GetUserProfile(UserContactDB.Fk_Contact);
 
-                    _Mapper.Map(UserContactDB, returnData);
+                    Status = new Status(true);
                 }
             }
             catch (Exception ex)
@@ -91,9 +91,9 @@ namespace KSAVideoConference.AppService.Controllers
         /// </summary>
         [HttpDelete]
         [Route("DeleteContact")]
-        public async Task<UserContactModel> DeleteContact([FromQuery]Guid Token, [FromBody]IUserContactModel UserContact)
+        public async Task<bool> DeleteContact([FromQuery]Guid Token, [FromBody]IUserContactModel UserContact)
         {
-            UserContactModel returnData = new UserContactModel();
+            bool returnData = new bool();
             Status Status = new Status();
 
             try
@@ -114,9 +114,9 @@ namespace KSAVideoConference.AppService.Controllers
                     _UnitOfWork.UserContactRepository.DeleteEntity(UserContactDB);
                     _UnitOfWork.UserContactRepository.Save();
 
-                    Status = new Status(true);
+                    returnData = true;
 
-                    _Mapper.Map(UserContactDB, returnData);
+                    Status = new Status(true);
                 }
             }
             catch (Exception ex)

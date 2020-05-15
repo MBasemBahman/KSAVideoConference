@@ -1,10 +1,14 @@
 ﻿using AutoMapper;
+using KSAVideoConference.AppService.Hubs;
+using KSAVideoConference.CommonBL;
 using KSAVideoConference.DAL;
 using KSAVideoConference.Entity.AppModel;
 using KSAVideoConference.Repository;
 using KSAVideoConference.ServiceModel;
 using KSAVideoConference.ServiceModel.AppModel;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Text.Encodings.Web;
@@ -24,14 +28,18 @@ namespace KSAVideoConference.AppService.Controllers
         private readonly DataContext _DBContext;
         private readonly AppUnitOfWork _UnitOfWork;
         private readonly IMapper _Mapper;
+        private readonly IHubContext<AppHub, IAppHub> _hubContext;
+
 
         public GroupMessageController(ILogger<GroupMessageController> logger, DataContext dataContext,
-                            AppUnitOfWork unitOfWork, IMapper mapper)
+                            AppUnitOfWork unitOfWork, IMapper mapper,
+                            IHubContext<AppHub, IAppHub> hubContext)
         {
             _logger = logger;
             _DBContext = dataContext;
             _UnitOfWork = unitOfWork;
             _Mapper = mapper;
+            _hubContext = hubContext;
         }
 
         /// <summary>
@@ -39,7 +47,7 @@ namespace KSAVideoConference.AppService.Controllers
         /// </summary>
         [HttpPost]
         [Route("SendMessage")]
-        public async Task<GroupMessageModel> SendMessage([FromQuery]Guid Token, [FromBody]IGroupMessageModel GroupMessage)
+        public async Task<GroupMessageModel> SendMessage([FromQuery]Guid Token, [FromForm]IGroupMessageModel GroupMessage)
         {
             GroupMessageModel returnData = new GroupMessageModel();
             Status Status = new Status();
@@ -76,9 +84,15 @@ namespace KSAVideoConference.AppService.Controllers
                     _UnitOfWork.GroupRepository.UpdateEntity(GroupDB);
                     _UnitOfWork.GroupRepository.Save();
 
-                    Status = new Status(true);
+                    await UploudFile(GroupMessageDB, GroupMessage.UploudFile);
+
+                    await _hubContext.Clients.Group(GroupMessageDB.Fk_Group.ToString()).Send($"{GroupMessageDB.Message}");
+
+                    GroupMessageDB = await _UnitOfWork.GroupMessageRepository.GetByIDAsyncIclude(GroupMessageDB.Id);
 
                     _Mapper.Map(GroupMessageDB, returnData);
+
+                    Status = new Status(true);
                 }
             }
             catch (Exception ex)
@@ -117,6 +131,16 @@ namespace KSAVideoConference.AppService.Controllers
                 }
                 else
                 {
+                    if (GroupMessageDB.Attachment != null)
+                    {
+                        Attachment Attachment = GroupMessageDB.Attachment;
+                        if (!string.IsNullOrEmpty(Attachment.AttachmentURL))
+                        {
+                            ImgManager ImgManager = new ImgManager(AppMainData.WebRootPath);
+                            ImgManager.DeleteImage(Attachment.AttachmentURL, AppMainData.DomainName);
+                        }
+                    }
+
                     _UnitOfWork.GroupMessageRepository.DeleteEntity(GroupMessageDB);
                     _UnitOfWork.GroupMessageRepository.Save();
 
@@ -132,6 +156,37 @@ namespace KSAVideoConference.AppService.Controllers
             Response.Headers.Add("X-Status", JsonSerializer.Serialize(Status, new JsonSerializerOptions() { Encoder = JavaScriptEncoder.Create(UnicodeRanges.All) }));
 
             return returnData;
+        }
+
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public async Task<GroupMessage> UploudFile(GroupMessage GroupMessage, IFormFile File)
+        {
+            if (File != null)
+            {
+                ImgManager ImgManager = new ImgManager(AppMainData.WebRootPath);
+
+                Attachment Attachment = new Attachment
+                {
+                    Name = File.FileName,
+                    Type = File.ContentType,
+                    Length = File.Length
+                };
+
+                _UnitOfWork.AttachmentRepository.CreateEntityAsync(Attachment);
+                await _UnitOfWork.AttachmentRepository.SaveAsync();
+
+                string FileURL = await ImgManager.UploudImageAsync(AppMainData.DomainName, Attachment.Id.ToString(), File, "Uploud\\Attachment");
+
+                if (!string.IsNullOrEmpty(FileURL))
+                {
+                    Attachment.AttachmentURL = FileURL;
+                    GroupMessage.Fk_Attachment = Attachment.Id;
+                    _UnitOfWork.AttachmentRepository.UpdateEntity(Attachment);
+                    _UnitOfWork.GroupMessageRepository.UpdateEntity(GroupMessage);
+                    await _UnitOfWork.AttachmentRepository.SaveAsync();
+                }
+            }
+            return GroupMessage;
         }
     }
 }

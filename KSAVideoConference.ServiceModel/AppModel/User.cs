@@ -22,7 +22,7 @@ namespace KSAVideoConference.ServiceModel.AppModel
 
         public int Fk_Language { get; set; }
 
-        public IFormFile ImageFile { get; set; }
+        public IFormFile UploudFile { get; set; }
     }
 
     public class UserModel : BaseModel

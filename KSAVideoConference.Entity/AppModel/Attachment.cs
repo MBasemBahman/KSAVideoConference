@@ -1,7 +1,6 @@
 ﻿using KSAVideoConference.CommonBL;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KSAVideoConference.Entity.AppModel
 {
@@ -11,12 +10,16 @@ namespace KSAVideoConference.Entity.AppModel
         [DisplayName("الملف المرفق")]
         public string AttachmentURL { get; set; } = AppMainData.DomainName;
 
-        [ForeignKey(nameof(AttachmentType))]
-        [DisplayName(nameof(AttachmentType))]
-        public int Fk_AttachmentType { get; set; }
-
+        [Required(ErrorMessage = "العنصر مطلوب")]
         [DisplayName("نوع الملف")]
-        public AttachmentType AttachmentType { get; set; }
+        public string Type { get; set; }
+
+        [Required(ErrorMessage = "العنصر مطلوب")]
+        [DisplayName("اسم الملف")]
+        public string Name { get; set; }
+
+        [DisplayName("حجم الملف")]
+        public long Length { get; set; } = 0;
 
         [DisplayName("الرساله")]
         public GroupMessage GroupMessage { get; set; }

@@ -88,59 +88,5 @@ namespace KSAVideoConference.AppService.Controllers
 
             return PagedData;
         }
-
-        /// <summary>
-        /// Get : All Attachment Types
-        /// </summary>
-        [HttpGet]
-        [Route("GetAttachmentTypes")]
-        public async Task<PagedList<AttachmentTypeModel>> GetAttachmentTypes([FromQuery] Paging paging, [FromQuery]Guid Token)
-        {
-            string ActionName = ControllerContext.RouteData.Values["action"].ToString();
-            List<AttachmentTypeModel> returnData = new List<AttachmentTypeModel>();
-            PagedList<AttachmentTypeModel> PagedData = PagedList<AttachmentTypeModel>.Create(returnData, paging.PageNumber, paging.PageSize);
-            Status Status = new Status();
-
-            try
-            {
-                User UserDB = await _UnitOfWork.UserRepository.GetByTokenAsync(Token);
-                if (UserDB == null)
-                {
-                    Status.ErrorMessage = "لم يتم التعرف عليك";
-                }
-                else if (!UserDB.IsActive)
-                {
-                    Status.ErrorMessage = "لقد تم وقف حسابك على التطبيق";
-                }
-                else
-                {
-                    List<AttachmentType> Data = await _UnitOfWork.AttachmentTypeRepository.GetAllAsync();
-
-                    IEnumerable<AttachmentType> OrderData = OrderBy<AttachmentType>.OrderData(Data, paging.OrderBy);
-
-                    _Mapper.Map(OrderData, returnData);
-
-                    PagedData = PagedList<AttachmentTypeModel>.Create(returnData, paging.PageNumber, paging.PageSize);
-
-                    PaginationMetaData<AttachmentTypeModel> PaginationMetaData = new PaginationMetaData<AttachmentTypeModel>(PagedData)
-                    {
-                        PrevoisPageLink = (PagedData.HasPrevious) ? Url.Link(ActionName, new { paging.OrderBy, pageNumber = (paging.PageNumber - 1), paging.PageSize }) : null,
-                        NextPageLink = (PagedData.HasNext) ? Url.Link(ActionName, new { paging.OrderBy, pageNumber = (paging.PageNumber + 1), paging.PageSize }) : null
-                    };
-
-                    Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(PaginationMetaData).Replace(@"\u0026", "&"));
-
-                    Status = new Status(true);
-                }
-            }
-            catch (Exception ex)
-            {
-                Status.ExceptionMessage = ex.Message;
-            }
-
-            Response.Headers.Add("X-Status", JsonSerializer.Serialize(Status, new JsonSerializerOptions() { Encoder = JavaScriptEncoder.Create(UnicodeRanges.All) }));
-
-            return PagedData;
-        }
     }
 }

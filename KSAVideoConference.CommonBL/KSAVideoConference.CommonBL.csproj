@@ -7,6 +7,7 @@
   <ItemGroup>
     <PackageReference Include="FirebaseAdmin" Version="1.12.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="3.1.4" />
+    <PackageReference Include="OpenTokCore" Version="1.0.1" />
     <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
   </ItemGroup>
 

@@ -23,7 +23,6 @@ namespace KSAVideoConference.Repository.AppRepository
         public async Task<List<Attachment>> GetAllAsyncIclude()
         {
             return await DBContext.Attachment
-                                  .Include(a => a.AttachmentType)
                                   .Include(a => a.GroupMessage)
                                   .ToListAsync();
         }
@@ -32,7 +31,6 @@ namespace KSAVideoConference.Repository.AppRepository
         {
             return await DBContext.Attachment
                                   .Where(a => a.Id == id)
-                                  .Include(a => a.AttachmentType)
                                   .Include(a => a.GroupMessage)
                                   .FirstOrDefaultAsync();
         }

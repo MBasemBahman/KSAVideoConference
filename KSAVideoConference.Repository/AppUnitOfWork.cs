@@ -22,7 +22,6 @@ namespace KSAVideoConference.Repository
         public SystemUserRepository SystemUserRepository => new SystemUserRepository(DataContext, _Mapper);
         public SystemViewRepository SystemViewRepository => new SystemViewRepository(DataContext, _Mapper);
         public AttachmentRepository AttachmentRepository => new AttachmentRepository(DataContext, _Mapper);
-        public AttachmentTypeRepository AttachmentTypeRepository => new AttachmentTypeRepository(DataContext, _Mapper);
         public GroupMemberRepository GroupMemberRepository => new GroupMemberRepository(DataContext, _Mapper);
         public GroupMessageRepository GroupMessageRepository => new GroupMessageRepository(DataContext, _Mapper);
         public GroupRepository GroupRepository => new GroupRepository(DataContext, _Mapper);

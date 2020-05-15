@@ -1,6 +1,7 @@
 using AutoMapper;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
+using KSAVideoConference.AppService.Hubs;
 using KSAVideoConference.CommonBL;
 using KSAVideoConference.DAL;
 using KSAVideoConference.Repository;
@@ -12,14 +13,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.WebEncoders;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Reflection;
-using System.Text.Encodings.Web;
-using System.Text.Unicode;
 
 namespace KSAVideoConference.AppService
 {
@@ -38,6 +36,8 @@ namespace KSAVideoConference.AppService
 
             services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("dbConnection")));
             services.AddScoped<AppUnitOfWork>();
+
+            services.AddSignalR();
 
             services.AddAutoMapper(c => c.AddProfile<AutoMapping>(), typeof(Startup));
 
@@ -112,6 +112,7 @@ namespace KSAVideoConference.AppService
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<AppHub>("/AppHub");
             });
         }
     }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using KSAVideoConference.AppService.Hubs;
 using KSAVideoConference.CommonBL;
 using KSAVideoConference.DAL;
 using KSAVideoConference.Entity.AppModel;
@@ -6,6 +7,7 @@ using KSAVideoConference.Repository;
 using KSAVideoConference.ServiceModel;
 using KSAVideoConference.ServiceModel.AppModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Logging;
@@ -29,14 +31,17 @@ namespace KSAVideoConference.AppService.Controllers
         private readonly DataContext _DBContext;
         private readonly AppUnitOfWork _UnitOfWork;
         private readonly IMapper _Mapper;
+        private readonly IHubContext<AppHub, IAppHub> _hubContext;
 
         public GroupController(ILogger<GroupController> logger, DataContext dataContext,
-                            AppUnitOfWork unitOfWork, IMapper mapper)
+                            AppUnitOfWork unitOfWork, IMapper mapper,
+                            IHubContext<AppHub, IAppHub> hubContext)
         {
             _logger = logger;
             _DBContext = dataContext;
             _UnitOfWork = unitOfWork;
             _Mapper = mapper;
+            _hubContext = hubContext;
         }
 
         /// <summary>
@@ -44,7 +49,7 @@ namespace KSAVideoConference.AppService.Controllers
         /// </summary>
         [HttpPost]
         [Route("CreateGroup")]
-        public async Task<GroupModel> CreateGroup([FromQuery]Guid Token, [FromBody]IGroupModel Group)
+        public async Task<GroupModel> CreateGroup([FromQuery]Guid Token, [FromForm]IGroupModel Group)
         {
             GroupModel returnData = new GroupModel();
             Status Status = new Status();
@@ -70,15 +75,20 @@ namespace KSAVideoConference.AppService.Controllers
 
                     _Mapper.Map(Group, GroupDB);
 
-                    //GroupDB.SessionId = OpenTokManager.CreateSessionId();
+                    GroupDB.SessionId = await OpenTokManager.CreateSessionId();
                     GroupDB.Fk_Creator = UserDB.Id;
 
                     _UnitOfWork.GroupRepository.CreateEntityAsync(GroupDB);
                     await _UnitOfWork.GroupRepository.SaveAsync();
 
-                    Status = new Status(true);
+                    await _UnitOfWork.GroupRepository.UploudFile(GroupDB, Group.UploudFile);
 
-                    _Mapper.Map(GroupDB, returnData);
+                    await _hubContext.Groups.AddToGroupAsync(GroupDB.Fk_Creator.ToString(), GroupDB.Id.ToString());
+                    await _hubContext.Clients.Group(GroupDB.Id.ToString()).Send($"{UserDB.FullName} لقد انضم إلى المجموعة {GroupDB.Name}.");
+
+                    returnData = await _UnitOfWork.GroupRepository.GetGroupProfile(GroupDB.Id, UserDB.Id);
+
+                    Status = new Status(true);
                 }
             }
             catch (Exception ex)
@@ -96,7 +106,7 @@ namespace KSAVideoConference.AppService.Controllers
         /// </summary>
         [HttpPatch]
         [Route("UpdateGroup")]
-        public async Task<GroupModel> UpdateGroup([FromQuery]Guid Token, [FromBody]IGroupModel Group)
+        public async Task<GroupModel> UpdateGroup([FromQuery]Guid Token, [FromForm]IGroupModel Group)
         {
             GroupModel returnData = new GroupModel();
             Status Status = new Status();
@@ -125,13 +135,23 @@ namespace KSAVideoConference.AppService.Controllers
                 else
                 {
                     _Mapper.Map(Group, GroupDB);
-
                     _UnitOfWork.GroupRepository.UpdateEntity(GroupDB);
                     await _UnitOfWork.GroupRepository.SaveAsync();
 
-                    Status = new Status(true);
+                    await _UnitOfWork.GroupRepository.UploudFile(GroupDB, Group.UploudFile);
 
-                    _Mapper.Map(GroupDB, returnData);
+                    if (!GroupDB.IsActive)
+                    {
+                        await _hubContext.Clients.Group(GroupDB.Id.ToString()).Send($"{UserDB.FullName} لقد تم ايقاف المجموعه {GroupDB.Name}.");
+                    }
+                    else
+                    {
+                        await _hubContext.Clients.Group(GroupDB.Id.ToString()).Send($"{UserDB.FullName} لقد تم تحديث بيانات المجموعه {GroupDB.Name}.");
+                    }
+
+                    returnData = await _UnitOfWork.GroupRepository.GetGroupProfile(GroupDB.Id, UserDB.Id);
+
+                    Status = new Status(true);
                 }
             }
             catch (Exception ex)
@@ -266,23 +286,7 @@ namespace KSAVideoConference.AppService.Controllers
                 }
                 else
                 {
-                    _Mapper.Map(GroupDB, returnData);
-
-                    returnData.IsJoin = true;
-
-                    if (GroupDB.Fk_Creator == UserDB.Id)
-                    {
-                        returnData.IsOwner = true;
-                    }
-
-                    returnData.Creator = new UserModel();
-                    _Mapper.Map(GroupDB.Creator, returnData.Creator);
-
-                    returnData.GroupMembers = new List<GroupMemberModel>();
-                    _Mapper.Map(GroupDB.GroupMembers, returnData.GroupMembers);
-
-                    returnData.GroupMessages = new List<GroupMessageModel>();
-                    _Mapper.Map(GroupDB.GroupMembers, returnData.GroupMembers);
+                    returnData = await _UnitOfWork.GroupRepository.GetGroupProfile(GroupDB.Id, UserDB.Id);
 
                     Status = new Status(true);
                 }

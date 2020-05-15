@@ -1,40 +1,35 @@
-﻿//using OpenTokSDK;
+﻿using OpenTokCore;
+using System.Threading.Tasks;
 
-//namespace KSAVideoConference.CommonBL
-//{
-//    public static class OpenTokManager
-//    {
-//        private static readonly int API_KEY = 46693282;
-//        private static readonly string API_SECRET = "1a54c61b9442c382630630024d9d5e352bf9e920";
+namespace KSAVideoConference.CommonBL
+{
+    public static class OpenTokManager
+    {
+        private static readonly int ApiKey = 46693282;
+        private static readonly string ApiSecret = "1a54c61b9442c382630630024d9d5e352bf9e920";
 
-//        public static string CreateSessionId()
-//        {
-//            // Set the following constants with the API key and API secret
-//            // that you receive when you sign up to use the OpenTok API:
-//            OpenTok opentok = new OpenTok(API_KEY, API_SECRET);
+        public static async Task<string> CreateSessionId()
+        {
+            OpenTok OpenTok = new OpenTok(ApiKey, ApiSecret);
 
-//            //Generate a basic session. Or you could use an existing session ID.
-//            string sessionId = opentok.CreateSession().Id;
+            // Create a session that will attempt to transmit streams directly between clients
+            Session session = await OpenTok.CreateSession();
+            // Store this sessionId in the database for later use:
+            string sessionId = session.Id;
 
-//            return sessionId;
-//        }
+            return sessionId;
+        }
 
-//        public static string GenerateToken(string sessionId)
-//        {
-//            OpenTok opentok = new OpenTok(API_KEY, API_SECRET);
+        public static string GenerateToken(string sessionId, string type = null)
+        {
+            OpenTok OpenTok = new OpenTok(ApiKey, ApiSecret);
 
-//            string token = opentok.GenerateToken(sessionId);
+            if (string.IsNullOrEmpty(type))
+            {
+                return OpenTok.GenerateToken(sessionId);
+            }
 
-//            return token;
-//        }
-
-//        public static string GenerateToken(string sessionId, string type)
-//        {
-//            OpenTok opentok = new OpenTok(API_KEY, API_SECRET);
-
-//            string token = opentok.GenerateToken(sessionId, Role.PUBLISHER, 0, type);
-
-//            return token;
-//        }
-//    }
-//}
+            return OpenTok.GenerateToken(sessionId, Role.PUBLISHER, 0, type);
+        }
+    }
+}

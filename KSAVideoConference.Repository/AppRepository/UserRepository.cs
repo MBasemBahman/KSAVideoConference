@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
 using KSAVideoConference.BaseRepository;
+using KSAVideoConference.CommonBL;
 using KSAVideoConference.DAL;
 using KSAVideoConference.Entity.AppModel;
+using KSAVideoConference.ServiceModel.AppModel;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -56,6 +59,36 @@ namespace KSAVideoConference.Repository.AppRepository
             return await DBContext.User
                                   .Where(a => a.Phone == Phone)
                                   .FirstOrDefaultAsync();
+        }
+
+        public async Task<UserModel> GetUserProfile(int Id)
+        {
+            UserModel returnData = new UserModel();
+            User UserDB = await GetByIDAsyncIclude(Id);
+            _Mapper.Map(UserDB, returnData);
+
+            return returnData;
+        }
+
+        public async Task UploudFile(User User, IFormFile File)
+        {
+            if (File != null)
+            {
+                ImgManager ImgManager = new ImgManager(AppMainData.WebRootPath);
+
+                string FileURL = await ImgManager.UploudImageAsync(AppMainData.DomainName, User.Id.ToString(), File, "Uploud\\User");
+
+                if (!string.IsNullOrEmpty(FileURL))
+                {
+                    if (!string.IsNullOrEmpty(User.ImageURL))
+                    {
+                        ImgManager.DeleteImage(User.ImageURL, AppMainData.DomainName);
+                    }
+                    User.ImageURL = FileURL;
+                    UpdateEntity(User);
+                    await SaveAsync();
+                }
+            }
         }
     }
 }

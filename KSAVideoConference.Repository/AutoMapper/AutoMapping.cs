@@ -32,12 +32,6 @@ namespace KSAVideoConference.Repository.AutoMapper
                .ForMember(dest => dest.GroupMembers, opt => opt.Ignore())
                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore());
 
-            // AttachmentType
-            CreateMap<AttachmentType, AttachmentTypeModel>()
-               .ForMember(dest => dest.Id, opt => opt.Ignore())
-               .ForMember(dest => dest.Attachments, opt => opt.Ignore())
-               .ForMember(dest => dest.CreatedAt, opt => opt.Ignore());
-
             // User
             CreateMap<User, UserModel>()
                 .ForMember(dest => dest.Language, opt => opt.Ignore())

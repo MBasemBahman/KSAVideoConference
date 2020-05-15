@@ -1,14 +1,21 @@
-﻿namespace KSAVideoConference.ServiceModel.AppModel
+﻿using Microsoft.AspNetCore.Http;
+
+namespace KSAVideoConference.ServiceModel.AppModel
 {
-    public interface IGroupMessageModel
+    public class IGroupMessageModel
     {
-        int Id { get; set; }
-        int Fk_Group { get; set; }
-        int Fk_User { get; set; }
-        string Message { get; set; }
+        public int Id { get; set; }
+
+        public int Fk_Group { get; set; }
+
+        public int Fk_User { get; set; }
+
+        public string Message { get; set; }
+
+        public IFormFile UploudFile { get; set; }
     }
 
-    public class GroupMessageModel : BaseModel, IGroupMessageModel
+    public class GroupMessageModel : BaseModel
     {
         public int Fk_User { get; set; }
 

@@ -1,18 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 
 namespace KSAVideoConference.ServiceModel.AppModel
 {
-    public interface IGroupModel
+    public class IGroupModel
     {
         public int Id { get; set; }
-        int Fk_Creator { get; set; }
-        bool IsActive { get; set; }
-        int MaxGroupCount { get; set; }
-        int MaxStreamCount { get; set; }
-        string Name { get; set; }
+
+        public int Fk_Creator { get; set; }
+
+        public bool IsActive { get; set; }
+
+        public int MaxGroupCount { get; set; }
+
+        public int MaxStreamCount { get; set; }
+
+        public string Name { get; set; }
+
+        public IFormFile UploudFile { get; set; }
     }
 
-    public class GroupModel : BaseModel, IGroupModel
+    public class GroupModel : BaseModel
     {
         public string Name { get; set; }
 

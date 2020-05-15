@@ -9,11 +9,6 @@
             Get : All Member Types 
             </summary>
         </member>
-        <member name="M:KSAVideoConference.AppService.Controllers.AppController.GetAttachmentTypes(KSAVideoConference.ServiceModel.Paging,System.Guid)">
-            <summary>
-            Get : All Attachment Types
-            </summary>
-        </member>
         <member name="M:KSAVideoConference.AppService.Controllers.GroupController.CreateGroup(System.Guid,KSAVideoConference.ServiceModel.AppModel.IGroupModel)">
             <summary>
             Post : Create Group

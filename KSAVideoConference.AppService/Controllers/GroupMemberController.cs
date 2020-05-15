@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
+using KSAVideoConference.AppService.Hubs;
 using KSAVideoConference.DAL;
 using KSAVideoConference.Entity.AppModel;
 using KSAVideoConference.Repository;
 using KSAVideoConference.ServiceModel;
 using KSAVideoConference.ServiceModel.AppModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Text.Json;
@@ -26,14 +27,17 @@ namespace KSAVideoConference.AppService.Controllers
         private readonly DataContext _DBContext;
         private readonly AppUnitOfWork _UnitOfWork;
         private readonly IMapper _Mapper;
+        private readonly IHubContext<AppHub, IAppHub> _hubContext;
 
         public GroupMemberController(ILogger<GroupMemberController> logger, DataContext dataContext,
-                            AppUnitOfWork unitOfWork, IMapper mapper)
+                            AppUnitOfWork unitOfWork, IMapper mapper,
+                            IHubContext<AppHub, IAppHub> hubContext)
         {
             _logger = logger;
             _DBContext = dataContext;
             _UnitOfWork = unitOfWork;
             _Mapper = mapper;
+            _hubContext = hubContext;
         }
 
         /// <summary>
@@ -89,27 +93,14 @@ namespace KSAVideoConference.AppService.Controllers
 
                         _UnitOfWork.GroupRepository.UpdateEntity(GroupDB);
                         _UnitOfWork.GroupRepository.Save();
+
+                        await _hubContext.Groups.AddToGroupAsync(UserDB.Id.ToString(), GroupDB.Id.ToString());
+                        await _hubContext.Clients.Group(GroupDB.Id.ToString()).Send($"{UserDB.FullName} لقد انضم إلى المجموعة {GroupDB.Name}.");
                     }
+
+                    returnData = await _UnitOfWork.GroupRepository.GetGroupProfile(GroupDB.Id, UserDB.Id);
 
                     Status = new Status(true);
-
-                    _Mapper.Map(GroupDB, returnData);
-
-                    returnData.IsJoin = true;
-
-                    if (GroupDB.Fk_Creator == UserDB.Id)
-                    {
-                        returnData.IsOwner = true;
-                    }
-
-                    returnData.Creator = new UserModel();
-                    _Mapper.Map(GroupDB.Creator, returnData.Creator);
-
-                    returnData.GroupMembers = new List<GroupMemberModel>();
-                    _Mapper.Map(GroupDB.GroupMembers, returnData.GroupMembers);
-
-                    returnData.GroupMessages = new List<GroupMessageModel>();
-                    _Mapper.Map(GroupDB.GroupMembers, returnData.GroupMembers);
                 }
             }
             catch (Exception ex)
@@ -152,6 +143,9 @@ namespace KSAVideoConference.AppService.Controllers
                         GroupMemberDB.IsActive = false;
                         _UnitOfWork.GroupMemberRepository.UpdateEntity(GroupMemberDB);
                         await _UnitOfWork.GroupMemberRepository.SaveAsync();
+
+                        await _hubContext.Groups.RemoveFromGroupAsync(UserDB.Id.ToString(), GroupMemberDB.Fk_Group.ToString());
+                        await _hubContext.Clients.Group(GroupMemberDB.Fk_Group.ToString()).Send($"{UserDB.FullName} غادر المجموعة {GroupMemberDB.Group.Name}.");
 
                         returnData = true;
                         Status = new Status(true);

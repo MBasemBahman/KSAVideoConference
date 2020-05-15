@@ -1,18 +1,15 @@
 ﻿using AutoMapper;
-using KSAVideoConference.CommonBL;
 using KSAVideoConference.DAL;
 using KSAVideoConference.Entity.AppModel;
 using KSAVideoConference.Repository;
 using KSAVideoConference.ServiceModel;
 using KSAVideoConference.ServiceModel.AppModel;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
@@ -70,28 +67,11 @@ namespace KSAVideoConference.AppService.Controllers
                     _UnitOfWork.UserRepository.CreateEntityAsync(UserDB);
                     await _UnitOfWork.UserRepository.SaveAsync();
 
-                    IFormFile files = HttpContext.Request.Form.Files["ImageFile"];
-                    if (files != null)
-                    {
-                        ImgManager ImgManager = new ImgManager(AppMainData.WebRootPath);
+                    await _UnitOfWork.UserRepository.UploudFile(UserDB, User.UploudFile);
 
-                        string ImageURL = await ImgManager.UploudImageAsync(AppMainData.DomainName, UserDB.Id.ToString(), files, "Uploud\\User");
-
-                        if (!string.IsNullOrEmpty(ImageURL))
-                        {
-                            if (!string.IsNullOrEmpty(UserDB.ImageURL))
-                            {
-                                ImgManager.DeleteImage(UserDB.ImageURL, AppMainData.DomainName);
-                            }
-                            UserDB.ImageURL = ImageURL;
-                            _UnitOfWork.UserRepository.UpdateEntity(UserDB);
-                            await _UnitOfWork.UserRepository.SaveAsync();
-                        }
-                    }
+                    returnData = await _UnitOfWork.UserRepository.GetUserProfile(UserDB.Id);
 
                     Status = new Status(true);
-
-                    _Mapper.Map(UserDB, returnData);
                 }
             }
             catch (Exception ex)
@@ -136,28 +116,11 @@ namespace KSAVideoConference.AppService.Controllers
                     _UnitOfWork.UserRepository.UpdateEntity(UserDB);
                     await _UnitOfWork.UserRepository.SaveAsync();
 
-                    IFormFile files = HttpContext.Request.Form.Files["ImageFile"];
-                    if (files != null)
-                    {
-                        ImgManager ImgManager = new ImgManager(AppMainData.WebRootPath);
+                    await _UnitOfWork.UserRepository.UploudFile(UserDB, User.UploudFile);
 
-                        string ImageURL = await ImgManager.UploudImageAsync(AppMainData.DomainName, UserDB.Id.ToString(), files, "Uploud\\User");
-
-                        if (!string.IsNullOrEmpty(ImageURL))
-                        {
-                            if (!string.IsNullOrEmpty(UserDB.ImageURL))
-                            {
-                                ImgManager.DeleteImage(UserDB.ImageURL, AppMainData.DomainName);
-                            }
-                            UserDB.ImageURL = ImageURL;
-                            _UnitOfWork.UserRepository.UpdateEntity(UserDB);
-                            await _UnitOfWork.UserRepository.SaveAsync();
-                        }
-                    }
+                    returnData = await _UnitOfWork.UserRepository.GetUserProfile(UserDB.Id);
 
                     Status = new Status(true);
-
-                    _Mapper.Map(UserDB, returnData);
                 }
             }
             catch (Exception ex)
@@ -193,9 +156,8 @@ namespace KSAVideoConference.AppService.Controllers
                 }
                 else
                 {
+                    returnData = await _UnitOfWork.UserRepository.GetUserProfile(UserDB.Id);
                     Status = new Status(true);
-
-                    _Mapper.Map(UserDB, returnData);
                 }
             }
             catch (Exception ex)

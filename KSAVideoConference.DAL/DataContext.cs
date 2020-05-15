@@ -14,7 +14,6 @@ namespace KSAVideoConference.DAL
         }
 
         public DbSet<Attachment> Attachment { get; set; }
-        public DbSet<AttachmentType> AttachmentType { get; set; }
         public DbSet<Group> Group { get; set; }
         public DbSet<GroupMember> GroupMember { get; set; }
         public DbSet<GroupMessage> GroupMessage { get; set; }
