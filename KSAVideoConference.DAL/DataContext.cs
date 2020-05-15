@@ -45,6 +45,74 @@ namespace KSAVideoConference.DAL
 
             //////////////////////////////////////////////////////////
 
+            modelBuilder.Entity<AppStaticMessage>()
+              .HasData(
+                  new AppStaticMessage
+                  {
+                      Id = (int)AppStaticMessageEnum.Common,
+                      Key = "Common",
+                      Value = "خطأ! الرجاء المحاوله مره اخري.",
+                      CreatedBy = AppMainData.SeedData
+                  },
+                  new AppStaticMessage
+                  {
+                      Id = (int)AppStaticMessageEnum.DuplicateNumber,
+                      Key = "DuplicateNumber",
+                      Value = "رقم الجوال مسجل من قبل!",
+                      CreatedBy = AppMainData.SeedData
+                  },
+                  new AppStaticMessage
+                  {
+                      Id = (int)AppStaticMessageEnum.InCompleteData,
+                      Key = "InCompleteData",
+                      Value = "يرجي التأكد من اتمام كل البيانات!",
+                      CreatedBy = AppMainData.SeedData
+                  },
+                  new AppStaticMessage
+                  {
+                      Id = (int)AppStaticMessageEnum.JoinGroup,
+                      Key = "JoinGroup",
+                      Value = "يرجي الانضمام الى المجموعه!",
+                      CreatedBy = AppMainData.SeedData
+                  },
+                  new AppStaticMessage
+                  {
+                      Id = (int)AppStaticMessageEnum.NotActiveGroup,
+                      Key = "NotActiveGroup",
+                      Value = "المجموعه غير نشطه!",
+                      CreatedBy = AppMainData.SeedData
+                  },
+                  new AppStaticMessage
+                  {
+                      Id = (int)AppStaticMessageEnum.NotOwner,
+                      Key = "NotOwner",
+                      Value = "ليس لديك الصلاحيه على التعديل!",
+                      CreatedBy = AppMainData.SeedData
+                  },
+                  new AppStaticMessage
+                  {
+                      Id = (int)AppStaticMessageEnum.OwnerCantExit,
+                      Key = "OwnerCantExit",
+                      Value = "!لا يمكنك الخروج لأنك مدير المجموعه",
+                      CreatedBy = AppMainData.SeedData
+                  },
+                  new AppStaticMessage
+                  {
+                      Id = (int)AppStaticMessageEnum.UnActive,
+                      Key = "UnActive",
+                      Value = "حسابك غير نشط!",
+                      CreatedBy = AppMainData.SeedData
+                  },
+                  new AppStaticMessage
+                  {
+                      Id = (int)AppStaticMessageEnum.UnAuth,
+                      Key = "UnAuth",
+                      Value = "لم يتم التعرف على حسابك!",
+                      CreatedBy = AppMainData.SeedData
+                  }
+              );
+
+
             modelBuilder.Entity<Language>()
            .HasData(
                new Language

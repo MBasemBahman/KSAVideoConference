@@ -14,6 +14,7 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
 using System.Threading.Tasks;
+using static KSAVideoConference.CommonBL.EnumModel;
 
 namespace KSAVideoConference.AppService.Controllers
 {
@@ -52,24 +53,26 @@ namespace KSAVideoConference.AppService.Controllers
 
             try
             {
+                Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.Common);
+
                 User UserDB = await _UnitOfWork.UserRepository.GetByTokenAsync(Token);
                 Group GroupDB = await _UnitOfWork.GroupRepository.GetByIDAsyncIclude(GroupMember.Fk_Group);
 
                 if (UserDB == null)
                 {
-                    Status.ErrorMessage = "لم يتم التعرف عليك";
+                    Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.UnAuth);
                 }
                 else if (!UserDB.IsActive)
                 {
-                    Status.ErrorMessage = "لقد تم وقف حسابك على التطبيق";
+                    Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.UnActive, UserDB.Fk_Language);
                 }
                 else if (!GroupDB.IsActive)
                 {
-                    Status.ErrorMessage = "المجموعه غير نشطه";
+                    Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.NotActiveGroup, UserDB.Fk_Language);
                 }
                 else if (!ModelState.IsValid)
                 {
-                    Status.ErrorMessage = "البيانات غير مكتمله";
+                    Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.InCompleteData, UserDB.Fk_Language);
                 }
                 else
                 {
@@ -125,16 +128,18 @@ namespace KSAVideoConference.AppService.Controllers
 
             try
             {
+                Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.Common);
+
                 User UserDB = await _UnitOfWork.UserRepository.GetByTokenAsync(Token);
                 GroupMember GroupMemberDB = await _UnitOfWork.GroupMemberRepository.GetByIDAsyncIclude(GroupMember.Id);
 
                 if (UserDB == null)
                 {
-                    Status.ErrorMessage = "لم يتم التعرف عليك";
+                    Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.UnAuth);
                 }
                 else if (!UserDB.IsActive)
                 {
-                    Status.ErrorMessage = "لقد تم وقف حسابك على التطبيق";
+                    Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.UnActive, UserDB.Fk_Language);
                 }
                 else
                 {
@@ -152,7 +157,7 @@ namespace KSAVideoConference.AppService.Controllers
                     }
                     else
                     {
-                        Status.ErrorMessage = "لا يمكنك من الخروج لأنك مالك الجروب";
+                        Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.OwnerCantExit, UserDB.Fk_Language);
                     }
                 }
             }

@@ -38,7 +38,7 @@ namespace KSAVideoConference.Repository.AppRepository
 
         public async Task<AppStaticMessage> GetByIDAsync(AppStaticMessage Source, int Fk_Language)
         {
-            if (Fk_Language != (int)LanguageEnum.English)
+            if (Fk_Language != (int)LanguageEnum.Arabic)
             {
                 AppStaticMessageLang Data = await DBContext.AppStaticMessageLang
                                   .Where(a => a.Fk_Source == Source.Id)
@@ -52,6 +52,25 @@ namespace KSAVideoConference.Repository.AppRepository
             }
 
             return Source;
+        }
+
+        public async Task<string> GetStaticMessage(int Id, int Fk_Language = (int)LanguageEnum.Arabic)
+        {
+            var Source = await GetByIDAsync(Id);
+            if (Fk_Language != (int)LanguageEnum.Arabic)
+            {
+                AppStaticMessageLang Data = await DBContext.AppStaticMessageLang
+                                  .Where(a => a.Fk_Source == Source.Id)
+                                  .Where(a => a.Fk_Language == Fk_Language)
+                                  .FirstOrDefaultAsync();
+
+                if (Data != null)
+                {
+                    _Mapper.Map(Data, Source);
+                }
+            }
+
+            return Source.Value;
         }
 
         public async Task<List<AppStaticMessage>> GetAllAsync(int Fk_Language)

@@ -38,5 +38,18 @@
             English = 1,
             Arabic = 2,
         };
+
+        public enum AppStaticMessageEnum
+        {
+            Common = 1,
+            UnAuth = 2,
+            UnActive = 3,
+            InCompleteData = 4,
+            NotOwner = 5,
+            NotActiveGroup = 6,
+            JoinGroup = 7,
+            OwnerCantExit = 8,
+            DuplicateNumber = 9
+        };
     }
 }

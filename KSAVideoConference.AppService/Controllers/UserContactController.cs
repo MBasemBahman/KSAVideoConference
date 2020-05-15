@@ -11,6 +11,7 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
 using System.Threading.Tasks;
+using static KSAVideoConference.CommonBL.EnumModel;
 
 namespace KSAVideoConference.AppService.Controllers
 {
@@ -46,20 +47,22 @@ namespace KSAVideoConference.AppService.Controllers
 
             try
             {
+                Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.Common);
+
                 User UserDB = await _UnitOfWork.UserRepository.GetByTokenAsync(Token);
                 User ContactDB = await _UnitOfWork.UserRepository.GetByIDAsyncIclude(UserContact.Fk_Contact);
 
                 if (UserDB == null)
                 {
-                    Status.ErrorMessage = "لم يتم التعرف عليك";
+                    Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.UnAuth);
                 }
                 else if (!UserDB.IsActive)
                 {
-                    Status.ErrorMessage = "لقد تم وقف حسابك على التطبيق";
+                    Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.UnActive, UserDB.Fk_Language);
                 }
                 else if (!ModelState.IsValid)
                 {
-                    Status.ErrorMessage = "البيانات غير مكتمله";
+                    Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.InCompleteData, UserDB.Fk_Language);
                 }
                 else
                 {
@@ -98,16 +101,18 @@ namespace KSAVideoConference.AppService.Controllers
 
             try
             {
+                Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.Common);
+
                 User UserDB = await _UnitOfWork.UserRepository.GetByTokenAsync(Token);
                 UserContact UserContactDB = await _UnitOfWork.UserContactRepository.GetByIDAsyncIclude(UserContact.Id);
 
                 if (UserDB == null)
                 {
-                    Status.ErrorMessage = "لم يتم التعرف عليك";
+                    Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.UnAuth);
                 }
                 else if (!UserDB.IsActive)
                 {
-                    Status.ErrorMessage = "لقد تم وقف حسابك على التطبيق";
+                    Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.UnActive, UserDB.Fk_Language);
                 }
                 else
                 {
