@@ -1,41 +1,45 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
+		<AspNetCoreModuleName>AspNetCoreModule</AspNetCoreModuleName>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <NoWarn>1701;1702;1591</NoWarn>
-    <DocumentationFile>E:\GitLap\KSAVideoConference\KSAVideoConference.AppService\KSAVideoConference.AppService.xml</DocumentationFile>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<NoWarn>1701;1702;1591</NoWarn>
+		<DocumentationFile>E:\GitLap\KSAVideoConference\KSAVideoConference.AppService\KSAVideoConference.AppService.xml</DocumentationFile>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="4.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.4">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.4" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.2" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.4.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.4.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.4.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="5.4.1" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="4.1.1" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.4" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.4" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.4" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.4">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Options" Version="3.1.4" />
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.2" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="5.4.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.4.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.4.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="5.4.1" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\KSAVideoConference.DAL\KSAVideoConference.DAL.csproj" />
-    <ProjectReference Include="..\KSAVideoConference.Repository\KSAVideoConference.Repository.csproj" />
-    <ProjectReference Include="..\KSAVideoConference.ServiceModel\KSAVideoConference.ServiceModel.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\KSAVideoConference.DAL\KSAVideoConference.DAL.csproj" />
+		<ProjectReference Include="..\KSAVideoConference.Repository\KSAVideoConference.Repository.csproj" />
+		<ProjectReference Include="..\KSAVideoConference.ServiceModel\KSAVideoConference.ServiceModel.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Uploud\User\" />
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="Uploud\Group\" />
+		<Folder Include="Uploud\Attachment\" />
+		<Folder Include="Uploud\User\" />
+	</ItemGroup>
 
 
 </Project>
