@@ -103,7 +103,8 @@ namespace KSAVideoConference.AppService.Controllers
                 Status.ExceptionMessage = ex.Message;
             }
 
-            Response.Headers.Add("X-Status", JsonSerializer.Serialize(Status, new JsonSerializerOptions() { Encoder = JavaScriptEncoder.Create(UnicodeRanges.All) }));
+            Status.ErrorMessage = EncodeManager.Base64Encode(Status.ErrorMessage);
+            Response.Headers.Add("X-Status", JsonSerializer.Serialize(Status));
 
             return returnData;
         }
@@ -158,7 +159,8 @@ namespace KSAVideoConference.AppService.Controllers
                 Status.ExceptionMessage = ex.Message;
             }
 
-            Response.Headers.Add("X-Status", JsonSerializer.Serialize(Status, new JsonSerializerOptions() { Encoder = JavaScriptEncoder.Create(UnicodeRanges.All) }));
+            Status.ErrorMessage = EncodeManager.Base64Encode(Status.ErrorMessage);
+            Response.Headers.Add("X-Status", JsonSerializer.Serialize(Status));
 
             return returnData;
         }

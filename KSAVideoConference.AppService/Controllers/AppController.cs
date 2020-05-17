@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using KSAVideoConference.CommonBL;
 using KSAVideoConference.DAL;
 using KSAVideoConference.Entity.AppModel;
 using KSAVideoConference.Repository;
@@ -8,10 +9,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
 using System.Threading.Tasks;
+using System.Web;
 using static KSAVideoConference.CommonBL.EnumModel;
 
 namespace KSAVideoConference.AppService.Controllers
@@ -51,7 +55,7 @@ namespace KSAVideoConference.AppService.Controllers
             try
             {
                 Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.Common);
-               
+
                 User UserDB = await _UnitOfWork.UserRepository.GetByTokenAsync(Token);
                 if (UserDB == null)
                 {
@@ -87,7 +91,9 @@ namespace KSAVideoConference.AppService.Controllers
                 Status.ExceptionMessage = ex.Message;
             }
 
-            Response.Headers.Add("X-Status", JsonSerializer.Serialize(Status, new JsonSerializerOptions() { Encoder = JavaScriptEncoder.Create(UnicodeRanges.All) }));
+            Status.ErrorMessage = EncodeManager.Base64Encode(Status.ErrorMessage);
+
+            Response.Headers.Add("X-Status", JsonSerializer.Serialize(Status));
 
             return PagedData;
         }

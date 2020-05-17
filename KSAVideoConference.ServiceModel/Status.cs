@@ -14,7 +14,7 @@
 
         public bool Success { get; private set; } = false;
 
-        public string ErrorMessage { get; set; } = "رسالة خطأ!";
+        public string ErrorMessage { get; set; } = "هناك خطأ! يرجي المحاوله مره اخري.";
 
         public string ExceptionMessage { get; set; }
     }
