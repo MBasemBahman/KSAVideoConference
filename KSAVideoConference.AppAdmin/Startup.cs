@@ -1,8 +1,16 @@
+using AutoMapper;
+using KSAVideoConference.AppAdmin.Services;
+using KSAVideoConference.DAL;
+using KSAVideoConference.Repository;
+using KSAVideoConference.Repository.AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace KSAVideoConference.AppAdmin
 {
@@ -19,6 +27,18 @@ namespace KSAVideoConference.AppAdmin
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddSession(s => s.IdleTimeout = TimeSpan.FromHours(4));
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("dbConnection")));
+
+            services.AddTransient<AppSetting>();
+
+            services.AddScoped<ViewAuthorization>();
+            services.AddScoped<AppUnitOfWork>();
+
+            services.AddAutoMapper(c => c.AddProfile<AutoMapping>(), typeof(Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,6 +60,8 @@ namespace KSAVideoConference.AppAdmin
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

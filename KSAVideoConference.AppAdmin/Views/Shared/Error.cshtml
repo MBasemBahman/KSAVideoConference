@@ -3,23 +3,80 @@
     ViewData["Title"] = "Error";
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+<!doctype html>
+<html class="fixed">
+<head>
 
-@if (Model.ShowRequestId)
-{
-    <p>
-        <strong>Request ID:</strong> <code>@Model.RequestId</code>
-    </p>
-}
+    <!-- Basic -->
+    <meta charset="UTF-8">
 
-<h3>Development Mode</h3>
-<p>
-    Swapping to <strong>Development</strong> environment will display more detailed information about the error that occurred.
-</p>
-<p>
-    <strong>The Development environment shouldn't be enabled for deployed applications.</strong>
-    It can result in displaying sensitive information from exceptions to end users.
-    For local debugging, enable the <strong>Development</strong> environment by setting the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <strong>Development</strong>
-    and restarting the app.
-</p>
+    <title>@ViewData["Title"] | App Admin</title>
+    <meta name="keywords" content="App Admin" />
+    <meta name="description" content="App Admin">
+    <meta name="author" content="App Admin">
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <!-- Web Fonts  -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
+
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" href="~/Template-Assets/vendor/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/Template-Assets/vendor/animate/animate.css">
+
+    <link rel="stylesheet" href="~/Template-Assets/vendor/font-awesome/css/all.min.css" />
+    <link rel="stylesheet" href="~/Template-Assets/vendor/magnific-popup/magnific-popup.css" />
+    <link rel="stylesheet" href="~/Template-Assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.css" />
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="~/Template-Assets/css/theme.css" />
+
+    <!-- Skin CSS -->
+    <link rel="stylesheet" href="~/Template-Assets/css/skins/default.css" />
+
+    <!-- Theme Custom CSS -->
+    <link rel="stylesheet" href="~/Template-Assets/css/custom.css">
+
+    <!-- Head Libs -->
+    <script src="~/Template-Assets/vendor/modernizr/modernizr.js"></script>
+
+</head>
+<body>
+    <!-- start: page -->
+    <section class="body-error error-outside">
+        <div class="center-error">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="main-error mb-3">
+                        <h2 class="error-code text-dark text-center font-weight-semibold m-0">500 <i class="fas fa-file"></i></h2>
+                        <p class="error-explanation text-center">We're sorry, something went wrong.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end: page -->
+    <!-- Vendor -->
+    <script src="~/Template-Assets/vendor/jquery/jquery.js"></script>
+    <script src="~/Template-Assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
+    <script src="~/Template-Assets/vendor/popper/umd/popper.min.js"></script>
+    <script src="~/Template-Assets/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="~/Template-Assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="~/Template-Assets/vendor/common/common.js"></script>
+    <script src="~/Template-Assets/vendor/nanoscroller/nanoscroller.js"></script>
+    <script src="~/Template-Assets/vendor/magnific-popup/jquery.magnific-popup.js"></script>
+    <script src="~/Template-Assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+
+    <!-- Theme Base, Components and Settings -->
+    <script src="~/Template-Assets/js/theme.js"></script>
+
+    <!-- Theme Custom -->
+    <script src="~/Template-Assets/js/custom.js"></script>
+
+    <!-- Theme Initialization Files -->
+    <script src="~/Template-Assets/js/theme.init.js"></script>
+
+</body>
+</html>

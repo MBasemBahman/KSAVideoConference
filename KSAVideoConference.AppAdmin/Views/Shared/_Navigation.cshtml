@@ -1,0 +1,108 @@
+﻿@{
+    var Home = HttpContextAccessor.HttpContext.Session.GetString("Home");
+    var SystemView = HttpContextAccessor.HttpContext.Session.GetString("SystemView");
+    var SystemUser = HttpContextAccessor.HttpContext.Session.GetString("SystemUser");
+    var AppAbout = HttpContextAccessor.HttpContext.Session.GetString("AppAbout");
+    var Area = HttpContextAccessor.HttpContext.Session.GetString("Area");
+    var NotificationType = HttpContextAccessor.HttpContext.Session.GetString("NotificationType");
+    var Package = HttpContextAccessor.HttpContext.Session.GetString("Package");
+    var Feature = HttpContextAccessor.HttpContext.Session.GetString("Feature");
+    var FoodCategory = HttpContextAccessor.HttpContext.Session.GetString("FoodCategory");
+    var RestaurantState = HttpContextAccessor.HttpContext.Session.GetString("RestaurantState");
+    var Restaurant = HttpContextAccessor.HttpContext.Session.GetString("Restaurant");
+    var Notification = HttpContextAccessor.HttpContext.Session.GetString("Notification");
+
+}
+
+<!-- start: sidebar -->
+<aside id="sidebar-left" class="sidebar-left">
+
+    <div class="sidebar-header">
+        <div class="sidebar-title">
+            Navigation
+        </div>
+        <div class="sidebar-toggle d-none d-md-block" data-toggle-class="sidebar-left-collapsed" data-target="html" data-fire-event="sidebar-left-toggle">
+            <i class="fas fa-bars" aria-label="Toggle sidebar"></i>
+        </div>
+    </div>
+
+    <div class="nano">
+        <div class="nano-content">
+            <nav id="menu" class="nav-main" role="navigation">
+
+                <ul class="nav nav-main">
+                    <li>
+                        <a class="nav-link" href="layouts-default.html">
+                            <i class="fas fa-home" aria-hidden="true"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-parent">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-align-left" aria-hidden="true"></i>
+                            <span>Menu Levels</span>
+                        </a>
+                        <ul class="nav nav-children">
+                            <li>
+                                <a>
+                                    First Level
+                                </a>
+                            </li>
+                            <li class="nav-parent">
+                                <a class="nav-link" href="#">
+                                    Second Level
+                                </a>
+                                <ul class="nav nav-children">
+                                    <li>
+                                        <a>
+                                            Second Level Link #1
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            Second Level Link #2
+                                        </a>
+                                    </li>
+                                    <li class="nav-parent">
+                                        <a class="nav-link" href="#">
+                                            Third Level
+                                        </a>
+                                        <ul class="nav nav-children">
+                                            <li>
+                                                <a>
+                                                    Third Level Link #1
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a>
+                                                    Third Level Link #2
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </nav>
+        </div>
+
+        <script>
+            // Maintain Scroll Position
+            if (typeof localStorage !== 'undefined') {
+                if (localStorage.getItem('sidebar-left-position') !== null) {
+                    var initialPosition = localStorage.getItem('sidebar-left-position'),
+                        sidebarLeft = document.querySelector('#sidebar-left .nano-content');
+
+                    sidebarLeft.scrollTop = initialPosition;
+                }
+            }
+        </script>
+
+
+    </div>
+
+</aside>
+<!-- end: sidebar -->

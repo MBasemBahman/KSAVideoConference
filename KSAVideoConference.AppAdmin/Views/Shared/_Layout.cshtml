@@ -1,48 +1,175 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@{
+    //var FullName = HttpContextAccessor.HttpContext.Session.GetString("FullName");
+    //var JopTitle = HttpContextAccessor.HttpContext.Session.GetString("JopTitle");
+    //var Email = HttpContextAccessor.HttpContext.Session.GetString("Email");
+}
+<!DOCTYPE html>
+<html class="fixed sidebar-left-collapsed">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - KSAVideoConference.AppAdmin</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <!-- Basic -->
+    <meta charset="UTF-8">
+
+    <title>@ViewData["Title"] | App Admin</title>
+    <meta name="keywords" content="App Admin" />
+    <meta name="description" content="App Admin">
+    <meta name="author" content="App Admin">
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <!-- Web Fonts  -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" href="~/Template-Assets/vendor/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/Template-Assets/vendor/animate/animate.css">
+
+    <link rel="stylesheet" href="~/Template-Assets/vendor/font-awesome/css/all.min.css" />
+    <link rel="stylesheet" href="~/Template-Assets/vendor/magnific-popup/magnific-popup.css" />
+    <link rel="stylesheet" href="~/Template-Assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.css" />
+
+    <!-- Specific Page Vendor CSS -->
+    <link rel="stylesheet" href="~/Template-Assets/vendor/elusive-icons/css/elusive-icons.css" />
+    <link rel="stylesheet" href="~/Template-Assets/vendor/simple-line-icons/css/simple-line-icons.css" />
+    <link rel="stylesheet" href="~/Template-Assets/vendor/meteocons/css/meteocons.css" />
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="~/Template-Assets/css/theme.css" />
+
+    <!-- Skin CSS -->
+    <link rel="stylesheet" href="~/Template-Assets/css/skins/default.css" />
+
+    <!-- Theme Custom CSS -->
+    <link rel="stylesheet" href="~/Template-Assets/css/custom.css">
+
+    <!-- Head Libs -->
+    <script src="~/Template-Assets/vendor/modernizr/modernizr.js"></script>
+
+    <style>
+        * {
+            font-family: 'Cairo', sans-serif;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">KSAVideoConference.AppAdmin</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+    <section class="body">
+
+        <!-- start: header -->
+        <header class="header">
+            <div class="logo-container">
+                <a asp-controller="Home" asp-action="Index" class="logo">
+                    <h2 style="margin-top:0px;"><i class="fas fa-cogs"></i> Admin Panel</h2>
+                </a>
+                <div class="d-md-none toggle-menu" data-toggle="collapse" data-target=".tab-navigation">
+                    <i class="fas fa-bars" aria-label="Toggle Menu"></i>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2020 - KSAVideoConference.AppAdmin - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <!-- start: search & user box -->
+            <div class="header-right">
+
+                <span class="separator"></span>
+
+                <div id="userbox" class="userbox">
+                    <a href="#" data-toggle="dropdown">
+                        @*<div class="profile-info" data-lock-name="@FullName" data-lock-email="@Email">
+                                <span class="name">@FullName</span>
+                                <span class="role">@JopTitle</span>
+                            </div>*@
+
+                        <i class="fa custom-caret"></i>
+                    </a>
+
+                    <div class="dropdown-menu">
+                        <ul class="list-unstyled mb-2">
+                            <li class="divider"></li>
+                            <li>
+                                <a role="menuitem" tabindex="-1" asp-controller="Login" asp-action="Edit"><i class="fas fa-user"></i> Edit Profile</a>
+                            </li>
+                            <li>
+                                <a role="menuitem" tabindex="-1" asp-controller="Login" asp-action="Logout"><i class="fas fa-power-off"></i> Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- end: search & user box -->
+        </header>
+        <!-- end: header -->
+
+        <div class="inner-wrapper">
+
+            @{await Html.RenderPartialAsync("_Navigation");}
+
+            <section role="main" class="content-body">
+                <header class="page-header">
+                    <h2>@ViewData["Title"]</h2>
+
+                    <div class="right-wrapper text-right">
+                        <ol class="breadcrumbs">
+                            <li>
+                                <a asp-action="Index" asp-controller="Home">
+                                    <i class="fas fa-home"></i>
+                                </a>
+                            </li>
+                            <li><span>@ViewData["Title"]</span></li>
+                        </ol>
+
+                        <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fas fa-chevron-left"></i></a>
+                    </div>
+                </header>
+                <!-- start: page -->
+                @RenderBody()
+                <!-- end: page -->
+            </section>
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+
+        <aside id="sidebar-right" class="sidebar-right">
+            <div class="nano">
+                <div class="nano-content">
+                    <a href="#" class="mobile-close d-md-none">
+                        Collapse <i class="fas fa-chevron-right"></i>
+                    </a>
+
+                    <div class="sidebar-right-wrapper">
+
+                        <div class="sidebar-widget widget-calendar">
+                            <h6>Calendar</h6>
+                            <div data-plugin-datepicker data-plugin-skin="dark"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+    </section>
+
+
+    <!-- Vendor -->
+    <script src="~/Template-Assets/vendor/jquery/jquery.js"></script>
+    <script src="~/Template-Assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
+    <script src="~/Template-Assets/vendor/popper/umd/popper.min.js"></script>
+    <script src="~/Template-Assets/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="~/Template-Assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="~/Template-Assets/vendor/common/common.js"></script>
+    <script src="~/Template-Assets/vendor/nanoscroller/nanoscroller.js"></script>
+    <script src="~/Template-Assets/vendor/magnific-popup/jquery.magnific-popup.js"></script>
+    <script src="~/Template-Assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+
+    <!-- Specific Page Vendor -->
+    <script src="~/Template-Assets/vendor/jquery-mockjax/jquery.mockjax.js"></script>
+
     @RenderSection("Scripts", required: false)
+
+    <!-- Theme Base, Components and Settings -->
+    <script src="~/Template-Assets/js/theme.js"></script>
+
+    <!-- Theme Custom -->
+    <script src="~/Template-Assets/js/custom.js"></script>
+
+    <!-- Theme Initialization Files -->
+    <script src="~/Template-Assets/js/theme.init.js"></script>
+    <script src="~/Template-Assets/js/examples/examples.modals.js"></script>
 </body>
 </html>

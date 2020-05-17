@@ -6,4 +6,14 @@
 		<AspNetCoreModuleName>AspNetCoreModule</AspNetCoreModuleName>
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\KSAVideoConference.Repository\KSAVideoConference.Repository.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="wwwroot\Uploud\Attachment\" />
+	  <Folder Include="wwwroot\Uploud\Group\" />
+	  <Folder Include="wwwroot\Uploud\User\" />
+	</ItemGroup>
+
 </Project>
