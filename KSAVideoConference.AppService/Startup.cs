@@ -8,6 +8,7 @@ using KSAVideoConference.Repository;
 using KSAVideoConference.Repository.AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -33,6 +34,8 @@ namespace KSAVideoConference.AppService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers()
+                    .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
 
             services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("dbConnection")));
             services.AddScoped<AppUnitOfWork>();
@@ -64,9 +67,6 @@ namespace KSAVideoConference.AppService
                 // Advertise the API versions supported for the particular endpoint
                 config.ReportApiVersions = true;
             });
-
-            services.AddControllers()
-                    .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
 
             AppMainData.DomainName = Configuration.GetValue<string>("DomainName");
 
