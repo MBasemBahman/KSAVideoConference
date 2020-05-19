@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static KSAVideoConference.CommonBL.EnumModel;
 
 namespace KSAVideoConference.Repository.AuthRepository
 {
@@ -21,9 +22,69 @@ namespace KSAVideoConference.Repository.AuthRepository
             _Mapper = Mapper;
         }
 
-        public int GetAccessLevel(string Email, string ViewName)
+
+
+        public SystemUserPermission GetUserPermission(string Email, string ViewName)
         {
-            return DBContext.SystemUserPermission.Where(a => a.SystemUser.Email == Email && a.SystemView.Name == ViewName).Select(a => a.Fk_AccessLevel).FirstOrDefault();
+            return DBContext.SystemUserPermission.Where(a => a.SystemUser.Email == Email && a.SystemView.Name == ViewName).FirstOrDefault();
+        }
+
+        public bool CheckAuthorization(string ViewName, int Fk_AccessLevel)
+        {
+            if (Fk_AccessLevel == (int)AccessLevelEnum.FullAccess)
+            {
+                return IsFullAccess(ViewName);
+            }
+            else if (Fk_AccessLevel == (int)AccessLevelEnum.ControlAccess)
+            {
+                return IsControlAccess(ViewName);
+            }
+            else if (Fk_AccessLevel == (int)AccessLevelEnum.ViewAccess)
+            {
+                return IsViewAccess(ViewName);
+            }
+
+            return false;
+        }
+
+        public bool IsControlAccess(string ViewName)
+        {
+            return DBContext.SystemUserPermission.Where(a => a.SystemUser.Email == AppMainData.Email && a.SystemView.Name == ViewName)
+                                                 .Where(a => a.Fk_AccessLevel == (int)AccessLevelEnum.FullAccess ||
+                                                             a.Fk_AccessLevel == (int)AccessLevelEnum.ControlAccess)
+                                                 .Any();
+        }
+
+        public bool IsFullAccess(string ViewName)
+        {
+            return DBContext.SystemUserPermission.Where(a => a.SystemUser.Email == AppMainData.Email && a.SystemView.Name == ViewName &&
+                                                             a.Fk_AccessLevel == (int)AccessLevelEnum.FullAccess)
+                                                 .Any();
+        }
+
+        public bool IsViewAccess(string ViewName)
+        {
+            return DBContext.SystemUserPermission.Where(a => a.SystemUser.Email == AppMainData.Email && a.SystemView.Name == ViewName &&
+                                                             a.Fk_AccessLevel == (int)AccessLevelEnum.ViewAccess)
+                                                 .Any();
+        }
+
+        public bool IsOwner(string CreatedBy)
+        {
+            var SystemUser = DBContext.SystemUser.Where(a => a.Email == AppMainData.Email).FirstOrDefault();
+            if (SystemUser != null)
+            {
+                if (SystemUser.Fk_ControlLevel == (int)ControlLevelEnum.All)
+                {
+                    return true;
+                }
+                else if (AppMainData.Email == CreatedBy)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public async Task<List<SystemUserPermission>> GetAllAsyncIclude()
@@ -32,7 +93,6 @@ namespace KSAVideoConference.Repository.AuthRepository
                                   .Include(a => a.SystemUser)
                                   .Include(a => a.SystemView)
                                   .Include(a => a.AccessLevel)
-                                  .Include(a => a.ControlLevel)
                                   .ToListAsync();
         }
 
@@ -43,7 +103,6 @@ namespace KSAVideoConference.Repository.AuthRepository
                                   .Include(a => a.SystemUser)
                                   .Include(a => a.SystemView)
                                   .Include(a => a.AccessLevel)
-                                  .Include(a => a.ControlLevel)
                                   .FirstOrDefaultAsync();
         }
         public async Task<bool> DeleteEntity(int id)

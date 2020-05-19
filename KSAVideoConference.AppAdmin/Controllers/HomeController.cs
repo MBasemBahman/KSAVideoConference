@@ -1,7 +1,9 @@
-﻿using KSAVideoConference.AppAdmin.Models;
+﻿using KSAVideoConference.AppAdmin.Filters;
+using KSAVideoConference.AppAdmin.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using static KSAVideoConference.CommonBL.EnumModel;
 
 namespace KSAVideoConference.AppAdmin.Controllers
 {
@@ -14,6 +16,7 @@ namespace KSAVideoConference.AppAdmin.Controllers
             _logger = logger;
         }
 
+        [Authorize((int)AccessLevelEnum.ViewAccess)]
         public IActionResult Index()
         {
             return View();

@@ -199,9 +199,10 @@ namespace KSAVideoConference.DAL
                       JopTitle = "Admin",
                       Password = RandomGenerator.RandomKey(),
                       CreatedBy = AppMainData.SeedData,
-                      IsActive = true
+                      IsActive = true,
+                      Fk_ControlLevel = (int)ControlLevelEnum.All
                   }
-              );
+              );;
 
             modelBuilder.Entity<SystemUserPermission>()
               .HasData(
@@ -209,27 +210,24 @@ namespace KSAVideoConference.DAL
                   {
                       Id = 1,
                       Fk_SystemUser = 1,
-                      Fk_AccessLevel = 1,
-                      Fk_ControlLevel = 1,
-                      Fk_SystemView = 1,
+                      Fk_AccessLevel = (int)AccessLevelEnum.FullAccess,
+                      Fk_SystemView = (int)SystemViewEnum.Home,
                       CreatedBy = AppMainData.SeedData
                   },
                   new SystemUserPermission
                   {
                       Id = 2,
                       Fk_SystemUser = 1,
-                      Fk_AccessLevel = 1,
-                      Fk_ControlLevel = 1,
-                      Fk_SystemView = 2,
+                      Fk_AccessLevel = (int)AccessLevelEnum.FullAccess,
+                      Fk_SystemView = (int)SystemViewEnum.SystemView,
                       CreatedBy = AppMainData.SeedData
                   },
                   new SystemUserPermission
                   {
                       Id = 3,
                       Fk_SystemUser = 1,
-                      Fk_AccessLevel = 1,
-                      Fk_ControlLevel = 1,
-                      Fk_SystemView = 3,
+                      Fk_AccessLevel = (int)AccessLevelEnum.FullAccess,
+                      Fk_SystemView = (int)SystemViewEnum.SystemUser,
                       CreatedBy = AppMainData.SeedData
                   }
               );

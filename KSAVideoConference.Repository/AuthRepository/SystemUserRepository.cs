@@ -22,6 +22,12 @@ namespace KSAVideoConference.Repository.AuthRepository
             _Mapper = Mapper;
         }
 
+        public async Task<List<SystemUser>> GetAllAsync(string CreatedBy)
+        {
+            return await DBContext.SystemUser.Where(a => a.CreatedBy == CreatedBy)
+                                  .ToListAsync();
+        }
+
         public bool UserExists(string Email, string Password = null)
         {
             return DBContext.SystemUser

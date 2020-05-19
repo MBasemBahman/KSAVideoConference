@@ -24,11 +24,5 @@ namespace KSAVideoConference.Entity.AuthModel
         public int Fk_AccessLevel { get; set; }
 
         public AccessLevel AccessLevel { get; set; }
-
-        [ForeignKey(nameof(ControlLevel))]
-        [DisplayName(nameof(ControlLevel))]
-        public int Fk_ControlLevel { get; set; }
-
-        public ControlLevel ControlLevel { get; set; }
     }
 }

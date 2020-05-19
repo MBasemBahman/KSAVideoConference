@@ -21,10 +21,10 @@ namespace KSAVideoConference.Repository.AuthRepository
             _Mapper = Mapper;
         }
 
-        public List<SystemView> GetSystemViews(string Email, int Fk_AccessLevel = 0)
+        public List<SystemView> GetSystemViews(int Fk_AccessLevel = 0)
         {
             return DBContext.SystemUserPermission
-                            .Where(a => a.SystemUser.Email == Email)
+                            .Where(a => a.SystemUser.Email == AppMainData.Email)
                             .Where(a => (Fk_AccessLevel == 0) ? true : a.Fk_AccessLevel == Fk_AccessLevel)
                             .Select(a => a.SystemView)
                             .ToList();
@@ -34,6 +34,12 @@ namespace KSAVideoConference.Repository.AuthRepository
         {
             return await DBContext.SystemView
                                   .Include(a => a.SystemUserPermissions)
+                                  .ToListAsync();
+        }
+
+        public async Task<List<SystemView>> GetAllAsync(string CreatedBy)
+        {
+            return await DBContext.SystemView.Where(a => a.CreatedBy == CreatedBy)
                                   .ToListAsync();
         }
 

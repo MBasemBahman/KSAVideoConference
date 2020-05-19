@@ -40,7 +40,7 @@ namespace KSAVideoConference.AppService.Controllers
         /// Post : Add Contact
         /// </summary>
         [HttpPost]
-        [Route("AddContact")]
+        [Route(nameof(AddContact))]
         public async Task<UserModel> AddContact([FromQuery]Guid Token, [FromBody]IUserContactModel UserContact)
         {
             UserModel returnData = new UserModel();
@@ -95,7 +95,7 @@ namespace KSAVideoConference.AppService.Controllers
         /// Delete : Delete Contact
         /// </summary>
         [HttpDelete]
-        [Route("DeleteContact")]
+        [Route(nameof(DeleteContact))]
         public async Task<bool> DeleteContact([FromQuery]Guid Token, [FromBody]IUserContactModel UserContact)
         {
             bool returnData = new bool();

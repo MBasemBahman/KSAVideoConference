@@ -35,6 +35,16 @@ namespace KSAVideoConference.Repository.AuthRepository
                                   .Include(a => a.SystemUserPermissions)
                                   .FirstOrDefaultAsync();
         }
+
+        public int GetAccessLevel(string ViewName)
+        {
+            return DBContext.SystemUserPermission
+                            .Where(a => a.SystemUser.Email == AppMainData.Email)
+                            .Where(a => a.SystemView.Name == ViewName)
+                            .Select(a => a.Fk_AccessLevel)
+                            .FirstOrDefault();
+        }
+
         public async Task<bool> DeleteEntity(int id)
         {
             AccessLevel data = await GetByIDAsync(id);

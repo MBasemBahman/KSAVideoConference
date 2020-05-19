@@ -44,10 +44,10 @@ namespace KSAVideoConference.AppService.Controllers
         /// Get : All Member Types 
         /// </summary>
         [HttpGet]
-        [Route("GetMemberTypes")]
+        [Route(nameof(GetMemberTypes))]
         public async Task<PagedList<MemberTypeModel>> GetMemberTypes([FromQuery] Paging paging, [FromQuery]Guid Token)
         {
-            string ActionName = ControllerContext.RouteData.Values["action"].ToString();
+            string ActionName = nameof(GetMemberTypes);
             List<MemberTypeModel> returnData = new List<MemberTypeModel>();
             PagedList<MemberTypeModel> PagedData = PagedList<MemberTypeModel>.Create(returnData, paging.PageNumber, paging.PageSize);
             Status Status = new Status();

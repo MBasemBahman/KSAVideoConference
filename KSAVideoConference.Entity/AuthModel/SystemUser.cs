@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KSAVideoConference.Entity.AuthModel
 {
@@ -28,6 +29,12 @@ namespace KSAVideoConference.Entity.AuthModel
 
         [DisplayName("التنشيط")]
         public bool IsActive { get; set; } = true;
+
+        [ForeignKey(nameof(ControlLevel))]
+        [DisplayName(nameof(ControlLevel))]
+        public int Fk_ControlLevel { get; set; }
+
+        public ControlLevel ControlLevel { get; set; }
 
         public ICollection<SystemUserPermission> SystemUserPermissions { get; set; }
     }

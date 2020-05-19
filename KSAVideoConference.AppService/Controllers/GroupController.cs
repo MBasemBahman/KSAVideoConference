@@ -110,7 +110,7 @@ namespace KSAVideoConference.AppService.Controllers
         /// Patch : Update Group
         /// </summary>
         [HttpPatch]
-        [Route("UpdateGroup")]
+        [Route(nameof(UpdateGroup))]
         public async Task<GroupModel> UpdateGroup([FromQuery]Guid Token, [FromForm]IGroupModel Group)
         {
             GroupModel returnData = new GroupModel();
@@ -177,12 +177,12 @@ namespace KSAVideoConference.AppService.Controllers
         /// Get : Groups
         /// </summary>
         [HttpGet]
-        [Route("GetGroups")]
+        [Route(nameof(GetGroups))]
         public async Task<PagedList<GroupModel>> GetGroups([FromQuery] Paging paging, [FromQuery]Guid Token,
             [FromQuery]string Name, [FromQuery]bool MyGroups = false, [FromQuery]bool MyOwnGroups = false,
             [FromQuery]bool IsActive = true)
         {
-            string ActionName = ControllerContext.RouteData.Values["action"].ToString();
+            string ActionName = nameof(GetGroups);
             List<GroupModel> returnData = new List<GroupModel>();
             PagedList<GroupModel> PagedData = PagedList<GroupModel>.Create(returnData, paging.PageNumber, paging.PageSize);
             Status Status = new Status();

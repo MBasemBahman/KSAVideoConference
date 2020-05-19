@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using KSAVideoConference.Entity.AppModel;
+using KSAVideoConference.Entity.AuthModel;
 using KSAVideoConference.ServiceModel.AppModel;
 using System;
 using System.Globalization;
@@ -23,6 +24,12 @@ namespace KSAVideoConference.Repository.AutoMapper
                 .ForMember(dest => dest.MeInUserContacts, opt => opt.Ignore())
                 .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
                 .ForMember(dest => dest.CreatedBy, opt => opt.Ignore());
+
+            CreateMap<SystemView, SystemView>()
+               .ForMember(dest => dest.Id, opt => opt.Ignore())
+               .ForMember(dest => dest.SystemUserPermissions, opt => opt.Ignore())
+               .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+               .ForMember(dest => dest.CreatedBy, opt => opt.Ignore());
 
             //////////////////// Service Model ///////////////////////////
 

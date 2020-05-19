@@ -21,10 +21,17 @@ namespace KSAVideoConference.Repository.AuthRepository
             _Mapper = Mapper;
         }
 
+        public int GetControlLevel()
+        {
+            return DBContext.SystemUser.Where(a => a.Email == AppMainData.Email)
+                            .Select(a => a.Fk_ControlLevel)
+                            .FirstOrDefault();
+        }
+
         public async Task<List<ControlLevel>> GetAllAsyncIclude()
         {
             return await DBContext.ControlLevel
-                                  .Include(a => a.SystemUserPermissions)
+                                  .Include(a => a.SystemUsers)
                                   .ToListAsync();
         }
 
@@ -32,7 +39,7 @@ namespace KSAVideoConference.Repository.AuthRepository
         {
             return await DBContext.ControlLevel
                                   .Where(a => a.Id == id)
-                                  .Include(a => a.SystemUserPermissions)
+                                  .Include(a => a.SystemUsers)
                                   .FirstOrDefaultAsync();
         }
         public async Task<bool> DeleteEntity(int id)

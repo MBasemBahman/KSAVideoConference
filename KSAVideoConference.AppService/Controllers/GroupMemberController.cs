@@ -46,7 +46,7 @@ namespace KSAVideoConference.AppService.Controllers
         /// Post : Join Group
         /// </summary>
         [HttpPost]
-        [Route("JoinGroup")]
+        [Route(nameof(JoinGroup))]
         public async Task<GroupModel> JoinGroup([FromQuery]Guid Token, [FromBody]IGroupMemberModel GroupMember)
         {
             GroupModel returnData = new GroupModel();
@@ -122,7 +122,7 @@ namespace KSAVideoConference.AppService.Controllers
         /// Patch : Exit Group
         /// </summary>
         [HttpPatch]
-        [Route("ExitGroup")]
+        [Route(nameof(ExitGroup))]
         public async Task<bool> ExitGroup([FromQuery]Guid Token, [FromBody]IGroupMemberModel GroupMember)
         {
             bool returnData = new bool();

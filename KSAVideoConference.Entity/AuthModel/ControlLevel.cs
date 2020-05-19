@@ -10,6 +10,6 @@ namespace KSAVideoConference.Entity.AuthModel
         [DisplayName("اسم مستوى التحكم")]
         public string Name { get; set; }
 
-        public ICollection<SystemUserPermission> SystemUserPermissions { get; set; }
+        public ICollection<SystemUser> SystemUsers { get; set; }
     }
 }

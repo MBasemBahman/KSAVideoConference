@@ -1,9 +1,12 @@
-﻿using KSAVideoConference.Repository;
+﻿using KSAVideoConference.CommonBL;
+using KSAVideoConference.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Routing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace KSAVideoConference.AppAdmin.Filters
@@ -13,7 +16,6 @@ namespace KSAVideoConference.AppAdmin.Filters
         private readonly AppUnitOfWork _UnitOfWork;
 
         private string _ControlerName;
-        private readonly string _Email;
 
         private readonly int _Fk_AccessLevel;
 
@@ -23,24 +25,22 @@ namespace KSAVideoConference.AppAdmin.Filters
             _UnitOfWork = UnitOfWork;
         }
 
-        public void OnActionExecuted(ActionExecutedContext context)
-        {
-        }
-
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            //_Email = AppMainData.Email;
             _ControlerName = context.RouteData.Values["controller"].ToString();
 
-            //if (string.IsNullOrEmpty(_Email))
-            //{
-            //    context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Login", action = "Index" }));
-            //}
-            //else if (!_UnitOfWork.SystemUserRepository.CheckAuthorization(_Email, _ControlerName, _Fk_AccessLevel))
-            //{
-            //    context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Home", action = "Index" }));
-            //}
+            if (string.IsNullOrEmpty(AppMainData.Email))
+            {
+                context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Login", action = "Index" }));
+            }
+            else if (!_UnitOfWork.SystemUserPermissionRepository.CheckAuthorization(_ControlerName, _Fk_AccessLevel))
+            {
+                context.Result = new JsonResult(new { HttpStatusCode.Unauthorized });
+            }
+        }
 
+        public void OnActionExecuted(ActionExecutedContext context)
+        {
         }
     }
 

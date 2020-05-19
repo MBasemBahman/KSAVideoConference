@@ -1,0 +1,23 @@
+﻿@model SystemView
+
+@{
+    Layout = null;
+    var CanDelete = (bool)ViewBag.CanDelete;
+}
+<h3>Are you sure you want to delete this?</h3>
+
+@if (!CanDelete)
+{
+    <h5 style="color:red">Can`t Delete The Item!</h5>
+}
+
+<div>
+    <form asp-action="Delete">
+        @if (CanDelete)
+        {
+            <input type="hidden" asp-for="Id" />
+            <input type="submit" value="Delete" class="btn btn-danger" />
+        }
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+    </form>
+</div>

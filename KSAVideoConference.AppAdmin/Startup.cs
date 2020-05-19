@@ -35,7 +35,6 @@ namespace KSAVideoConference.AppAdmin
 
             services.AddTransient<AppSetting>();
 
-            services.AddScoped<ViewAuthorization>();
             services.AddScoped<AppUnitOfWork>();
 
             services.AddAutoMapper(c => c.AddProfile<AutoMapping>(), typeof(Startup));
