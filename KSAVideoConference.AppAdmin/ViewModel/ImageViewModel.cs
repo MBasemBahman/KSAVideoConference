@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace KSAVideoConference.AppAdmin.ViewModel
+﻿namespace KSAVideoConference.AppAdmin.ViewModel
 {
     public class ImageViewModel
     {

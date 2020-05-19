@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using KSAVideoConference.AppAdmin.Filters;
 using KSAVideoConference.AppAdmin.ViewModel;
 using KSAVideoConference.CommonBL;
@@ -12,6 +8,9 @@ using KSAVideoConference.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using static KSAVideoConference.CommonBL.EnumModel;
 
 namespace KSAVideoConference.AppAdmin.Controllers
@@ -75,7 +74,7 @@ namespace KSAVideoConference.AppAdmin.Controllers
 
                 if (!_UnitOfWork.SystemUserPermissionRepository.IsOwner(SystemUser.CreatedBy))
                 {
-                    return Unauthorized();
+                    return View(AppMainData.UnAuthorized);
                 }
             }
 
@@ -86,7 +85,7 @@ namespace KSAVideoConference.AppAdmin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize((int)AccessLevelEnum.ControlAccess)]
-        public async Task<IActionResult> CreateOrEdit(int id, SystemUser SystemUser, List<int> SelectedFullAccess, 
+        public async Task<IActionResult> CreateOrEdit(int id, SystemUser SystemUser, List<int> SelectedFullAccess,
                                                       List<int> SelectedControlAccess, List<int> SelectedViewAccess)
         {
             if (id != SystemUser.Id)
@@ -110,7 +109,7 @@ namespace KSAVideoConference.AppAdmin.Controllers
 
                         if (!_UnitOfWork.SystemUserPermissionRepository.IsOwner(Data.CreatedBy))
                         {
-                            return Unauthorized();
+                            return View(AppMainData.UnAuthorized);
                         }
 
                         _Mapper.Map(SystemUser, Data);
@@ -215,7 +214,7 @@ namespace KSAVideoConference.AppAdmin.Controllers
 
             if (!_UnitOfWork.SystemUserPermissionRepository.IsOwner(SystemUser.CreatedBy))
             {
-                return Unauthorized();
+                return View(AppMainData.UnAuthorized);
             }
 
             ViewBag.CanDelete = true;
@@ -238,7 +237,7 @@ namespace KSAVideoConference.AppAdmin.Controllers
 
             if (!_UnitOfWork.SystemUserPermissionRepository.IsOwner(SystemUser.CreatedBy))
             {
-                return Unauthorized();
+                return View(AppMainData.UnAuthorized);
             }
 
             _UnitOfWork.SystemUserRepository.DeleteEntity(SystemUser);

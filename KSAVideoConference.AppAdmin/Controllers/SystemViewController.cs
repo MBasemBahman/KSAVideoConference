@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using KSAVideoConference.AppAdmin.Filters;
 using KSAVideoConference.CommonBL;
 using KSAVideoConference.DAL;
@@ -11,6 +7,7 @@ using KSAVideoConference.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 using static KSAVideoConference.CommonBL.EnumModel;
 
 namespace KSAVideoConference.AppAdmin.Controllers
@@ -73,7 +70,7 @@ namespace KSAVideoConference.AppAdmin.Controllers
 
                 if (!_UnitOfWork.SystemUserPermissionRepository.IsOwner(SystemView.CreatedBy))
                 {
-                    return Unauthorized();
+                    return View(AppMainData.UnAuthorized);
                 }
             }
 
@@ -106,7 +103,7 @@ namespace KSAVideoConference.AppAdmin.Controllers
 
                         if (!_UnitOfWork.SystemUserPermissionRepository.IsOwner(Data.CreatedBy))
                         {
-                            return Unauthorized();
+                            return View(AppMainData.UnAuthorized);
                         }
 
                         _Mapper.Map(SystemView, Data);
@@ -143,7 +140,7 @@ namespace KSAVideoConference.AppAdmin.Controllers
 
             if (!_UnitOfWork.SystemUserPermissionRepository.IsOwner(SystemView.CreatedBy))
             {
-                return Unauthorized();
+                return View(AppMainData.UnAuthorized);
             }
 
             ViewBag.CanDelete = true;
@@ -167,7 +164,7 @@ namespace KSAVideoConference.AppAdmin.Controllers
 
             if (!_UnitOfWork.SystemUserPermissionRepository.IsOwner(SystemView.CreatedBy))
             {
-                return Unauthorized();
+                return View(AppMainData.UnAuthorized);
             }
 
             _UnitOfWork.SystemViewRepository.DeleteEntity(SystemView);

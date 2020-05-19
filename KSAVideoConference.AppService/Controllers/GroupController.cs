@@ -14,9 +14,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Encodings.Web;
 using System.Text.Json;
-using System.Text.Unicode;
 using System.Threading.Tasks;
 using static KSAVideoConference.CommonBL.EnumModel;
 
@@ -58,7 +56,7 @@ namespace KSAVideoConference.AppService.Controllers
             try
             {
                 Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.Common);
-                
+
                 User UserDB = await _UnitOfWork.UserRepository.GetByTokenAsync(Token);
                 if (UserDB == null)
                 {

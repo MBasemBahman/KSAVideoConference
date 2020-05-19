@@ -3,11 +3,6 @@ using KSAVideoConference.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Routing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
 
 namespace KSAVideoConference.AppAdmin.Filters
 {
@@ -33,17 +28,17 @@ namespace KSAVideoConference.AppAdmin.Filters
             {
                 context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Login", action = "Index" }));
             }
-            else if (!_UnitOfWork.SystemUserPermissionRepository.CheckAuthorization(_ControlerName, _Fk_AccessLevel))
+            else if (true || !_UnitOfWork.SystemUserPermissionRepository.CheckAuthorization(_ControlerName, _Fk_AccessLevel))
             {
-                context.Result = new JsonResult(new { HttpStatusCode.Unauthorized });
+                context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { action = AppMainData.UnAuthorized }));
             }
         }
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
+
         }
     }
-
 
     public class AuthorizeAttribute : TypeFilterAttribute
     {

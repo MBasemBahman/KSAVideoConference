@@ -194,15 +194,15 @@ namespace KSAVideoConference.DAL
                   new SystemUser
                   {
                       Id = 1,
-                      Email = AppMainData.SeedData,
-                      FullName = "Admin",
-                      JopTitle = "Admin",
+                      Email = "Developer@App.com",
+                      FullName = "Developer",
+                      JopTitle = "Developer",
                       Password = RandomGenerator.RandomKey(),
                       CreatedBy = AppMainData.SeedData,
                       IsActive = true,
                       Fk_ControlLevel = (int)ControlLevelEnum.All
                   }
-              );;
+              ); ;
 
             modelBuilder.Entity<SystemUserPermission>()
               .HasData(

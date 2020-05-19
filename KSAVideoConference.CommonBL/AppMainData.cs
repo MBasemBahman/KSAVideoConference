@@ -9,6 +9,8 @@
         public static string Email { get; set; }
 
         public static string SeedData { get; set; } = "seed@app.com";
+
+        public static string UnAuthorized { get; set; } = "UnAuthorized";
     }
 
     public class EnumModel

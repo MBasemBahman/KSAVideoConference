@@ -56,7 +56,7 @@ namespace KSAVideoConference.Repository.AppRepository
 
         public async Task<string> GetStaticMessage(int Id, int Fk_Language = (int)LanguageEnum.Arabic)
         {
-            var Source = await GetByIDAsync(Id);
+            AppStaticMessage Source = await GetByIDAsync(Id);
             if (Fk_Language != (int)LanguageEnum.Arabic)
             {
                 AppStaticMessageLang Data = await DBContext.AppStaticMessageLang

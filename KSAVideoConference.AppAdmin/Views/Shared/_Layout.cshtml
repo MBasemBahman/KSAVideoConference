@@ -1,7 +1,7 @@
 ﻿@{
-    //var FullName = HttpContextAccessor.HttpContext.Session.GetString("FullName");
-    //var JopTitle = HttpContextAccessor.HttpContext.Session.GetString("JopTitle");
-    //var Email = HttpContextAccessor.HttpContext.Session.GetString("Email");
+    var FullName = HttpContextAccessor.HttpContext.Session.GetString("FullName");
+    var JopTitle = HttpContextAccessor.HttpContext.Session.GetString("JopTitle");
+    var Email = HttpContextAccessor.HttpContext.Session.GetString("Email");
 }
 <!DOCTYPE html>
 <html class="fixed sidebar-left-collapsed">
@@ -73,11 +73,10 @@
 
                 <div id="userbox" class="userbox">
                     <a href="#" data-toggle="dropdown">
-                        @*<div class="profile-info" data-lock-name="@FullName" data-lock-email="@Email">
-                                <span class="name">@FullName</span>
-                                <span class="role">@JopTitle</span>
-                            </div>*@
-
+                        <div class="profile-info" data-lock-name="@FullName" data-lock-email="@Email">
+                            <span class="name">@FullName</span>
+                            <span class="role">@JopTitle</span>
+                        </div>
                         <i class="fa custom-caret"></i>
                     </a>
 

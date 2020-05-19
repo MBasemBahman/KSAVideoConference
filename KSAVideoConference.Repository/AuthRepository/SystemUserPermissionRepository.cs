@@ -65,13 +65,15 @@ namespace KSAVideoConference.Repository.AuthRepository
         public bool IsViewAccess(string ViewName)
         {
             return DBContext.SystemUserPermission.Where(a => a.SystemUser.Email == AppMainData.Email && a.SystemView.Name == ViewName &&
+                                                             a.Fk_AccessLevel == (int)AccessLevelEnum.FullAccess ||
+                                                             a.Fk_AccessLevel == (int)AccessLevelEnum.ControlAccess ||
                                                              a.Fk_AccessLevel == (int)AccessLevelEnum.ViewAccess)
                                                  .Any();
         }
 
         public bool IsOwner(string CreatedBy)
         {
-            var SystemUser = DBContext.SystemUser.Where(a => a.Email == AppMainData.Email).FirstOrDefault();
+            SystemUser SystemUser = DBContext.SystemUser.Where(a => a.Email == AppMainData.Email).FirstOrDefault();
             if (SystemUser != null)
             {
                 if (SystemUser.Fk_ControlLevel == (int)ControlLevelEnum.All)

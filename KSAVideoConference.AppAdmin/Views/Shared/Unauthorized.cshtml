@@ -1,4 +1,10 @@
-﻿<!doctype html>
+﻿@model ErrorViewModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Error";
+}
+
+<!doctype html>
 <html class="fixed">
 <head>
 
@@ -6,7 +12,6 @@
     <meta charset="UTF-8">
 
     <title>@ViewData["Title"] | App Admin</title>
-
     <meta name="keywords" content="App Admin" />
     <meta name="description" content="App Admin">
     <meta name="author" content="App Admin">
@@ -16,7 +21,6 @@
 
     <!-- Web Fonts  -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600&display=swap" rel="stylesheet">
 
     <!-- Vendor CSS -->
     <link rel="stylesheet" href="~/Template-Assets/vendor/bootstrap/css/bootstrap.css" />
@@ -38,26 +42,20 @@
     <!-- Head Libs -->
     <script src="~/Template-Assets/vendor/modernizr/modernizr.js"></script>
 
-    <style>
-        * {
-            font-family: 'Cairo', sans-serif;
-        }
-    </style>
 </head>
 <body>
     <!-- start: page -->
-    <section class="body-sign">
-        <div class="center-sign">
-            <div class="panel card-sign">
-                <div class="card-title-sign mt-3 text-right">
-                    <h2 class="title text-uppercase font-weight-bold m-0"><i class="fas fa-user mr-1"></i> @ViewData["Title"]</h2>
-                </div>
-                <div class="card-body">
-                    @RenderBody()
+    <section class="body-error error-outside">
+        <div class="center-error">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="main-error mb-3">
+                        <h2 class="error-code text-dark text-center font-weight-semibold m-0">401 <i class="fas fa-file"></i></h2>
+                        <p class="error-explanation text-center">We're sorry, but the page you were looking for unauthorized to access it.</p>
+                    </div>
                 </div>
             </div>
-
-            <p class="text-center text-muted mt-3 mb-3">&copy; Copyright @DateTime.Now.Year. All Rights Reserved.</p>
         </div>
     </section>
     <!-- end: page -->
@@ -80,8 +78,6 @@
 
     <!-- Theme Initialization Files -->
     <script src="~/Template-Assets/js/theme.init.js"></script>
-
-    @{await Html.RenderPartialAsync("PartialView/_ValidationScriptsPartial");}
 
 </body>
 </html>
