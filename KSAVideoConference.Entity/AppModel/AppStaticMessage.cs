@@ -6,12 +6,12 @@ namespace KSAVideoConference.Entity.AppModel
 {
     public class AppStaticMessage : BaseModel
     {
-        [Required]
-        [DisplayName("Key")]
+        [Required(ErrorMessage = "العنصر مطلوب")]
+        [DisplayName("المفتاح")]
         public string Key { get; set; }
 
-        [Required]
-        [DisplayName("Value")]
+        [Required(ErrorMessage = "العنصر مطلوب")]
+        [DisplayName("القيمه")]
         public string Value { get; set; }
 
         public ICollection<AppStaticMessageLang> AppStaticWordLangs { get; set; }

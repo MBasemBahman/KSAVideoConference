@@ -55,6 +55,11 @@ namespace KSAVideoConference.AppAdmin.Controllers
                 return NotFound();
             }
 
+            if (!_UnitOfWork.SystemUserPermissionRepository.IsOwner(SystemUser.CreatedBy))
+            {
+                return View(AppMainData.UnAuthorized);
+            }
+
             return View(SystemUser);
         }
 

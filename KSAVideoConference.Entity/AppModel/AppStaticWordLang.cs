@@ -5,8 +5,8 @@ namespace KSAVideoConference.Entity.AppModel
 {
     public class AppStaticWordLang : LangModel<AppStaticWord>
     {
-        [Required]
-        [DisplayName("Value")]
+        [Required(ErrorMessage = "العنصر مطلوب")]
+        [DisplayName("القيمه")]
         public string Value { get; set; }
     }
 }

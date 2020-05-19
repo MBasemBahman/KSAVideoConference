@@ -7,7 +7,7 @@ namespace KSAVideoConference.Entity
 {
     public class Language : BaseModel
     {
-        [Required]
+        [Required(ErrorMessage = "العنصر مطلوب")]
         [DisplayName("اسم اللغه")]
         public string Name { get; set; }
 
