@@ -15,6 +15,11 @@
 
     public class EnumModel
     {
+        public enum MemberTypeEnum
+        {
+            Member = 1
+        };
+
         public enum SystemViewEnum
         {
             Home = 1,

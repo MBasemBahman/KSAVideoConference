@@ -116,7 +116,7 @@ namespace KSAVideoConference.DAL
           .HasData(
               new MemberType
               {
-                  Id = 1,
+                  Id = (int)MemberTypeEnum.Member,
                   Name = "عضو",
                   CreatedBy = AppMainData.SeedData
               }
