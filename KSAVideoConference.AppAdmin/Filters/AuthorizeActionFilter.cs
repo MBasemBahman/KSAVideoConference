@@ -28,7 +28,7 @@ namespace KSAVideoConference.AppAdmin.Filters
             {
                 context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Login", action = "Index" }));
             }
-            else if (true || !_UnitOfWork.SystemUserPermissionRepository.CheckAuthorization(_ControlerName, _Fk_AccessLevel))
+            else if (!_UnitOfWork.SystemUserPermissionRepository.CheckAuthorization(_ControlerName, _Fk_AccessLevel))
             {
                 context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { action = AppMainData.UnAuthorized }));
             }

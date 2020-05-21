@@ -1,0 +1,61 @@
+﻿@model GroupMember
+
+@{
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <form asp-action="" class="form-horizontal">
+            <section class="card">
+                <div class="card-body">
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-group row">
+                        <label asp-for="User" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input disabled asp-for="User.FullName" class="form-control" />
+                            <span asp-validation-for="User" class="text-danger"></span>
+                        </div>
+                        <label asp-for="MemberType" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input disabled asp-for="MemberType.Name" class="form-control" />
+                            <span asp-validation-for="MemberType" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Group" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input disabled asp-for="Group.Name" class="form-control" />
+                            <span asp-validation-for="Group" class="text-danger"></span>
+                        </div>
+                        <label asp-for="IsActive" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input disabled asp-for="IsActive" class="form-control" />
+                            <span asp-validation-for="IsActive" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="LastModifiedAt" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input asp-for="LastModifiedAt" asp-format="{0:dd-MM-yyyy h:mm tt}" class="form-control" disabled>
+                        </div>
+                        <label asp-for="LastModifiedBy" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input asp-for="LastModifiedBy" class="form-control" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="CreatedAt" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input asp-for="CreatedAt" asp-format="{0:dd-MM-yyyy h:mm tt}" class="form-control" disabled>
+                        </div>
+                        <label asp-for="CreatedBy" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input asp-for="CreatedBy" class="form-control" disabled>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </form>
+    </div>
+</div>

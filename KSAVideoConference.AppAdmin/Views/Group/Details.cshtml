@@ -1,0 +1,81 @@
+﻿@model Group
+
+@{
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <form asp-action="" class="form-horizontal">
+            <section class="card">
+                <div class="card-body">
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-group row">
+                        <label asp-for="Creator" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input disabled asp-for="Creator.FullName" class="form-control" />
+                            <span asp-validation-for="Fk_Creator" class="text-danger"></span>
+                        </div>
+                        <label asp-for="Name" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input disabled asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="MaxGroupCount" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input disabled asp-for="MaxGroupCount" class="form-control" />
+                            <span asp-validation-for="MaxGroupCount" class="text-danger"></span>
+                        </div>
+                        <label asp-for="MaxStreamCount" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input disabled asp-for="MaxStreamCount" class="form-control" />
+                            <span asp-validation-for="MaxStreamCount" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="SessionId" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input disabled asp-for="SessionId" class="form-control" />
+                            <span asp-validation-for="SessionId" class="text-danger"></span>
+                        </div>
+                        <label asp-for="IsActive" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input disabled asp-for="IsActive" class="form-control" />
+                            <span asp-validation-for="IsActive" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="LogoURL" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <img class="img-thumbnail" src="@Model.LogoURL" width="75">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label asp-for="LastModifiedAt" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input asp-for="LastModifiedAt" asp-format="{0:dd-MM-yyyy h:mm tt}" class="form-control" disabled>
+                        </div>
+                        <label asp-for="LastModifiedBy" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input asp-for="LastModifiedBy" class="form-control" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="CreatedAt" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input asp-for="CreatedAt" asp-format="{0:dd-MM-yyyy h:mm tt}" class="form-control" disabled>
+                        </div>
+                        <label asp-for="CreatedBy" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input asp-for="CreatedBy" class="form-control" disabled>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </form>
+    </div>
+</div>
+

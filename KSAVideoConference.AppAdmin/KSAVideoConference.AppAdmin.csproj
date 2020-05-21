@@ -12,6 +12,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="wwwroot\test1\" />
+	  <Folder Include="wwwroot\test\" />
 	  <Folder Include="wwwroot\Uploud\Attachment\" />
 	  <Folder Include="wwwroot\Uploud\Group\" />
 	  <Folder Include="wwwroot\Uploud\User\" />
@@ -22,7 +24,14 @@
 	    <PrivateAssets>all</PrivateAssets>
 	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	  </PackageReference>
-	  <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.2" />
+	  <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Update="Views\Language\Index.cshtml">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
 	</ItemGroup>
 
 </Project>

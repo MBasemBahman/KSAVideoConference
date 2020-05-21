@@ -24,7 +24,13 @@ namespace KSAVideoConference.Repository.AppRepository
         public async Task<List<AppStaticMessage>> GetAllAsyncIclude()
         {
             return await DBContext.AppStaticMessage
-                                  .Include(a => a.AppStaticWordLangs)
+                                  .Include(a => a.AppStaticMessageLangs)
+                                  .ToListAsync();
+        }
+        public async Task<List<AppStaticMessage>> GetAllAsync(string CreatedBy)
+        {
+            return await DBContext.AppStaticMessage.Where(a => a.CreatedBy == CreatedBy)
+                                  .Include(a => a.AppStaticMessageLangs)
                                   .ToListAsync();
         }
 
@@ -32,7 +38,7 @@ namespace KSAVideoConference.Repository.AppRepository
         {
             return await DBContext.AppStaticMessage
                                   .Where(a => a.Id == id)
-                                  .Include(a => a.AppStaticWordLangs)
+                                  .Include(a => a.AppStaticMessageLangs)
                                   .FirstOrDefaultAsync();
         }
 
