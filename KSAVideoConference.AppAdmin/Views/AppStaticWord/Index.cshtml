@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<AppStaticWord>
 @inject AppUnitOfWork _UnitOfWork
 @{
-    ViewData["Title"] = "إضافة أو تعديل الكلمات الثابتة";
+    ViewData["Title"] = " الكلمات الثابتة";
 
     var ControlAccess = _UnitOfWork.SystemUserPermissionRepository.IsControlAccess(this.ViewContext.RouteData.Values["controller"].ToString());
     var FullAccess = _UnitOfWork.SystemUserPermissionRepository.IsFullAccess(this.ViewContext.RouteData.Values["controller"].ToString());
