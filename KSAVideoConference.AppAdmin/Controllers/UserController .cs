@@ -40,6 +40,10 @@ namespace KSAVideoConference.AppAdmin.Controllers
         [Authorize((int)AccessLevelEnum.ViewAccess)]
         public async Task<IActionResult> Index()
         {
+            if (_UnitOfWork.ControlLevelRepository.GetControlLevel() == (int)ControlLevelEnum.Owner)
+            {
+                return View(await _UnitOfWork.UserRepository.GetAllAsyncIclude(AppMainData.Email));
+            }
             return View(await _UnitOfWork.UserRepository.GetAllAsyncIclude());
         }
 
@@ -54,6 +58,10 @@ namespace KSAVideoConference.AppAdmin.Controllers
                 return NotFound();
             }
 
+            if (!_UnitOfWork.SystemUserPermissionRepository.IsOwner(User.CreatedBy))
+            {
+                return View(AppMainData.UnAuthorized);
+            }
             return View(User);
         }
 
@@ -69,6 +77,11 @@ namespace KSAVideoConference.AppAdmin.Controllers
                 if (User == null)
                 {
                     return NotFound();
+                }
+
+                if (!_UnitOfWork.SystemUserPermissionRepository.IsOwner(User.CreatedBy))
+                {
+                    return View(AppMainData.UnAuthorized);
                 }
             }
 
@@ -107,6 +120,10 @@ namespace KSAVideoConference.AppAdmin.Controllers
                     {
                         User Data = await _UnitOfWork.UserRepository.GetByIDAsyncIclude(id);
 
+                        if (!_UnitOfWork.SystemUserPermissionRepository.IsOwner(Data.CreatedBy))
+                        {
+                            return View(AppMainData.UnAuthorized);
+                        }
                         _Mapper.Map(User, Data);
 
 
@@ -195,7 +212,10 @@ namespace KSAVideoConference.AppAdmin.Controllers
             {
                 return NotFound();
             }
-
+            if (!_UnitOfWork.SystemUserPermissionRepository.IsOwner(User.CreatedBy))
+            {
+                return View(AppMainData.UnAuthorized);
+            }
             ViewBag.CanDelete = false;
 
             if (User != null)
@@ -214,6 +234,10 @@ namespace KSAVideoConference.AppAdmin.Controllers
         {
             User User = await _UnitOfWork.UserRepository.GetByIDAsyncIclude(id);
 
+            if (!_UnitOfWork.SystemUserPermissionRepository.IsOwner(User.CreatedBy))
+            {
+                return View(AppMainData.UnAuthorized);
+            }
             ImgManager ImgManager = new ImgManager(AppMainData.WebRootPath);
             if (!string.IsNullOrEmpty(User.ImageURL))
             {
