@@ -30,7 +30,7 @@ namespace KSAVideoConference.AppAdmin.Filters
             }
             else if (!_UnitOfWork.SystemUserPermissionRepository.CheckAuthorization(_ControlerName, _Fk_AccessLevel))
             {
-                context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { action = AppMainData.UnAuthorized }));
+                context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Home", action = AppMainData.UnAuthorized }));
             }
         }
 

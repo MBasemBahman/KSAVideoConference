@@ -33,7 +33,7 @@ namespace KSAVideoConference.AppAdmin
 
             services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("dbConnection")));
 
-            services.AddTransient<AppSetting>();
+            services.AddScoped<AppSetting>();
 
             services.AddScoped<AppUnitOfWork>();
 

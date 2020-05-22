@@ -75,6 +75,16 @@ namespace KSAVideoConference.Repository.AuthRepository
         {
             return await DBContext.SystemUser
                                   .Include(a => a.SystemUserPermissions)
+                                  .Include(a => a.ControlLevel)
+                                  .ToListAsync();
+        }
+
+        public async Task<List<SystemUser>> GetAllAsyncIclude(string CreatedBy)
+        {
+            return await DBContext.SystemUser
+                                  .Where(a => a.CreatedBy == CreatedBy)
+                                  .Include(a => a.SystemUserPermissions)
+                                  .Include(a => a.ControlLevel)
                                   .ToListAsync();
         }
 

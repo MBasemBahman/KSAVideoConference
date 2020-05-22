@@ -74,7 +74,7 @@
             Post : Login With Phone
             </summary>
         </member>
-        <member name="M:KSAVideoConference.AppService.Controllers.UserController.GetUsers(KSAVideoConference.ServiceModel.Paging,System.Guid,System.String,System.Boolean)">
+        <member name="M:KSAVideoConference.AppService.Controllers.UserController.GetUsers(KSAVideoConference.ServiceModel.Paging,System.Guid,System.String,System.Boolean,System.Int32,System.Boolean)">
             <summary>
             Get : Users
             </summary>

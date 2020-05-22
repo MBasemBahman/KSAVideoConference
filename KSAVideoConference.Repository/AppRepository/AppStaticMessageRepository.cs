@@ -98,5 +98,31 @@ namespace KSAVideoConference.Repository.AppRepository
             }
             return Sources;
         }
+
+        public async Task<bool> DeleteEntity(int id)
+        {
+            AppStaticMessage data = await GetByIDAsync(id);
+            if (data.CreatedBy == AppMainData.SeedData)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public new void DeleteEntity(List<AppStaticMessage> entities)
+        {
+            foreach (AppStaticMessage entity in entities)
+            {
+                DeleteEntity(entity);
+            }
+        }
+
+        public new void DeleteEntity(AppStaticMessage entity)
+        {
+            if (entity.CreatedBy != AppMainData.SeedData)
+            {
+                DBContext.Set<AppStaticMessage>().Remove(entity);
+            }
+        }
     }
 }

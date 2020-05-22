@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using KSAVideoConference.CommonBL;
 using KSAVideoConference.DAL;
 using KSAVideoConference.Entity.AppModel;
 using KSAVideoConference.Repository;
