@@ -1,0 +1,61 @@
+﻿@model GroupMember
+@inject AppUnitOfWork _UnitOfWork
+@{
+    ViewData["Title"] = "إضافة أو تعديل اعضاء المجموعة";
+    await Html.RenderPartialAsync("PartialView/_FormStylesPartial");
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <form asp-action="CreateOrEdit" class="form-horizontal">
+            <section class="card">
+                <header class="card-header">
+                    <div class="card-actions">
+                        <a href="#" class="card-action card-action-toggle" data-card-toggle></a>
+                        <a href="#" class="card-action card-action-dismiss" data-card-dismiss></a>
+                    </div>
+                    <h2 class="card-title">@ViewData["Title"]</h2>
+                </header>
+                <div class="card-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-group row">
+                        <label asp-for="User" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <select asp-for="Fk_User" class="form-control" asp-items="@(new SelectList(await _UnitOfWork.UserRepository.GetAllAsync(),"Id","FullName"))"></select>
+                            <span asp-validation-for="Fk_User" class="text-danger"></span>
+                        </div>
+                        <label asp-for="MemberType" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <select asp-for="Fk_MemberType" class="form-control" asp-items="@(new SelectList(await _UnitOfWork.MemberTypeRepository.GetAllAsync(),"Id","Name"))"></select>
+                            <span asp-validation-for="Fk_MemberType" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Group" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <select asp-for="Fk_Group" class="form-control" asp-items="@(new SelectList(await _UnitOfWork.GroupRepository.GetAllAsync(),"Id","Name"))"></select>
+                            <span asp-validation-for="Fk_Group" class="text-danger"></span>
+                        </div>
+                        <label asp-for="IsActive" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input asp-for="IsActive" class="form-control" />
+                            <span asp-validation-for="IsActive" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                </div>
+                <footer class="card-footer text-left">
+                    <button class="btn btn-primary">Submit </button>
+                    <button type="reset" class="btn btn-default">Reset</button>
+                    <a asp-action="Index" class="btn btn-success">Back</a>
+                </footer>
+            </section>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("PartialView/_ValidationScriptsPartial");}
+    @{await Html.RenderPartialAsync("PartialView/_FormScriptsPartial");}
+}

@@ -1,0 +1,64 @@
+﻿@model AppStaticWord
+
+@{
+    Layout = null;
+    var AppStaticWordLang = Model.AppStaticWordLangs.FirstOrDefault();
+
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <form asp-action="" class="form-horizontal">
+            <section class="card">
+                <div class="card-body">
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-group row">
+                        <label asp-for="Key" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input disabled asp-for="Key" class="form-control" />
+                            <span asp-validation-for="Key" class="text-danger"></span>
+                        </div>
+                        <label asp-for="Value" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input disabled asp-for="Value" class="form-control" />
+                            <span asp-validation-for="Value" class="text-danger"></span>
+                        </div>
+                    </div>
+                    @if (AppStaticWordLang != null)
+                    {
+                        <hr />
+                        <h3 class="center"> بيانات اللغة الانجليزية</h3>
+                        <div class="form-group row">
+                            <label asp-for="@AppStaticWordLang.Value" class="col-sm-2 control-label  pt-2"></label>
+                            <div class="col-sm-10">
+                                <input asp-for="@AppStaticWordLang.Value" class="form-control" disabled />
+                                <span asp-validation-for="@AppStaticWordLang.Value" class="text-danger"></span>
+                            </div>
+                        </div>
+                    }
+                    <hr />
+                    <div class="form-group row">
+                        <label asp-for="LastModifiedAt" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input asp-for="LastModifiedAt" asp-format="{0:dd-MM-yyyy h:mm tt}" class="form-control" disabled>
+                        </div>
+                        <label asp-for="LastModifiedBy" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input asp-for="LastModifiedBy" class="form-control" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="CreatedAt" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input asp-for="CreatedAt" asp-format="{0:dd-MM-yyyy h:mm tt}" class="form-control" disabled>
+                        </div>
+                        <label asp-for="CreatedBy" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input asp-for="CreatedBy" class="form-control" disabled>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </form>
+    </div>
+</div>
