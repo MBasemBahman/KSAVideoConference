@@ -16,6 +16,9 @@ namespace KSAVideoConference.Repository.AutoMapper
             CreateMap<User, User>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.Token, opt => opt.Ignore())
+                .ForMember(dest => dest.NotificationToken, opt => opt.Ignore())
+                .ForMember(dest => dest.Fk_Language, opt => opt.Ignore())
+                .ForMember(dest => dest.Language, opt => opt.Ignore())
                 .ForMember(dest => dest.ImageURL, opt => opt.Ignore())
                 .ForMember(dest => dest.Language, opt => opt.Ignore())
                 .ForMember(dest => dest.Groups, opt => opt.Ignore())
@@ -31,13 +34,13 @@ namespace KSAVideoConference.Repository.AutoMapper
                .ForMember(dest => dest.SystemUserPermissions, opt => opt.Ignore())
                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
                .ForMember(dest => dest.CreatedBy, opt => opt.Ignore());
-            
+
             CreateMap<MemberType, MemberType>()
                .ForMember(dest => dest.Id, opt => opt.Ignore())
                .ForMember(dest => dest.GroupMembers, opt => opt.Ignore())
                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
                .ForMember(dest => dest.CreatedBy, opt => opt.Ignore());
-            
+
             CreateMap<Language, Language>()
                .ForMember(dest => dest.Id, opt => opt.Ignore())
                .ForMember(dest => dest.AppStaticMessageLangs, opt => opt.Ignore())
@@ -45,7 +48,7 @@ namespace KSAVideoConference.Repository.AutoMapper
                .ForMember(dest => dest.Users, opt => opt.Ignore())
                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
                .ForMember(dest => dest.CreatedBy, opt => opt.Ignore());
-            
+
             CreateMap<GroupMember, GroupMember>()
                .ForMember(dest => dest.Id, opt => opt.Ignore())
                .ForMember(dest => dest.Group, opt => opt.Ignore())
@@ -98,8 +101,8 @@ namespace KSAVideoConference.Repository.AutoMapper
                .ForMember(dest => dest.AttachmentURL, opt => opt.Ignore())
                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
                .ForMember(dest => dest.CreatedBy, opt => opt.Ignore());
-            
-            
+
+
             CreateMap<Group, Group>()
                .ForMember(dest => dest.Id, opt => opt.Ignore())
                .ForMember(dest => dest.LogoURL, opt => opt.Ignore())

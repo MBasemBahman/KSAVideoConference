@@ -20,7 +20,7 @@ namespace KSAVideoConference.Repository.AppRepository
             _Mapper = Mapper;
         }
 
-      
+
         public async Task<List<GroupMember>> GetAllAsync(string CreatedBy)
         {
             return await DBContext.GroupMember.Where(a => a.CreatedBy == CreatedBy)

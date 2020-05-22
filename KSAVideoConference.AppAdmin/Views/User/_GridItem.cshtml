@@ -15,27 +15,34 @@
     </a>
 </td>
 <td>
-    @Html.DisplayFor(modelItem => Model.Token)
-</td>
-<td>
-    @Html.DisplayFor(modelItem => Model.AppVersion)
-</td>
-<td>
-    @Html.DisplayFor(modelItem => Model.DeviceVersion)
-</td>
-<td>
-    @Html.DisplayFor(modelItem => Model.DeviceModel)
-</td>
-<td>
-    @Html.DisplayFor(modelItem => Model.NotificationToken)
-</td>
-<td>
     @Html.DisplayFor(modelItem => Model.IsActive)
 </td>
 <td>
     @Html.DisplayFor(modelItem => Model.Language.Name)
 </td>
 <td>
-    @Html.DisplayFor(modelItem => Model.MyUserContacts.Count)
+    <a asp-action="Index" asp-controller="User" asp-all-route-data="@(new Dictionary<string, string> { { "Fk_User", Model.Id.ToString() } })" target="_blank">
+        @Html.DisplayFor(modelItem => Model.MyUserContacts.Count)
+    </a>
+</td>
+<td>
+    <a asp-action="Index" asp-controller="User" asp-all-route-data="@(new Dictionary<string, string> { { "Fk_Contact", Model.Id.ToString() } })" target="_blank">
+        @Html.DisplayFor(modelItem => Model.MeInUserContacts.Count)
+    </a>
+</td>
+<td>
+    <a asp-action="Index" asp-controller="Group" asp-all-route-data="@(new Dictionary<string, string> { { "Fk_User", Model.Id.ToString() } })" target="_blank">
+        @Html.DisplayFor(modelItem => Model.Groups.Count)
+    </a>
+</td>
+<td>
+    <a asp-action="Index" asp-controller="GroupMember" asp-all-route-data="@(new Dictionary<string, string> { { "Fk_User", Model.Id.ToString() } })" target="_blank">
+        @Html.DisplayFor(modelItem => Model.GroupMembers.Count)
+    </a>
+</td>
+<td>
+    <a asp-action="Index" asp-controller="GroupMessage" asp-all-route-data="@(new Dictionary<string, string> { { "Fk_User", Model.Id.ToString() } })" target="_blank">
+        @Html.DisplayFor(modelItem => Model.GroupMessages.Count)
+    </a>
 </td>
 

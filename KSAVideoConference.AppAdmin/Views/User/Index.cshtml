@@ -29,14 +29,13 @@
                             <th>@Html.DisplayNameFor(model => model.FullName)</th>
                             <th>@Html.DisplayNameFor(model => model.Phone)</th>
                             <th>@Html.DisplayNameFor(model => model.ImageURL)</th>
-                            <th>@Html.DisplayNameFor(model => model.Token)</th>
-                            <th>@Html.DisplayNameFor(model => model.AppVersion)</th>
-                            <th>@Html.DisplayNameFor(model => model.DeviceVersion)</th>
-                            <th>@Html.DisplayNameFor(model => model.DeviceModel)</th>
-                            <th>@Html.DisplayNameFor(model => model.NotificationToken)</th>
                             <th>@Html.DisplayNameFor(model => model.IsActive)</th>
                             <th>@Html.DisplayNameFor(model => model.Language)</th>
                             <th>@Html.DisplayNameFor(model => model.MyUserContacts)</th>
+                            <th>@Html.DisplayNameFor(model => model.MeInUserContacts)</th>
+                            <th>@Html.DisplayNameFor(model => model.Groups)</th>
+                            <th>@Html.DisplayNameFor(model => model.GroupMembers)</th>
+                            <th>@Html.DisplayNameFor(model => model.GroupMessages)</th>
                             <th>
                                 @if (ControlAccess)
                                 {
@@ -103,7 +102,7 @@
 
     <script>
         $(document).ready(function () {
-            $('#datatable-tabletools').on('click', '.Displaybtn',function () {
+            $('#datatable-tabletools').on('click', '.Displaybtn', function () {
                 event.preventDefault();
                 var href = $(this).attr('href');
                 $('#Display').load(href);

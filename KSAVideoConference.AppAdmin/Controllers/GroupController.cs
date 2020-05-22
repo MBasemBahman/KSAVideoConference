@@ -4,7 +4,6 @@ using KSAVideoConference.AppAdmin.Services;
 using KSAVideoConference.AppAdmin.ViewModel;
 using KSAVideoConference.CommonBL;
 using KSAVideoConference.DAL;
-using KSAVideoConference.Entity;
 using KSAVideoConference.Entity.AppModel;
 using KSAVideoConference.Repository;
 using Microsoft.AspNetCore.Http;
@@ -20,7 +19,7 @@ namespace KSAVideoConference.AppAdmin.Controllers
 {
     public class GroupController : Controller
     {
-       
+
         private readonly ILogger<GroupController> _logger;
         private readonly DataContext _DBContext;
         private readonly AppUnitOfWork _UnitOfWork;
@@ -162,20 +161,7 @@ namespace KSAVideoConference.AppAdmin.Controllers
                     IFormFile filesEn = HttpContext.Request.Form.Files["ImageFile"];
                     if (filesEn != null)
                     {
-                        ImgManager ImgManager = new ImgManager(AppMainData.WebRootPath);
-
-                        string ImgURl = await ImgManager.UploudImageAsync(AppMainData.DomainName, Group.Id.ToString(), filesEn, "test1");
-
-                        if (!string.IsNullOrEmpty(ImgURl))
-                        {
-                            if (!string.IsNullOrEmpty(Group.LogoURL))
-                            {
-                                ImgManager.DeleteImage(Group.LogoURL, AppMainData.DomainName);
-                            }
-                            Group.LogoURL = ImgURl;
-                            _UnitOfWork.GroupRepository.UpdateEntity(Group);
-                            await _UnitOfWork.GroupRepository.SaveAsync();
-                        }
+                        await _UnitOfWork.GroupRepository.UploudFile(Group, filesEn);
                     }
                 }
                 catch (DbUpdateConcurrencyException)

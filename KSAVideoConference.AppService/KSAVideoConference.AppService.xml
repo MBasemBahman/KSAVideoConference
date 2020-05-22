@@ -69,12 +69,12 @@
             Patch : Update User Account Profile
             </summary>
         </member>
-        <member name="M:KSAVideoConference.AppService.Controllers.UserController.Login(KSAVideoConference.ServiceModel.AppModel.IUserModel)">
+        <member name="M:KSAVideoConference.AppService.Controllers.UserController.Login(System.String)">
             <summary>
             Post : Login With Phone
             </summary>
         </member>
-        <member name="M:KSAVideoConference.AppService.Controllers.UserController.GetUsers(KSAVideoConference.ServiceModel.Paging,System.Guid,System.String,System.Boolean)">
+        <member name="M:KSAVideoConference.AppService.Controllers.UserController.GetUsers(KSAVideoConference.ServiceModel.Paging,System.Guid,System.String,System.Boolean,System.Int32,System.Boolean)">
             <summary>
             Get : Users
             </summary>

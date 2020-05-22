@@ -39,9 +39,9 @@ namespace KSAVideoConference.AppAdmin.Controllers
         {
             if (_UnitOfWork.ControlLevelRepository.GetControlLevel() == (int)ControlLevelEnum.Owner)
             {
-                return View(await _UnitOfWork.SystemUserRepository.GetAllAsync(AppMainData.Email));
+                return View(await _UnitOfWork.SystemUserRepository.GetAllAsyncIclude(AppMainData.Email));
             }
-            return View(await _UnitOfWork.SystemUserRepository.GetAllAsync());
+            return View(await _UnitOfWork.SystemUserRepository.GetAllAsyncIclude());
         }
 
         // GET: SystemUser/Details/5

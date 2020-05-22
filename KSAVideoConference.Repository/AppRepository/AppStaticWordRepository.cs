@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using KSAVideoConference.BaseRepository;
+using KSAVideoConference.CommonBL;
 using KSAVideoConference.DAL;
 using KSAVideoConference.Entity.AppModel;
 using Microsoft.EntityFrameworkCore;
@@ -68,6 +69,32 @@ namespace KSAVideoConference.Repository.AppRepository
                 Sources.ForEach(async Source => Source = await GetByIDAsync(Source, Fk_Language));
             }
             return Sources;
+        }
+
+        public async Task<bool> DeleteEntity(int id)
+        {
+            AppStaticWord data = await GetByIDAsync(id);
+            if (data.CreatedBy == AppMainData.SeedData)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public new void DeleteEntity(List<AppStaticWord> entities)
+        {
+            foreach (AppStaticWord entity in entities)
+            {
+                DeleteEntity(entity);
+            }
+        }
+
+        public new void DeleteEntity(AppStaticWord entity)
+        {
+            if (entity.CreatedBy != AppMainData.SeedData)
+            {
+                DBContext.Set<AppStaticWord>().Remove(entity);
+            }
         }
     }
 }

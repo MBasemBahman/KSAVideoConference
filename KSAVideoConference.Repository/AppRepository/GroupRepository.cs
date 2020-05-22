@@ -72,7 +72,7 @@ namespace KSAVideoConference.Repository.AppRepository
             _Mapper.Map(GroupDB.GroupMembers, returnData.GroupMembers);
 
             returnData.GroupMessages = new List<GroupMessageModel>();
-            _Mapper.Map(GroupDB.GroupMembers, returnData.GroupMembers);
+            _Mapper.Map(GroupDB.GroupMessages, returnData.GroupMessages);
 
             return returnData;
         }
@@ -83,7 +83,7 @@ namespace KSAVideoConference.Repository.AppRepository
             {
                 ImgManager ImgManager = new ImgManager(AppMainData.WebRootPath);
 
-                string FileURL = await ImgManager.UploudImageAsync(AppMainData.DomainName, Group.Id.ToString(), File, "Uploud\\Group");
+                string FileURL = await ImgManager.UploudImageAsync(AppMainData.DomainName, Group.Id.ToString(), File, "Uploud/Group");
 
                 if (!string.IsNullOrEmpty(FileURL))
                 {
