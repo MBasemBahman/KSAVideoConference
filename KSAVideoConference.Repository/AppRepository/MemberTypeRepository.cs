@@ -26,7 +26,11 @@ namespace KSAVideoConference.Repository.AppRepository
                                   .Include(a => a.GroupMembers)
                                   .ToListAsync();
         }
-
+        public async Task<List<MemberType>> GetAllAsync(string CreatedBy)
+        {
+            return await DBContext.MemberType.Where(a => a.CreatedBy == CreatedBy)
+                                  .ToListAsync();
+        }
         public async Task<MemberType> GetByIDAsyncIclude(int id)
         {
             return await DBContext.MemberType

@@ -1,0 +1,41 @@
+﻿@model User
+
+<td>
+    @Html.DisplayFor(modelItem => Model.Id)
+</td>
+<td>
+    @Html.DisplayFor(modelItem => Model.FullName)
+</td>
+<td>
+    @Html.DisplayFor(modelItem => Model.Phone)
+</td>
+<td>
+    <a class="image-popup-no-margins" href="@Model.ImageURL">
+        <img class="img-thumbnail img-fluid" src="@Model.ImageURL " width="75">
+    </a>
+</td>
+<td>
+    @Html.DisplayFor(modelItem => Model.Token)
+</td>
+<td>
+    @Html.DisplayFor(modelItem => Model.AppVersion)
+</td>
+<td>
+    @Html.DisplayFor(modelItem => Model.DeviceVersion)
+</td>
+<td>
+    @Html.DisplayFor(modelItem => Model.DeviceModel)
+</td>
+<td>
+    @Html.DisplayFor(modelItem => Model.NotificationToken)
+</td>
+<td>
+    @Html.DisplayFor(modelItem => Model.IsActive)
+</td>
+<td>
+    @Html.DisplayFor(modelItem => Model.Language.Name)
+</td>
+<td>
+    @Html.DisplayFor(modelItem => Model.MyUserContacts.Count)
+</td>
+

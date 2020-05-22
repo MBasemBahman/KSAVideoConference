@@ -1,0 +1,70 @@
+﻿@model AppStaticMessage
+@inject AppUnitOfWork _UnitOfWork
+@{
+    ViewData["Title"] = "إضافة أو تعديل الرسائل الثابتة";
+    await Html.RenderPartialAsync("PartialView/_FormStylesPartial");
+
+    var AppStaticMessageLang = new AppStaticMessageLang();
+
+    if (Model.AppStaticMessageLangs == null || !Model.AppStaticMessageLangs.Any())
+    {
+        AppStaticMessageLang.Fk_Language = (int)LanguageEnum.English;
+    }
+    else
+    {
+        AppStaticMessageLang = Model.AppStaticMessageLangs.FirstOrDefault();
+    }
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <form asp-action="CreateOrEdit" class="form-horizontal">
+            <section class="card">
+                <header class="card-header">
+                    <div class="card-actions">
+                        <a href="#" class="card-action card-action-toggle" data-card-toggle></a>
+                        <a href="#" class="card-action card-action-dismiss" data-card-dismiss></a>
+                    </div>
+                    <h2 class="card-title">@ViewData["Title"]</h2>
+                </header>
+                <div class="card-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-group row">
+                        <label asp-for="Key" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input asp-for="Key" class="form-control" />
+                            <span asp-validation-for="Key" class="text-danger"></span>
+                        </div>
+                        <label asp-for="Value" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input asp-for="Value" class="form-control" />
+                            <span asp-validation-for="Value" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <hr />
+                    <h3 class="center"> بيانات اللغة الانجليزية</h3>
+                    <input type="hidden" asp-for="@AppStaticMessageLang.Id" />
+                    <input type="hidden" asp-for="@AppStaticMessageLang.Fk_Language" />
+                    <div class="form-group row">
+                        <label asp-for="@AppStaticMessageLang.Value" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-10">
+                            <input asp-for="@AppStaticMessageLang.Value" class="form-control">
+                            <span asp-validation-for="@AppStaticMessageLang.Value" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <footer class="card-footer text-left">
+                    <button class="btn btn-primary">Submit </button>
+                    <button type="reset" class="btn btn-default">Reset</button>
+                    <a asp-action="Index" class="btn btn-success">Back</a>
+                </footer>
+            </section>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("PartialView/_ValidationScriptsPartial");}
+    @{await Html.RenderPartialAsync("PartialView/_FormScriptsPartial");}
+}

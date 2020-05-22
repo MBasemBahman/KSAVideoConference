@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using KSAVideoConference.CommonBL;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KSAVideoConference.Entity.AppModel
@@ -21,7 +22,7 @@ namespace KSAVideoConference.Entity.AppModel
 
         [ForeignKey(nameof(MemberType))]
         [DisplayName(nameof(MemberType))]
-        public int Fk_MemberType { get; set; }
+        public int Fk_MemberType { get; set; } = (int)EnumModel.MemberTypeEnum.Member; 
 
         [DisplayName("نوع المستخدم")]
         public MemberType MemberType { get; set; }
