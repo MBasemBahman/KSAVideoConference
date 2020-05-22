@@ -85,7 +85,7 @@ namespace KSAVideoConference.AppService.Controllers
                     _UnitOfWork.GroupRepository.UpdateEntity(GroupDB);
                     _UnitOfWork.GroupRepository.Save();
 
-                    await UploudFile(GroupMessageDB, GroupMessage.UploudFile);
+                    await _UnitOfWork.GroupMessageRepository.UploudFile(GroupMessageDB, GroupMessage.UploudFile);
 
                     await _hubContext.Clients.Group(GroupMessageDB.Fk_Group.ToString()).Send($"{GroupMessageDB.Message}");
 
@@ -161,37 +161,6 @@ namespace KSAVideoConference.AppService.Controllers
             Response.Headers.Add("X-Status", JsonSerializer.Serialize(Status));
 
             return returnData;
-        }
-
-        [ApiExplorerSettings(IgnoreApi = true)]
-        public async Task<GroupMessage> UploudFile(GroupMessage GroupMessage, IFormFile File)
-        {
-            if (File != null)
-            {
-                ImgManager ImgManager = new ImgManager(AppMainData.WebRootPath);
-
-                Attachment Attachment = new Attachment
-                {
-                    Name = File.FileName,
-                    Type = File.ContentType,
-                    Length = File.Length
-                };
-
-                _UnitOfWork.AttachmentRepository.CreateEntityAsync(Attachment);
-                await _UnitOfWork.AttachmentRepository.SaveAsync();
-
-                string FileURL = await ImgManager.UploudImageAsync(AppMainData.DomainName, Attachment.Id.ToString(), File, "Uploud\\Attachment");
-
-                if (!string.IsNullOrEmpty(FileURL))
-                {
-                    Attachment.AttachmentURL = FileURL;
-                    GroupMessage.Fk_Attachment = Attachment.Id;
-                    _UnitOfWork.AttachmentRepository.UpdateEntity(Attachment);
-                    _UnitOfWork.GroupMessageRepository.UpdateEntity(GroupMessage);
-                    await _UnitOfWork.AttachmentRepository.SaveAsync();
-                }
-            }
-            return GroupMessage;
         }
     }
 }

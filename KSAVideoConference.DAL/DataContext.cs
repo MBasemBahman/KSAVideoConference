@@ -112,15 +112,15 @@ namespace KSAVideoConference.DAL
                   }
               );
 
-           modelBuilder.Entity<MemberType>()
-          .HasData(
-              new MemberType
-              {
-                  Id = (int)MemberTypeEnum.Member,
-                  Name = "عضو",
-                  CreatedBy = AppMainData.SeedData
-              }
-          );
+            modelBuilder.Entity<MemberType>()
+           .HasData(
+               new MemberType
+               {
+                   Id = (int)MemberTypeEnum.Member,
+                   Name = "عضو",
+                   CreatedBy = AppMainData.SeedData
+               }
+           );
 
             modelBuilder.Entity<Language>()
            .HasData(

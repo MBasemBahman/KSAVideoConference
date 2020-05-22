@@ -3,7 +3,6 @@ using AutoMapper;
 using KSAVideoConference.AppAdmin.Filters;
 using KSAVideoConference.CommonBL;
 using KSAVideoConference.DAL;
-using KSAVideoConference.Entity;
 using KSAVideoConference.Entity.AppModel;
 using KSAVideoConference.Repository;
 using Microsoft.AspNetCore.Mvc;

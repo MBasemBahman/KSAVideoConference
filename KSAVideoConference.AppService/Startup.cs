@@ -8,10 +8,12 @@ using KSAVideoConference.Repository;
 using KSAVideoConference.Repository.AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Linq;
@@ -89,9 +91,15 @@ namespace KSAVideoConference.AppService
             }
 
             AppMainData.WebRootPath = env.ContentRootPath;
-            AppMainData.Email = "AppService@Domain.com";
 
             app.UseHttpsRedirection();
+
+            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Uploud")),
+                RequestPath = new PathString("/Uploud")
+            });
 
             app.UseRouting();
 

@@ -27,7 +27,7 @@ namespace KSAVideoConference.CommonBL
             {
                 await uploadedFile.CopyToAsync(localFile);
             }
-            string ImgPath = DomainName + "\\" + FolderURL + "\\" + FileName;
+            string ImgPath = DomainName + "/" + FolderURL + "/" + FileName;
 
             return ImgPath;
         }

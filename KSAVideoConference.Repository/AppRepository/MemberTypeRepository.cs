@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using KSAVideoConference.BaseRepository;
+using KSAVideoConference.CommonBL;
 using KSAVideoConference.DAL;
 using KSAVideoConference.Entity.AppModel;
 using Microsoft.EntityFrameworkCore;
@@ -44,6 +45,32 @@ namespace KSAVideoConference.Repository.AppRepository
             List<MemberType> Data = await GetAllAsync();
 
             return Data.Select(a => new { a.Id, a.Name }).ToList<dynamic>();
+        }
+
+        public async Task<bool> DeleteEntity(int id)
+        {
+            MemberType data = await GetByIDAsync(id);
+            if (data.CreatedBy == AppMainData.SeedData)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public new void DeleteEntity(List<MemberType> entities)
+        {
+            foreach (MemberType entity in entities)
+            {
+                DeleteEntity(entity);
+            }
+        }
+
+        public new void DeleteEntity(MemberType entity)
+        {
+            if (entity.CreatedBy != AppMainData.SeedData)
+            {
+                DBContext.Set<MemberType>().Remove(entity);
+            }
         }
     }
 }

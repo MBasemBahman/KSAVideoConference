@@ -1,8 +1,10 @@
-﻿using System;
+﻿using KSAVideoConference.CommonBL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using static KSAVideoConference.CommonBL.EnumModel;
 
 namespace KSAVideoConference.Entity.AppModel
 {
@@ -21,33 +23,33 @@ namespace KSAVideoConference.Entity.AppModel
         [DisplayName("الصوره")]
         [DataType(DataType.ImageUrl)]
         [Url]
-        public string ImageURL { get; set; }
+        public string ImageURL { get; set; } = AppMainData.DomainName;
 
         [DisplayName("المعرف")]
         public Guid Token { get; set; } = Guid.NewGuid();
 
         [Required(ErrorMessage = "العنصر مطلوب")]
         [DisplayName("نسخة التطبيق")]
-        public string AppVersion { get; set; }
+        public string AppVersion { get; set; } = ".";
 
         [Required(ErrorMessage = "العنصر مطلوب")]
         [DisplayName("إصدار الجهاز")]
-        public string DeviceVersion { get; set; }
+        public string DeviceVersion { get; set; } = ".";
 
         [Required(ErrorMessage = "العنصر مطلوب")]
         [DisplayName("طراز الجهاز")]
-        public string DeviceModel { get; set; }
+        public string DeviceModel { get; set; } = ".";
 
         [Required(ErrorMessage = "العنصر مطلوب")]
         [DisplayName("رمز الإخطارات")]
-        public string NotificationToken { get; set; }
+        public string NotificationToken { get; set; } = ".";
 
         [DisplayName("التنشيط")]
         public bool IsActive { get; set; } = true;
 
         [ForeignKey(nameof(Language))]
         [DisplayName(nameof(Language))]
-        public int Fk_Language { get; set; }
+        public int Fk_Language { get; set; } = (int)LanguageEnum.Arabic;
 
         [DisplayName("اللغه")]
         public Language Language { get; set; }

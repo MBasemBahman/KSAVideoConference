@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using KSAVideoConference.CommonBL;
 using KSAVideoConference.DAL;
 using KSAVideoConference.Entity.AppModel;
 using KSAVideoConference.Repository;
@@ -186,7 +185,7 @@ namespace KSAVideoConference.AppService.Controllers
         [HttpGet]
         [Route(nameof(GetUsers))]
         public async Task<PagedList<UserModel>> GetUsers([FromQuery] Paging paging, [FromQuery]Guid Token, [FromQuery]string phone,
-            [FromQuery]bool MyOwnContact = false)
+            [FromQuery]bool MyOwnContact = false, [FromQuery]int Fk_Group = 0, [FromQuery]bool InGroup = false)
         {
             string ActionName = nameof(GetUsers);
             List<UserModel> returnData = new List<UserModel>();
@@ -214,6 +213,21 @@ namespace KSAVideoConference.AppService.Controllers
                                                             .Where(a => a.Phone.Contains(phone))
                                                             .Where(a => MyOwnContact == false ? true : a.MyUserContacts.Any(a => a.Fk_User == UserDB.Id))
                                                             .ToListAsync();
+                    if (Fk_Group > 0 && Data.Any())
+                    {
+                        var GroupMembers = await _DBContext.GroupMember.Where(a => a.Fk_Group == Fk_Group)
+                                                                       .Select(a => a.User)
+                                                                       .ToListAsync();
+
+                        if (InGroup == false)
+                        {
+                            Data = Data.Except(GroupMembers).ToList();
+                        }
+                        else
+                        {
+                            Data = Data.Where(a => GroupMembers.Any(b => b.Id == a.Id)).ToList();
+                        }
+                    }
 
                     IEnumerable<User> OrderData = OrderBy<User>.OrderData(Data, paging.OrderBy);
 
