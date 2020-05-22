@@ -117,7 +117,6 @@ namespace KSAVideoConference.Repository.AutoMapper
 
             // MemberType
             CreateMap<MemberType, MemberTypeModel>()
-               .ForMember(dest => dest.Id, opt => opt.Ignore())
                .ForMember(dest => dest.GroupMembers, opt => opt.Ignore())
                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore());
 

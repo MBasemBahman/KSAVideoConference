@@ -89,7 +89,6 @@ namespace KSAVideoConference.AppService.Controllers
                             _Mapper.Map(GroupMember, GroupMemberDB);
                         }
 
-                        GroupMemberDB.Fk_User = UserDB.Id;
                         GroupDB.GroupMembers.Add(GroupMemberDB);
 
                         _UnitOfWork.GroupRepository.UpdateEntity(GroupDB);

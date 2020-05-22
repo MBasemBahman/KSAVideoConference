@@ -1,14 +1,14 @@
 ﻿namespace KSAVideoConference.ServiceModel.AppModel
 {
-    public interface IGroupMemberModel
+    public class IGroupMemberModel
     {
-        int Id { get; set; }
-        int Fk_Group { get; set; }
-        int Fk_MemberType { get; set; }
-        int Fk_User { get; set; }
+        public int Id { get; set; }
+        public int Fk_Group { get; set; }
+        public int Fk_MemberType { get; set; }
+        public int Fk_User { get; set; }
     }
 
-    public class GroupMemberModel : BaseModel, IGroupMemberModel
+    public class GroupMemberModel : BaseModel
     {
         public int Fk_User { get; set; }
 

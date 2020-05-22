@@ -1,13 +1,13 @@
 ﻿namespace KSAVideoConference.ServiceModel.AppModel
 {
-    public interface IUserContactModel
+    public class IUserContactModel
     {
-        int Id { get; set; }
-        int Fk_Contact { get; set; }
-        int Fk_User { get; set; }
+        public int Id { get; set; }
+        public int Fk_Contact { get; set; }
+        public int Fk_User { get; set; }
     }
 
-    public class UserContactModel : BaseModel, IUserContactModel
+    public class UserContactModel : BaseModel
     {
         public int Fk_User { get; set; }
 
