@@ -1,0 +1,104 @@
+﻿@model IEnumerable<MemberType>
+@inject AppUnitOfWork _UnitOfWork
+@{
+    ViewData["Title"] = "انواع الاعضاء";
+
+    var ControlAccess = _UnitOfWork.SystemUserPermissionRepository.IsControlAccess(this.ViewContext.RouteData.Values["controller"].ToString());
+    var FullAccess = _UnitOfWork.SystemUserPermissionRepository.IsFullAccess(this.ViewContext.RouteData.Values["controller"].ToString());
+
+    await Html.RenderPartialAsync("PartialView/_FormStylesPartial");
+    await Html.RenderPartialAsync("PartialView/_TableStylesPartial");
+}
+
+<div class="row">
+    <div class="col">
+        <section class="card">
+            <header class="card-header">
+                <div class="card-actions">
+                    <a href="#" class="card-action card-action-toggle" data-card-toggle></a>
+                    <a href="#" class="card-action card-action-dismiss" data-card-dismiss></a>
+                </div>
+
+                <h2 class="card-title">@ViewData["Title"]</h2>
+            </header>
+            <div class="card-body">
+                <table class="table table-bordered table-striped mb-0" id="datatable-tabletools">
+                    <thead>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.Id)</th>
+                            <th>@Html.DisplayNameFor(model => model.Name)</th>
+                            <th>
+                                @if (ControlAccess)
+                                {
+                                    <a asp-action="CreateOrEdit" class="btn btn-outline-primary a-btn-slide-text">
+                                        <i class="fas fa-plus-circle"></i>
+                                        <span><strong>Create New</strong></span>
+                                    </a>
+                                }
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                @{await Html.RenderPartialAsync("_GridItem", item);}
+                                <td>
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-success a-btn-slide-text Displaybtn">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    @if (ControlAccess)
+                                    {
+                                        <a asp-action="CreateOrEdit" asp-route-id="@item.Id" class="btn btn-outline-primary a-btn-slide-text">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    }
+                                    @if (FullAccess)
+                                    {
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger a-btn-slide-text Displaybtn">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade bd-example-modal-lg" id="DisplayModal" tabindex="-1" role="dialog" aria-labelledby="DetailsTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">@ViewData["Title"]</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="Display">
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    @{await Html.RenderPartialAsync("PartialView/_ValidationScriptsPartial");}
+    @{await Html.RenderPartialAsync("PartialView/_FormScriptsPartial");}
+    @{await Html.RenderPartialAsync("PartialView/_TableScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+            $('#datatable-tabletools').on('click', '.Displaybtn',function () {
+                event.preventDefault();
+                var href = $(this).attr('href');
+                $('#Display').load(href);
+                $("#DisplayModal").modal("show");
+            })
+        });
+    </script>
+}

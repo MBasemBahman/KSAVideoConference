@@ -27,6 +27,12 @@ namespace KSAVideoConference.Repository.AppRepository
                                   .Include(a => a.AppStaticWordLangs)
                                   .ToListAsync();
         }
+        public async Task<List<AppStaticWord>> GetAllAsync(string CreatedBy)
+        {
+            return await DBContext.AppStaticWord.Where(a => a.CreatedBy == CreatedBy)
+                                  .Include(a => a.AppStaticWordLangs)
+                                  .ToListAsync();
+        }
 
         public async Task<AppStaticWord> GetByIDAsyncIclude(int id)
         {

@@ -37,7 +37,11 @@ namespace KSAVideoConference.Repository.AppRepository
                                   .Include(a => a.AppStaticWordLangs)
                                   .FirstOrDefaultAsync();
         }
-
+        public async Task<List<Language>> GetAllAsync(string CreatedBy)
+        {
+            return await DBContext.Language.Where(a => a.CreatedBy == CreatedBy)
+                                  .ToListAsync();
+        }
         public async Task<bool> DeleteEntity(int id)
         {
             Language data = await GetByIDAsync(id);

@@ -1,0 +1,83 @@
+﻿@model GroupViewModel
+@inject AppUnitOfWork _UnitOfWork
+@{
+    ViewData["Title"] = "إضافة أو تعديل المجموعة";
+    await Html.RenderPartialAsync("PartialView/_FormStylesPartial");
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <form asp-action="CreateOrEdit" class="form-horizontal" enctype="multipart/form-data">
+            <section class="card">
+                <header class="card-header">
+                    <div class="card-actions">
+                        <a href="#" class="card-action card-action-toggle" data-card-toggle></a>
+                        <a href="#" class="card-action card-action-dismiss" data-card-dismiss></a>
+                    </div>
+                    <h2 class="card-title">@ViewData["Title"]</h2>
+                </header>
+                <div class="card-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Group.Id" />
+                    <div class="form-group row">
+                        <label asp-for="Group.Creator" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <select asp-for="Group.Fk_Creator" class="form-control" asp-items="@(new SelectList(await _UnitOfWork.UserRepository.GetAllAsync(),"Id","FullName"))"></select>
+                            <span asp-validation-for="Group.Fk_Creator" class="text-danger"></span>
+                        </div>
+                        <label asp-for="Group.Name" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input asp-for="Group.Name" class="form-control" />
+                            <span asp-validation-for="Group.Name" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Group.MaxGroupCount" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input asp-for="Group.MaxGroupCount" class="form-control" />
+                            <span asp-validation-for="Group.MaxGroupCount" class="text-danger"></span>
+                        </div>
+                        <label asp-for="Group.MaxStreamCount" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input asp-for="Group.MaxStreamCount" class="form-control" />
+                            <span asp-validation-for="Group.MaxStreamCount" class="text-danger"></span>
+                        </div>
+                    </div>
+                    @{await Html.RenderPartialAsync("PartialComponent/ImageUpload", new ImageViewModel { LabelName = "الصورة" });}
+
+                    <div class="form-group row">
+                        <label asp-for="Group.SessionId" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input asp-for="Group.SessionId" class="form-control" />
+                            <span asp-validation-for="Group.SessionId" class="text-danger"></span>
+                        </div>
+                        <label asp-for="Group.IsActive" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input asp-for="Group.IsActive" class="form-control" />
+                            <span asp-validation-for="Group.IsActive" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="SelectedGroupMembers" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-10">
+                            <select asp-for="SelectedGroupMembers" data-plugin-selectTwo class="form-control populate" asp-items="@(new MultiSelectList(await _UnitOfWork.UserRepository.GetAllAsync(),"Id","FullName"))">
+                            </select>
+                            <span asp-validation-for="SelectedGroupMembers" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                </div>
+                <footer class="card-footer text-left">
+                    <button class="btn btn-primary">Submit </button>
+                    <button type="reset" class="btn btn-default">Reset</button>
+                    <a asp-action="Index" class="btn btn-success">Back</a>
+                </footer>
+            </section>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("PartialView/_ValidationScriptsPartial");}
+    @{await Html.RenderPartialAsync("PartialView/_FormScriptsPartial");}
+}

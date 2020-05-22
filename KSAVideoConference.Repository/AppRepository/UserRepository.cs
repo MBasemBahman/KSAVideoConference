@@ -24,11 +24,23 @@ namespace KSAVideoConference.Repository.AppRepository
             _Mapper = Mapper;
         }
 
+        public async Task<List<User>> GetAllAsyncIclude(int id)
+        {
+            return await DBContext.User
+                                  .Where(a=>a.Id != id)
+                                  .Include(a => a.Groups)
+                                  .Include(a => a.GroupMembers)
+                                  .Include(a => a.GroupMessages)
+                                  .Include(a => a.MyUserContacts)
+                                  .Include(a => a.MeInUserContacts)
+                                  .ToListAsync();
+        }
         public async Task<List<User>> GetAllAsyncIclude()
         {
             return await DBContext.User
                                   .Include(a => a.Groups)
                                   .Include(a => a.GroupMembers)
+                                  .Include(a => a.Language)
                                   .Include(a => a.GroupMessages)
                                   .Include(a => a.MyUserContacts)
                                   .Include(a => a.MeInUserContacts)
@@ -40,6 +52,7 @@ namespace KSAVideoConference.Repository.AppRepository
             return await DBContext.User
                                   .Where(a => a.Id == id)
                                   .Include(a => a.Groups)
+                                  .Include(a => a.Language)
                                   .Include(a => a.GroupMembers)
                                   .Include(a => a.GroupMessages)
                                   .Include(a => a.MyUserContacts)
