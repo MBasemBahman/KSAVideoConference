@@ -74,7 +74,7 @@ namespace KSAVideoConference.Repository.AppRepository
             {
                 ImgManager ImgManager = new ImgManager(AppMainData.WebRootPath);
 
-                string FileURL = await ImgManager.UploudImageAsync(AppMainData.DomainName, User.Id.ToString(), File, "Uploud\\User");
+                string FileURL = await ImgManager.UploudImageAsync(AppMainData.DomainName, User.Id.ToString(), File, "Uploud/User");
 
                 if (!string.IsNullOrEmpty(FileURL))
                 {

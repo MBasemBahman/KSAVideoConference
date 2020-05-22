@@ -180,7 +180,7 @@ namespace KSAVideoConference.AppService.Controllers
                 _UnitOfWork.AttachmentRepository.CreateEntityAsync(Attachment);
                 await _UnitOfWork.AttachmentRepository.SaveAsync();
 
-                string FileURL = await ImgManager.UploudImageAsync(AppMainData.DomainName, Attachment.Id.ToString(), File, "Uploud\\Attachment");
+                string FileURL = await ImgManager.UploudImageAsync(AppMainData.DomainName, Attachment.Id.ToString(), File, "Uploud/Attachment");
 
                 if (!string.IsNullOrEmpty(FileURL))
                 {
