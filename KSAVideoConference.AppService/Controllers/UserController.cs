@@ -207,7 +207,10 @@ namespace KSAVideoConference.AppService.Controllers
                 }
                 else
                 {
-                    phone = phone.Trim();
+                    if (!string.IsNullOrEmpty(phone))
+                    {
+                        phone = phone.Trim();
+                    }
 
                     List<User> Data = await _DBContext.User.Where(a => a.IsActive == true)
                                                             .Where(a => a.Phone.Contains(phone))
