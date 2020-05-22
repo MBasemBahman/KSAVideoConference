@@ -2,7 +2,6 @@
 using KSAVideoConference.AppAdmin.Filters;
 using KSAVideoConference.CommonBL;
 using KSAVideoConference.DAL;
-using KSAVideoConference.Entity;
 using KSAVideoConference.Entity.AppModel;
 using KSAVideoConference.Repository;
 using Microsoft.AspNetCore.Mvc;
@@ -151,7 +150,7 @@ namespace KSAVideoConference.AppAdmin.Controllers
 
             ViewBag.CanDelete = true;
 
-            if (id == (int)MemberTypeEnum.Member )
+            if (id == (int)MemberTypeEnum.Member)
             {
                 ViewBag.CanDelete = false;
             }

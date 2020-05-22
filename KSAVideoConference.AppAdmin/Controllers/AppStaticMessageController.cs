@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using KSAVideoConference.AppAdmin.Filters;
 using KSAVideoConference.CommonBL;
 using KSAVideoConference.DAL;
@@ -12,6 +8,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using static KSAVideoConference.CommonBL.EnumModel;
 
 namespace KSAVideoConference.AppAdmin.Controllers
@@ -113,7 +112,7 @@ namespace KSAVideoConference.AppAdmin.Controllers
                     else
                     {
                         AppStaticMessage Data = await _UnitOfWork.AppStaticMessageRepository.GetByIDAsyncIclude(id);
-                       
+
                         if (!_UnitOfWork.SystemUserPermissionRepository.IsOwner(Data.CreatedBy))
                         {
                             return View(AppMainData.UnAuthorized);

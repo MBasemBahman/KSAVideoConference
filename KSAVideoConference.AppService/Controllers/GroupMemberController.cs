@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using KSAVideoConference.AppService.Hubs;
-using KSAVideoConference.CommonBL;
 using KSAVideoConference.DAL;
 using KSAVideoConference.Entity.AppModel;
 using KSAVideoConference.Repository;

@@ -3,7 +3,6 @@ using KSAVideoConference.AppAdmin.Filters;
 using KSAVideoConference.AppAdmin.Services;
 using KSAVideoConference.CommonBL;
 using KSAVideoConference.DAL;
-using KSAVideoConference.Entity;
 using KSAVideoConference.Entity.AppModel;
 using KSAVideoConference.Repository;
 using Microsoft.AspNetCore.Http;
@@ -143,14 +142,16 @@ namespace KSAVideoConference.AppAdmin.Controllers
                                 await _UnitOfWork.AttachmentRepository.SaveAsync();
                             }
 
-                           
 
 
-                            Attachment attachment = new Attachment();
-                            attachment.AttachmentURL = ImgURl;
-                            attachment.Name = files.Name;
-                            attachment.Type = files.ContentType;
-                            attachment.Length = files.Length;
+
+                            Attachment attachment = new Attachment
+                            {
+                                AttachmentURL = ImgURl,
+                                Name = files.Name,
+                                Type = files.ContentType,
+                                Length = files.Length
+                            };
 
                             GroupMessage.Attachment = attachment;
 
@@ -189,7 +190,7 @@ namespace KSAVideoConference.AppAdmin.Controllers
             {
                 return View(AppMainData.UnAuthorized);
             }
-            
+
             ViewBag.CanDelete = true;
 
             //if (id == (int)GroupMessageEnum.Member )

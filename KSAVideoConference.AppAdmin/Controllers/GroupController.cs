@@ -4,7 +4,6 @@ using KSAVideoConference.AppAdmin.Services;
 using KSAVideoConference.AppAdmin.ViewModel;
 using KSAVideoConference.CommonBL;
 using KSAVideoConference.DAL;
-using KSAVideoConference.Entity;
 using KSAVideoConference.Entity.AppModel;
 using KSAVideoConference.Repository;
 using Microsoft.AspNetCore.Http;
@@ -20,7 +19,7 @@ namespace KSAVideoConference.AppAdmin.Controllers
 {
     public class GroupController : Controller
     {
-       
+
         private readonly ILogger<GroupController> _logger;
         private readonly DataContext _DBContext;
         private readonly AppUnitOfWork _UnitOfWork;

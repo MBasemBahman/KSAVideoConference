@@ -27,7 +27,7 @@ namespace KSAVideoConference.Repository.AppRepository
         public async Task<List<User>> GetAllAsyncIclude(int id)
         {
             return await DBContext.User
-                                  .Where(a=>a.Id != id)
+                                  .Where(a => a.Id != id)
                                   .Include(a => a.Groups)
                                   .Include(a => a.GroupMembers)
                                   .Include(a => a.GroupMessages)
