@@ -40,6 +40,10 @@ namespace KSAVideoConference.AppAdmin.Controllers
         [Authorize((int)AccessLevelEnum.ViewAccess)]
         public async Task<IActionResult> Index()
         {
+            if (_UnitOfWork.ControlLevelRepository.GetControlLevel() == (int)ControlLevelEnum.Owner)
+            {
+                return View(await _UnitOfWork.GroupRepository.GetAllAsyncIclude(AppMainData.Email));
+            }
             return View(await _UnitOfWork.GroupRepository.GetAllAsyncIclude());
         }
 
@@ -52,6 +56,11 @@ namespace KSAVideoConference.AppAdmin.Controllers
             if (Group == null)
             {
                 return NotFound();
+            }
+
+            if (!_UnitOfWork.SystemUserPermissionRepository.IsOwner(Group.CreatedBy))
+            {
+                return View(AppMainData.UnAuthorized);
             }
 
             return View(Group);
@@ -69,6 +78,11 @@ namespace KSAVideoConference.AppAdmin.Controllers
                 if (Group == null)
                 {
                     return NotFound();
+                }
+
+                if (!_UnitOfWork.SystemUserPermissionRepository.IsOwner(Group.CreatedBy))
+                {
+                    return View(AppMainData.UnAuthorized);
                 }
             }
 
@@ -106,6 +120,11 @@ namespace KSAVideoConference.AppAdmin.Controllers
                     else
                     {
                         Group Data = await _UnitOfWork.GroupRepository.GetByIDAsyncIclude(id);
+
+                        if (!_UnitOfWork.SystemUserPermissionRepository.IsOwner(Data.CreatedBy))
+                        {
+                            return View(AppMainData.UnAuthorized);
+                        }
 
                         _Mapper.Map(Group, Data);
 
@@ -196,6 +215,10 @@ namespace KSAVideoConference.AppAdmin.Controllers
             {
                 return NotFound();
             }
+            if (!_UnitOfWork.SystemUserPermissionRepository.IsOwner(Group.CreatedBy))
+            {
+                return View(AppMainData.UnAuthorized);
+            }
 
             ViewBag.CanDelete = false;
 
@@ -214,6 +237,11 @@ namespace KSAVideoConference.AppAdmin.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             Group Group = await _UnitOfWork.GroupRepository.GetByIDAsyncIclude(id);
+
+            if (!_UnitOfWork.SystemUserPermissionRepository.IsOwner(Group.CreatedBy))
+            {
+                return View(AppMainData.UnAuthorized);
+            }
 
             ImgManager ImgManager = new ImgManager(AppMainData.WebRootPath);
             if (!string.IsNullOrEmpty(Group.LogoURL))

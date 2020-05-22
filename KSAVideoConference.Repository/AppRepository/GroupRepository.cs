@@ -31,6 +31,15 @@ namespace KSAVideoConference.Repository.AppRepository
                                   .Include(a => a.GroupMessages)
                                   .ToListAsync();
         }
+        public async Task<List<Group>> GetAllAsyncIclude(string CreatedBy)
+        {
+            return await DBContext.Group
+                                  .Where(a=>a.CreatedBy == CreatedBy)
+                                  .Include(a => a.Creator)
+                                  .Include(a => a.GroupMembers)
+                                  .Include(a => a.GroupMessages)
+                                  .ToListAsync();
+        }
 
         public async Task<Group> GetByIDAsyncIclude(int id)
         {
