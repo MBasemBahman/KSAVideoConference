@@ -67,11 +67,9 @@ namespace KSAVideoConference.Repository.AppRepository
                                   .FirstOrDefaultAsync();
         }
 
-        public async Task<User> GetByPhoneAsync(string Phone)
+        public async Task<User> GetByPhoneAsync(string Phone, int Id = 0)
         {
-            return await DBContext.User
-                                  .Where(a => a.Phone == Phone)
-                                  .FirstOrDefaultAsync();
+            return await DBContext.User.FirstOrDefaultAsync(a => a.Phone == Phone && a.Id != Id);
         }
 
         public async Task<UserModel> GetUserProfile(int Id)
