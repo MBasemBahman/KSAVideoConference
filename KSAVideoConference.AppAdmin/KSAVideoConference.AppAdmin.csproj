@@ -7,13 +7,18 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="wwwroot\test1\**" />
+	  <Content Remove="wwwroot\test1\**" />
+	  <EmbeddedResource Remove="wwwroot\test1\**" />
+	  <None Remove="wwwroot\test1\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <ProjectReference Include="..\KSAVideoConference.Entity\KSAVideoConference.Entity.csproj" />
 	  <ProjectReference Include="..\KSAVideoConference.Repository\KSAVideoConference.Repository.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="wwwroot\test1\" />
-	  <Folder Include="wwwroot\test\" />
 	  <Folder Include="wwwroot\Uploud\Attachment\" />
 	  <Folder Include="wwwroot\Uploud\Group\" />
 	  <Folder Include="wwwroot\Uploud\User\" />

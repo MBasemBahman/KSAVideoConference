@@ -1,5 +1,6 @@
 ﻿using KSAVideoConference.AppAdmin.Filters;
 using KSAVideoConference.AppAdmin.Models;
+using KSAVideoConference.AppAdmin.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
@@ -19,7 +20,8 @@ namespace KSAVideoConference.AppAdmin.Controllers
         [Authorize((int)AccessLevelEnum.ViewAccess)]
         public IActionResult Index()
         {
-            return View();
+            var Home = new HomeViewModel();
+            return View(Home);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

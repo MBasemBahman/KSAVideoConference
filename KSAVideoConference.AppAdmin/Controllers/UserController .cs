@@ -131,7 +131,6 @@ namespace KSAVideoConference.AppAdmin.Controllers
                             Data = AddUserMembers(Data, AddIds.ToList());
                         }
 
-
                         _UnitOfWork.UserRepository.UpdateEntity(Data);
                         await _UnitOfWork.UserRepository.SaveAsync();
 
@@ -142,20 +141,7 @@ namespace KSAVideoConference.AppAdmin.Controllers
                     IFormFile filesEn = HttpContext.Request.Form.Files["ImageFile"];
                     if (filesEn != null)
                     {
-                        ImgManager ImgManager = new ImgManager(AppMainData.WebRootPath);
-
-                        string ImgURl = await ImgManager.UploudImageAsync(AppMainData.DomainName, User.Id.ToString(), filesEn, "test1");
-
-                        if (!string.IsNullOrEmpty(ImgURl))
-                        {
-                            if (!string.IsNullOrEmpty(User.ImageURL))
-                            {
-                                ImgManager.DeleteImage(User.ImageURL, AppMainData.DomainName);
-                            }
-                            User.ImageURL = ImgURl;
-                            _UnitOfWork.UserRepository.UpdateEntity(User);
-                            await _UnitOfWork.UserRepository.SaveAsync();
-                        }
+                        await _UnitOfWork.UserRepository.UploudFile(User, filesEn);
                     }
                 }
                 catch (DbUpdateConcurrencyException)

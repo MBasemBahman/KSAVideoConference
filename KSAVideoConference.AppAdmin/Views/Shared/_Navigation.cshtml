@@ -2,16 +2,16 @@
     var Home = HttpContextAccessor.HttpContext.Session.GetString("Home");
     var SystemView = HttpContextAccessor.HttpContext.Session.GetString("SystemView");
     var SystemUser = HttpContextAccessor.HttpContext.Session.GetString("SystemUser");
-    var AppAbout = HttpContextAccessor.HttpContext.Session.GetString("AppAbout");
-    var Area = HttpContextAccessor.HttpContext.Session.GetString("Area");
-    var NotificationType = HttpContextAccessor.HttpContext.Session.GetString("NotificationType");
-    var Package = HttpContextAccessor.HttpContext.Session.GetString("Package");
-    var Feature = HttpContextAccessor.HttpContext.Session.GetString("Feature");
-    var FoodCategory = HttpContextAccessor.HttpContext.Session.GetString("FoodCategory");
-    var RestaurantState = HttpContextAccessor.HttpContext.Session.GetString("RestaurantState");
-    var Restaurant = HttpContextAccessor.HttpContext.Session.GetString("Restaurant");
-    var Notification = HttpContextAccessor.HttpContext.Session.GetString("Notification");
 
+    var AppStaticMessage = HttpContextAccessor.HttpContext.Session.GetString("AppStaticMessage");
+    var AppStaticWord = HttpContextAccessor.HttpContext.Session.GetString("AppStaticWord");
+    var Language = HttpContextAccessor.HttpContext.Session.GetString("Language");
+    var MemberType = HttpContextAccessor.HttpContext.Session.GetString("MemberType");
+
+    var Group = HttpContextAccessor.HttpContext.Session.GetString("Group");
+    var GroupMember = HttpContextAccessor.HttpContext.Session.GetString("GroupMember");
+    var GroupMessage = HttpContextAccessor.HttpContext.Session.GetString("GroupMessage");
+    var User = HttpContextAccessor.HttpContext.Session.GetString("User");
 }
 
 <!-- start: sidebar -->
@@ -19,7 +19,7 @@
 
     <div class="sidebar-header">
         <div class="sidebar-title">
-            Navigation
+            القائمه
         </div>
         <div class="sidebar-toggle d-none d-md-block" data-toggle-class="sidebar-left-collapsed" data-target="html" data-fire-event="sidebar-left-toggle">
             <i class="fas fa-bars" aria-label="Toggle sidebar"></i>
@@ -32,58 +32,145 @@
 
                 <ul class="nav nav-main">
                     <li>
-                        <a class="nav-link" href="layouts-default.html">
+                        <a class="nav-link" asp-controller="Home" asp-action="Index">
                             <i class="fas fa-home" aria-hidden="true"></i>
-                            <span>Dashboard</span>
+                            <span>الرئيسيه</span>
                         </a>
                     </li>
-                    <li class="nav-parent">
-                        <a class="nav-link" href="#">
-                            <i class="fas fa-align-left" aria-hidden="true"></i>
-                            <span>Menu Levels</span>
-                        </a>
-                        <ul class="nav nav-children">
-                            <li>
-                                <a>
-                                    First Level
-                                </a>
-                            </li>
-                            <li class="nav-parent">
-                                <a class="nav-link" href="#">
-                                    Second Level
-                                </a>
-                                <ul class="nav nav-children">
+                    @if (AppStaticMessage != null || AppStaticWord != null || Language != null || MemberType != null)
+                    {
+                        <li class="nav-parent">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-cogs"></i>
+                                <span>البيانات الاساسيه</span>
+                            </a>
+                            <ul class="nav nav-children">
+                                @if (AppStaticMessage != null)
+                                {
                                     <li>
-                                        <a>
-                                            Second Level Link #1
+                                        <a class="nav-link" asp-controller="AppStaticMessage" asp-action="Index">
+                                            <i class="fas fa-cog"></i>
+                                            الرسائل الثابتة
                                         </a>
                                     </li>
+                                }
+                                @if (AppStaticWord != null)
+                                {
                                     <li>
-                                        <a>
-                                            Second Level Link #2
+                                        <a class="nav-link" asp-controller="AppStaticWord" asp-action="Index">
+                                            <i class="fas fa-cog"></i>
+                                            الكلمات الثابتة
                                         </a>
                                     </li>
-                                    <li class="nav-parent">
-                                        <a class="nav-link" href="#">
-                                            Third Level
+                                }
+                                @if (Language != null)
+                                {
+                                    <li>
+                                        <a class="nav-link" asp-controller="Language" asp-action="Index">
+                                            <i class="fas fa-cog"></i>
+                                            اللغة
                                         </a>
-                                        <ul class="nav nav-children">
-                                            <li>
-                                                <a>
-                                                    Third Level Link #1
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a>
-                                                    Third Level Link #2
-                                                </a>
-                                            </li>
-                                        </ul>
                                     </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
+                                }
+                                @if (MemberType != null)
+                                {
+                                    <li>
+                                        <a class="nav-link" asp-controller="MemberType" asp-action="Index">
+                                            <i class="fas fa-cog"></i>
+                                            انواع الاعضاء
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                    @if (User != null)
+                    {
+                        <li class="nav-parent">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-users"></i>
+                                <span>المستخدمين</span>
+                            </a>
+                            <ul class="nav nav-children">
+                                @if (User != null)
+                                {
+                                    <li>
+                                        <a class="nav-link" asp-controller="User" asp-action="Index">
+                                            <i class="fas fa-users"></i>
+                                            المستخدمين
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                    @if (Group != null || GroupMember != null || GroupMessage != null)
+                    {
+                        <li class="nav-parent">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-layer-group"></i>
+                                <span>ادارة المجموعات</span>
+                            </a>
+                            <ul class="nav nav-children">
+                                @if (Group != null)
+                                {
+                                    <li>
+                                        <a class="nav-link" asp-controller="Group" asp-action="Index">
+                                            <i class="fas fa-layer-group"></i>
+                                            المجموعة
+                                        </a>
+                                    </li>
+                                }
+                                @if (GroupMember != null)
+                                {
+                                    <li>
+                                        <a class="nav-link" asp-controller="GroupMember" asp-action="Index">
+                                            <i class="fas fa-user-plus"></i>
+                                            اعضاء المجموعة
+                                        </a>
+                                    </li>
+                                }
+                                @if (GroupMessage != null)
+                                {
+                                    <li>
+                                        <a class="nav-link" asp-controller="GroupMessage" asp-action="Index">
+                                            <i class="fas fa-comments"></i>
+                                            رسائل المجموعة
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                    @if (SystemView != null || SystemUser != null)
+                    {
+                        <li class="nav-parent">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-users-cog"></i>
+                                <span>ادارة النظام</span>
+                            </a>
+                            <ul class="nav nav-children">
+                                @if (SystemUser != null)
+                                {
+                                    <li>
+                                        <a class="nav-link" asp-controller="SystemUser" asp-action="Index">
+                                            <i class="fas fa-users-cog"></i>
+                                            مديرين النظام
+                                        </a>
+                                    </li>
+                                }
+                                @if (SystemView != null)
+                                {
+                                    <li>
+                                        <a class="nav-link" asp-controller="SystemView" asp-action="Index">
+                                            <i class="fas fa-window-restore"></i>
+                                            صفحات النظام
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
 
                 </ul>
             </nav>

@@ -150,9 +150,9 @@ namespace KSAVideoConference.AppAdmin.Controllers
 
             ViewBag.CanDelete = true;
 
-            if (id == (int)MemberTypeEnum.Member)
+            if (await _UnitOfWork.MemberTypeRepository.DeleteEntity(id))
             {
-                ViewBag.CanDelete = false;
+                ViewBag.CanDelete = true;
             }
 
             return View(MemberType);

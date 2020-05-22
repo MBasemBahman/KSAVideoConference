@@ -11,86 +11,70 @@
                 <div class="card-body">
                     <input type="hidden" asp-for="Id" />
                     <div class="form-group row">
-                        <label asp-for="Language" class="col-sm-2 control-label  pt-2"></label>
-                        <div class="col-sm-4">
-                            <input  disabled asp-for="Language.Name" class="form-control" />
-                            <span asp-validation-for="Language" class="text-danger"></span>
-                        </div>
                         <label asp-for="FullName" class="col-sm-2 control-label  pt-2"></label>
                         <div class="col-sm-4">
-                            <input  disabled asp-for="FullName" class="form-control" />
+                            <input disabled asp-for="FullName" class="form-control" />
                             <span asp-validation-for="FullName" class="text-danger"></span>
                         </div>
-                    </div>
-                    <div class="form-group row">
                         <label asp-for="Phone" class="col-sm-2 control-label  pt-2"></label>
                         <div class="col-sm-4">
-                            <input  disabled asp-for="Phone" class="form-control" />
+                            <input disabled asp-for="Phone" class="form-control" />
                             <span asp-validation-for="Phone" class="text-danger"></span>
-                        </div>
-                        <label asp-for="Token" class="col-sm-2 control-label  pt-2"></label>
-                        <div class="col-sm-4">
-                            <input  disabled asp-for="Token" class="form-control" />
-                            <span asp-validation-for="Token" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group row">
+                        <label asp-for="Language" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input disabled asp-for="Language.Name" class="form-control" />
+                            <span asp-validation-for="Language" class="text-danger"></span>
+                        </div>
                         <label asp-for="ImageURL" class="col-sm-2 control-label  pt-2"></label>
                         <div class="col-sm-4">
                             <img class="img-thumbnail" src="@Model.ImageURL" width="75">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label asp-for="AppVersion" class="col-sm-2 control-label  pt-2"></label>
+                        <label asp-for="DeviceModel" class="col-sm-2 control-label  pt-2"></label>
                         <div class="col-sm-4">
-                            <input  disabled asp-for="AppVersion" class="form-control" />
-                            <span asp-validation-for="AppVersion" class="text-danger"></span>
+                            <input disabled asp-for="DeviceModel" class="form-control" />
+                            <span asp-validation-for="DeviceModel" class="text-danger"></span>
                         </div>
                         <label asp-for="DeviceVersion" class="col-sm-2 control-label  pt-2"></label>
                         <div class="col-sm-4">
-                            <input  disabled asp-for="DeviceVersion" class="form-control" />
+                            <input disabled asp-for="DeviceVersion" class="form-control" />
                             <span asp-validation-for="DeviceVersion" class="text-danger"></span>
                         </div>
                     </div>
-
                     <div class="form-group row">
-                        <label asp-for="NotificationToken" class="col-sm-2 control-label  pt-2"></label>
+                        <label asp-for="AppVersion" class="col-sm-2 control-label  pt-2"></label>
                         <div class="col-sm-4">
-                            <input  disabled asp-for="NotificationToken" class="form-control" />
-                            <span asp-validation-for="NotificationToken" class="text-danger"></span>
+                            <input disabled asp-for="AppVersion" class="form-control" />
+                            <span asp-validation-for="AppVersion" class="text-danger"></span>
                         </div>
                         <label asp-for="IsActive" class="col-sm-2 control-label  pt-2"></label>
                         <div class="col-sm-4">
-                            <input  disabled asp-for="IsActive" class="form-control" />
+                            <input disabled asp-for="IsActive" class="form-control" />
                             <span asp-validation-for="IsActive" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label asp-for="DeviceModel" class="col-sm-2 control-label  pt-2"></label>
-                        <div class="col-sm-10">
-                            <input  disabled asp-for="DeviceModel" class="form-control" />
-                            <span asp-validation-for="DeviceModel" class="text-danger"></span>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
                         <label asp-for="LastModifiedAt" class="col-sm-2 control-label  pt-2"></label>
                         <div class="col-sm-4">
-                            <input   asp-for="LastModifiedAt" asp-format="{0:dd-MM-yyyy h:mm tt}" class="form-control" disabled>
+                            <input asp-for="LastModifiedAt" asp-format="{0:dd-MM-yyyy h:mm tt}" class="form-control" disabled>
                         </div>
                         <label asp-for="LastModifiedBy" class="col-sm-2 control-label  pt-2"></label>
                         <div class="col-sm-4">
-                            <input   asp-for="LastModifiedBy" class="form-control" disabled>
+                            <input asp-for="LastModifiedBy" class="form-control" disabled>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label asp-for="CreatedAt" class="col-sm-2 control-label  pt-2"></label>
                         <div class="col-sm-4">
-                            <input   asp-for="CreatedAt" asp-format="{0:dd-MM-yyyy h:mm tt}" class="form-control" disabled>
+                            <input asp-for="CreatedAt" asp-format="{0:dd-MM-yyyy h:mm tt}" class="form-control" disabled>
                         </div>
                         <label asp-for="CreatedBy" class="col-sm-2 control-label  pt-2"></label>
                         <div class="col-sm-4">
-                            <input   asp-for="CreatedBy" class="form-control" disabled>
+                            <input asp-for="CreatedBy" class="form-control" disabled>
                         </div>
                     </div>
                 </div>

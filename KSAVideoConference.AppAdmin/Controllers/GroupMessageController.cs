@@ -128,36 +128,7 @@ namespace KSAVideoConference.AppAdmin.Controllers
                     IFormFile files = HttpContext.Request.Form.Files["ImageFile"];
                     if (files != null)
                     {
-                        ImgManager ImgManager = new ImgManager(AppMainData.WebRootPath);
-
-                        string ImgURl = await ImgManager.UploudImageAsync(AppMainData.DomainName, GroupMessage.ToString() + "_GroupMessage_", files, "test");
-
-                        if (!string.IsNullOrEmpty(ImgURl))
-                        {
-                            if (GroupMessage.Attachment != null)
-                            {
-                                ImgManager.DeleteImage(GroupMessage.Attachment.AttachmentURL, AppMainData.DomainName);
-
-                                _UnitOfWork.AttachmentRepository.DeleteEntity(GroupMessage.Attachment);
-                                await _UnitOfWork.AttachmentRepository.SaveAsync();
-                            }
-
-
-
-
-                            Attachment attachment = new Attachment
-                            {
-                                AttachmentURL = ImgURl,
-                                Name = files.Name,
-                                Type = files.ContentType,
-                                Length = files.Length
-                            };
-
-                            GroupMessage.Attachment = attachment;
-
-                            _UnitOfWork.GroupMessageRepository.UpdateEntity(GroupMessage);
-                            await _UnitOfWork.GroupMessageRepository.SaveAsync();
-                        }
+                        await _UnitOfWork.GroupMessageRepository.UploudFile(GroupMessage, files);
                     }
                 }
                 catch (DbUpdateConcurrencyException)

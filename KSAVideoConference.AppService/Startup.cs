@@ -91,7 +91,6 @@ namespace KSAVideoConference.AppService
             }
 
             AppMainData.WebRootPath = env.ContentRootPath;
-            AppMainData.Email = "AppService@Domain.com";
 
             app.UseHttpsRedirection();
 

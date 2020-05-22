@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using KSAVideoConference.BaseRepository;
+using KSAVideoConference.CommonBL;
 using KSAVideoConference.DAL;
 using KSAVideoConference.Entity.AppModel;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,6 +49,38 @@ namespace KSAVideoConference.Repository.AppRepository
                                   .Include(a => a.User)
                                   .Include(a => a.Attachment)
                                   .FirstOrDefaultAsync();
+        }
+
+        public async Task UploudFile(GroupMessage GroupMessage, IFormFile File)
+        {
+            if (File != null)
+            {
+                ImgManager ImgManager = new ImgManager(AppMainData.WebRootPath);
+
+                Attachment Attachment = new Attachment
+                {
+                    Name = File.FileName,
+                    Type = File.ContentType,
+                    Length = File.Length
+                };
+
+                DBContext.Add(Attachment);
+                await DBContext.SaveChangesAsync();
+
+                string FileURL = await ImgManager.UploudImageAsync(AppMainData.DomainName, Attachment.Id.ToString(), File, "Uploud/Attachment");
+
+                if (!string.IsNullOrEmpty(FileURL))
+                {
+                    Attachment.AttachmentURL = FileURL;
+                    GroupMessage.Fk_Attachment = Attachment.Id;
+                    await DBContext.SaveChangesAsync();
+                }
+                else
+                {
+                    DBContext.Attachment.Remove(Attachment);
+                    await DBContext.SaveChangesAsync();
+                }
+            }
         }
     }
 }
