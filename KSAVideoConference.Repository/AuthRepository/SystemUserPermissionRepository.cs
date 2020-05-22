@@ -22,8 +22,6 @@ namespace KSAVideoConference.Repository.AuthRepository
             _Mapper = Mapper;
         }
 
-
-
         public SystemUserPermission GetUserPermission(string Email, string ViewName)
         {
             return DBContext.SystemUserPermission.Where(a => a.SystemUser.Email == Email && a.SystemView.Name == ViewName).FirstOrDefault();

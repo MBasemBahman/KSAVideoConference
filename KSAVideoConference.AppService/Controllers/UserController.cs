@@ -52,7 +52,7 @@ namespace KSAVideoConference.AppService.Controllers
             {
                 Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.Common);
 
-                if (await _UnitOfWork.UserRepository.CheckExisting(a => a.Phone.Contains(User.Phone)))
+                if (await _UnitOfWork.UserRepository.GetByPhoneAsync(User.Phone) != null)
                 {
                     Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.DuplicateNumber);
                 }
@@ -81,7 +81,7 @@ namespace KSAVideoConference.AppService.Controllers
                 Status.ExceptionMessage = ex.Message;
             }
 
-            Status.ErrorMessage = EncodeManager.Base64Encode(Status.ErrorMessage);
+            Status.ErrorMessage = _UnitOfWork.AppStaticMessageRepository.Encode(Status.ErrorMessage);
             Response.Headers.Add("X-Status", JsonSerializer.Serialize(Status));
 
             return returnData;
@@ -106,7 +106,7 @@ namespace KSAVideoConference.AppService.Controllers
                 {
                     Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.UnAuth);
                 }
-                else if (await _UnitOfWork.UserRepository.CheckExisting(a => UserDB.Phone != User.Phone && a.Phone.Contains(User.Phone) && a.Id != UserDB.Id))
+                else if (await _UnitOfWork.UserRepository.GetByPhoneAsync(UserDB.Phone, UserDB.Id) != null)
                 {
                     Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.DuplicateNumber, UserDB.Fk_Language);
                 }
@@ -133,7 +133,7 @@ namespace KSAVideoConference.AppService.Controllers
                 Status.ExceptionMessage = ex.Message;
             }
 
-            Status.ErrorMessage = EncodeManager.Base64Encode(Status.ErrorMessage);
+            Status.ErrorMessage = _UnitOfWork.AppStaticMessageRepository.Encode(Status.ErrorMessage);
             Response.Headers.Add("X-Status", JsonSerializer.Serialize(Status));
 
             return returnData;
@@ -144,7 +144,7 @@ namespace KSAVideoConference.AppService.Controllers
         /// </summary>
         [HttpPost]
         [Route(nameof(Login))]
-        public async Task<UserModel> Login([FromBody]IUserModel User)
+        public async Task<UserModel> Login([FromForm]string Phone)
         {
             UserModel returnData = new UserModel();
             Status Status = new Status();
@@ -153,7 +153,7 @@ namespace KSAVideoConference.AppService.Controllers
             {
                 Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.Common);
 
-                User UserDB = await _UnitOfWork.UserRepository.GetByPhoneAsync(User.Phone);
+                User UserDB = await _UnitOfWork.UserRepository.GetByPhoneAsync(Phone);
                 if (UserDB == null)
                 {
                     Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.UnAuth);
@@ -173,7 +173,8 @@ namespace KSAVideoConference.AppService.Controllers
                 Status.ExceptionMessage = ex.Message;
             }
 
-            Status.ErrorMessage = EncodeManager.Base64Encode(Status.ErrorMessage);
+            Status.ErrorMessage = _UnitOfWork.AppStaticMessageRepository.Encode(Status.ErrorMessage);
+
             Response.Headers.Add("X-Status", JsonSerializer.Serialize(Status));
 
             return returnData;
@@ -236,7 +237,7 @@ namespace KSAVideoConference.AppService.Controllers
                 Status.ExceptionMessage = ex.Message;
             }
 
-            Status.ErrorMessage = EncodeManager.Base64Encode(Status.ErrorMessage);
+            Status.ErrorMessage = _UnitOfWork.AppStaticMessageRepository.Encode(Status.ErrorMessage);
             Response.Headers.Add("X-Status", JsonSerializer.Serialize(Status));
 
             return PagedData;

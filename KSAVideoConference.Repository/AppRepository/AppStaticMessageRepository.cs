@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using KSAVideoConference.BaseRepository;
+using KSAVideoConference.CommonBL;
 using KSAVideoConference.DAL;
 using KSAVideoConference.Entity.AppModel;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,15 @@ namespace KSAVideoConference.Repository.AppRepository
         {
             this.DBContext = DBContext;
             _Mapper = Mapper;
+        }
+
+        public string Encode(string ErrorMessage)
+        {
+            if (!string.IsNullOrEmpty(ErrorMessage))
+            {
+                return EncodeManager.Base64Encode(ErrorMessage);
+            }
+            return ErrorMessage;
         }
 
         public async Task<List<AppStaticMessage>> GetAllAsyncIclude()
