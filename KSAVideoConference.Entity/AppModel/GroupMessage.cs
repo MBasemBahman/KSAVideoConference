@@ -22,6 +22,7 @@ namespace KSAVideoConference.Entity.AppModel
 
         [Required(ErrorMessage = "العنصر مطلوب")]
         [DataType(DataType.MultilineText)]
+        [DisplayName("الرسالة")]
         public string Message { get; set; }
 
         [ForeignKey(nameof(Attachment))]

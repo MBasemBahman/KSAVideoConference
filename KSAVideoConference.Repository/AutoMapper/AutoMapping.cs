@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using KSAVideoConference.Entity;
 using KSAVideoConference.Entity.AppModel;
 using KSAVideoConference.Entity.AuthModel;
 using KSAVideoConference.ServiceModel.AppModel;
@@ -28,6 +29,83 @@ namespace KSAVideoConference.Repository.AutoMapper
             CreateMap<SystemView, SystemView>()
                .ForMember(dest => dest.Id, opt => opt.Ignore())
                .ForMember(dest => dest.SystemUserPermissions, opt => opt.Ignore())
+               .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+               .ForMember(dest => dest.CreatedBy, opt => opt.Ignore());
+            
+            CreateMap<MemberType, MemberType>()
+               .ForMember(dest => dest.Id, opt => opt.Ignore())
+               .ForMember(dest => dest.GroupMembers, opt => opt.Ignore())
+               .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+               .ForMember(dest => dest.CreatedBy, opt => opt.Ignore());
+            
+            CreateMap<Language, Language>()
+               .ForMember(dest => dest.Id, opt => opt.Ignore())
+               .ForMember(dest => dest.AppStaticMessageLangs, opt => opt.Ignore())
+               .ForMember(dest => dest.AppStaticWordLangs, opt => opt.Ignore())
+               .ForMember(dest => dest.Users, opt => opt.Ignore())
+               .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+               .ForMember(dest => dest.CreatedBy, opt => opt.Ignore());
+            
+            CreateMap<GroupMember, GroupMember>()
+               .ForMember(dest => dest.Id, opt => opt.Ignore())
+               .ForMember(dest => dest.Group, opt => opt.Ignore())
+               .ForMember(dest => dest.User, opt => opt.Ignore())
+               .ForMember(dest => dest.MemberType, opt => opt.Ignore())
+               .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+               .ForMember(dest => dest.CreatedBy, opt => opt.Ignore());
+
+            CreateMap<AppStaticMessage, AppStaticMessage>()
+               .ForMember(dest => dest.Id, opt => opt.Ignore())
+               .ForMember(dest => dest.AppStaticMessageLangs, opt => opt.Ignore())
+               .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+               .ForMember(dest => dest.CreatedBy, opt => opt.Ignore());
+
+            CreateMap<AppStaticMessageLang, AppStaticMessageLang>()
+               .ForMember(dest => dest.Id, opt => opt.Ignore())
+               .ForMember(dest => dest.Fk_Source, opt => opt.Ignore())
+               .ForMember(dest => dest.Fk_Language, opt => opt.Ignore())
+               .ForMember(dest => dest.Source, opt => opt.Ignore())
+               .ForMember(dest => dest.Language, opt => opt.Ignore())
+               .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+               .ForMember(dest => dest.CreatedBy, opt => opt.Ignore());
+
+            CreateMap<AppStaticWord, AppStaticWord>()
+               .ForMember(dest => dest.Id, opt => opt.Ignore())
+               .ForMember(dest => dest.AppStaticWordLangs, opt => opt.Ignore())
+               .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+               .ForMember(dest => dest.CreatedBy, opt => opt.Ignore());
+
+            CreateMap<AppStaticWordLang, AppStaticWordLang>()
+               .ForMember(dest => dest.Id, opt => opt.Ignore())
+               .ForMember(dest => dest.Fk_Source, opt => opt.Ignore())
+               .ForMember(dest => dest.Fk_Language, opt => opt.Ignore())
+               .ForMember(dest => dest.Source, opt => opt.Ignore())
+               .ForMember(dest => dest.Language, opt => opt.Ignore())
+               .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+               .ForMember(dest => dest.CreatedBy, opt => opt.Ignore());
+
+            CreateMap<GroupMessage, GroupMessage>()
+               .ForMember(dest => dest.Id, opt => opt.Ignore())
+               .ForMember(dest => dest.User, opt => opt.Ignore())
+               .ForMember(dest => dest.Group, opt => opt.Ignore())
+               .ForMember(dest => dest.Attachment, opt => opt.Ignore())
+               .ForMember(dest => dest.Fk_Attachment, opt => opt.Ignore())
+               .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+               .ForMember(dest => dest.CreatedBy, opt => opt.Ignore());
+
+            CreateMap<Attachment, Attachment>()
+               .ForMember(dest => dest.Id, opt => opt.Ignore())
+               .ForMember(dest => dest.AttachmentURL, opt => opt.Ignore())
+               .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+               .ForMember(dest => dest.CreatedBy, opt => opt.Ignore());
+            
+            
+            CreateMap<Group, Group>()
+               .ForMember(dest => dest.Id, opt => opt.Ignore())
+               .ForMember(dest => dest.LogoURL, opt => opt.Ignore())
+               .ForMember(dest => dest.Creator, opt => opt.Ignore())
+               .ForMember(dest => dest.GroupMembers, opt => opt.Ignore())
+               .ForMember(dest => dest.GroupMessages, opt => opt.Ignore())
                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
                .ForMember(dest => dest.CreatedBy, opt => opt.Ignore());
 

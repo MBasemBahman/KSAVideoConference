@@ -14,6 +14,6 @@ namespace KSAVideoConference.Entity.AppModel
         [DisplayName("القيمه")]
         public string Value { get; set; }
 
-        public ICollection<AppStaticMessageLang> AppStaticWordLangs { get; set; }
+        public ICollection<AppStaticMessageLang> AppStaticMessageLangs { get; set; }
     }
 }
