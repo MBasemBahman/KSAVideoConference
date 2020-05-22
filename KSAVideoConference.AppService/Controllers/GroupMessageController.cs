@@ -6,7 +6,6 @@ using KSAVideoConference.Entity.AppModel;
 using KSAVideoConference.Repository;
 using KSAVideoConference.ServiceModel;
 using KSAVideoConference.ServiceModel.AppModel;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;

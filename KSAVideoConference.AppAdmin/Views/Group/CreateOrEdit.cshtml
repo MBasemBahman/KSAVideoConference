@@ -20,15 +20,15 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="Group.Id" />
                     <div class="form-group row">
-                        <label asp-for="Group.Creator" class="col-sm-2 control-label  pt-2"></label>
-                        <div class="col-sm-4">
-                            <select asp-for="Group.Fk_Creator" class="form-control" asp-items="@(new SelectList(await _UnitOfWork.UserRepository.GetAllAsync(),"Id","FullName"))"></select>
-                            <span asp-validation-for="Group.Fk_Creator" class="text-danger"></span>
-                        </div>
                         <label asp-for="Group.Name" class="col-sm-2 control-label  pt-2"></label>
                         <div class="col-sm-4">
                             <input asp-for="Group.Name" class="form-control" />
                             <span asp-validation-for="Group.Name" class="text-danger"></span>
+                        </div>
+                        <label asp-for="Group.Creator" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <select asp-for="Group.Fk_Creator" class="form-control" asp-items="@(new SelectList(await _UnitOfWork.UserRepository.GetAllAsync(),"Id","FullName"))"></select>
+                            <span asp-validation-for="Group.Fk_Creator" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -46,11 +46,6 @@
                     @{await Html.RenderPartialAsync("PartialComponent/ImageUpload", new ImageViewModel { LabelName = "الصورة" });}
 
                     <div class="form-group row">
-                        <label asp-for="Group.SessionId" class="col-sm-2 control-label  pt-2"></label>
-                        <div class="col-sm-4">
-                            <input asp-for="Group.SessionId" class="form-control" />
-                            <span asp-validation-for="Group.SessionId" class="text-danger"></span>
-                        </div>
                         <label asp-for="Group.IsActive" class="col-sm-2 control-label  pt-2"></label>
                         <div class="col-sm-4">
                             <input asp-for="Group.IsActive" class="form-control" />

@@ -4,10 +4,14 @@
     @Html.DisplayFor(modelItem => Model.Id)
 </td>
 <td>
-    @Html.DisplayFor(modelItem => Model.User.FullName)
+    <a asp-action="Index" asp-controller="User" asp-all-route-data="@(new Dictionary<string, string> { { "Id", Model.Fk_User.ToString() } })" target="_blank">
+        @Html.DisplayFor(modelItem => Model.User.FullName)
+    </a>
 </td>
 <td>
-    @Html.DisplayFor(modelItem => Model.Group.Name)
+    <a asp-action="Index" asp-controller="Group" asp-all-route-data="@(new Dictionary<string, string> { { "Id", Model.Fk_Group.ToString() } })" target="_blank">
+        @Html.DisplayFor(modelItem => Model.Group.Name)
+    </a>
 </td>
 <td>
     @Html.DisplayFor(modelItem => Model.MemberType.Name)

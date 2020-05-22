@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using KSAVideoConference.AppAdmin.Filters;
-using KSAVideoConference.AppAdmin.Services;
 using KSAVideoConference.AppAdmin.ViewModel;
 using KSAVideoConference.CommonBL;
 using KSAVideoConference.DAL;
@@ -24,27 +23,22 @@ namespace KSAVideoConference.AppAdmin.Controllers
         private readonly DataContext _DBContext;
         private readonly AppUnitOfWork _UnitOfWork;
         private readonly IMapper _Mapper;
-        private readonly AppSetting _AppSetting;
-
-
-        public GroupController(ILogger<GroupController> logger, DataContext DBContext, AppUnitOfWork UnitOfWork, IMapper Mapper, AppSetting AppSetting)
+        public GroupController(ILogger<GroupController> logger, DataContext DBContext, AppUnitOfWork UnitOfWork, IMapper Mapper)
         {
             _logger = logger;
             _DBContext = DBContext;
             _UnitOfWork = UnitOfWork;
             _Mapper = Mapper;
-            _AppSetting = AppSetting;
-
         }
         // GET: Group
         [Authorize((int)AccessLevelEnum.ViewAccess)]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int id = 0, int Fk_User = 0)
         {
             if (_UnitOfWork.ControlLevelRepository.GetControlLevel() == (int)ControlLevelEnum.Owner)
             {
-                return View(await _UnitOfWork.GroupRepository.GetAllAsyncIclude(AppMainData.Email));
+                return View(await _UnitOfWork.GroupRepository.GetAllAsyncIclude(id, Fk_User, AppMainData.Email));
             }
-            return View(await _UnitOfWork.GroupRepository.GetAllAsyncIclude());
+            return View(await _UnitOfWork.GroupRepository.GetAllAsyncIclude(id, Fk_User));
         }
 
         // GET: Group/Details/5
@@ -112,6 +106,8 @@ namespace KSAVideoConference.AppAdmin.Controllers
                             Group.GroupMembers = new List<GroupMember>();
                             Group = AddGroupMembers(Group, SelectedGroupMembers);
                         }
+
+                        Group.SessionId = await OpenTokManager.CreateSessionId();
 
                         _UnitOfWork.GroupRepository.CreateEntityAsync(Group);
                         await _UnitOfWork.GroupRepository.SaveAsync();
@@ -196,6 +192,7 @@ namespace KSAVideoConference.AppAdmin.Controllers
         }
         public Group AddGroupMembers(Group Group, List<int> SelectedAcountDevice)
         {
+            SelectedAcountDevice = SelectedAcountDevice.Where(a => a != Group.Fk_Creator).ToList();
             foreach (int Fk_User in SelectedAcountDevice)
             {
                 Group.GroupMembers.Add(new GroupMember

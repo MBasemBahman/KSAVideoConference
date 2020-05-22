@@ -24,24 +24,14 @@ namespace KSAVideoConference.Repository.AppRepository
             _Mapper = Mapper;
         }
 
-        public async Task<List<User>> GetAllAsyncIclude(string CreatedBy)
-        {
-            return await DBContext.User.Where(a => a.CreatedBy == CreatedBy)
-                                  .Include(a => a.Groups)
-                                  .Include(a => a.GroupMembers)
-                                  .Include(a => a.GroupMessages)
-                                  .Include(a => a.MyUserContacts)
-                                  .Include(a => a.MeInUserContacts)
-                                  .Include(a => a.Language)
-                                  .ToListAsync();
-        }
         public async Task<List<User>> GetAllAsyncIclude(int Id = 0, int Fk_User = 0, int Fk_Contact = 0,
-                                                        int Fk_Group = 0, int Fk_JoinGroup = 0)
+                                                        int Fk_Group = 0, int Fk_JoinGroup = 0, string CreatedBy = null)
         {
             return await DBContext.User
                                   .Where(a => Id == 0 ? true : a.Id == Id)
-                                  .Where(a => Fk_User == 0 ? true : a.MyUserContacts.Any(b => b.Fk_User == Fk_User))
-                                  .Where(a => Fk_Contact == 0 ? true : a.MeInUserContacts.Any(b => b.Fk_Contact == Fk_Contact))
+                                  .Where(a => string.IsNullOrEmpty(CreatedBy) ? true : a.CreatedBy == CreatedBy)
+                                  .Where(a => Fk_User == 0 ? true : a.MeInUserContacts.Any(b => b.Fk_User == Fk_User))
+                                  .Where(a => Fk_Contact == 0 ? true : a.MyUserContacts.Any(b => b.Fk_Contact == Fk_Contact))
                                   .Where(a => Fk_Group == 0 ? true : a.Groups.Any(b => b.Id == Fk_Group))
                                   .Where(a => Fk_JoinGroup == 0 ? true : a.GroupMembers.Any(b => b.Fk_Group == Fk_JoinGroup))
                                   .Include(a => a.Groups)

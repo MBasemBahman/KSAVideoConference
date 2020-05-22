@@ -22,19 +22,12 @@ namespace KSAVideoConference.Repository.AppRepository
             _Mapper = Mapper;
         }
 
-        public async Task<List<GroupMessage>> GetAllAsyncIclude(string CreatedBy)
+        public async Task<List<GroupMessage>> GetAllAsyncIclude(int Fk_Group = 0, int Fk_User = 0, string CreatedBy = null)
         {
             return await DBContext.GroupMessage
-                                  .Where(a => a.CreatedBy == CreatedBy)
-                                  .Include(a => a.Group)
-                                  .Include(a => a.User)
-                                  .Include(a => a.Attachment)
-                                  .ToListAsync();
-
-        }
-        public async Task<List<GroupMessage>> GetAllAsyncIclude()
-        {
-            return await DBContext.GroupMessage
+                                  .Where(a => string.IsNullOrEmpty(CreatedBy) ? true : a.CreatedBy == CreatedBy)
+                                  .Where(a => Fk_Group == 0 ? true : a.Fk_Group == Fk_Group)
+                                  .Where(a => Fk_User == 0 ? true : a.Fk_User == Fk_User)
                                   .Include(a => a.Group)
                                   .Include(a => a.User)
                                   .Include(a => a.Attachment)

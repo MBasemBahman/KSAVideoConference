@@ -11,15 +11,15 @@
                 <div class="card-body">
                     <input type="hidden" asp-for="Id" />
                     <div class="form-group row">
-                        <label asp-for="Creator" class="col-sm-2 control-label  pt-2"></label>
-                        <div class="col-sm-4">
-                            <input disabled asp-for="Creator.FullName" class="form-control" />
-                            <span asp-validation-for="Fk_Creator" class="text-danger"></span>
-                        </div>
                         <label asp-for="Name" class="col-sm-2 control-label  pt-2"></label>
                         <div class="col-sm-4">
                             <input disabled asp-for="Name" class="form-control" />
                             <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <label asp-for="Creator" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <input disabled asp-for="Creator.FullName" class="form-control" />
+                            <span asp-validation-for="Fk_Creator" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -35,10 +35,9 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label asp-for="SessionId" class="col-sm-2 control-label  pt-2"></label>
+                        <label asp-for="LogoURL" class="col-sm-2 control-label  pt-2"></label>
                         <div class="col-sm-4">
-                            <input disabled asp-for="SessionId" class="form-control" />
-                            <span asp-validation-for="SessionId" class="text-danger"></span>
+                            <img class="img-thumbnail" src="@Model.LogoURL" width="75">
                         </div>
                         <label asp-for="IsActive" class="col-sm-2 control-label  pt-2"></label>
                         <div class="col-sm-4">
@@ -46,13 +45,6 @@
                             <span asp-validation-for="IsActive" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label asp-for="LogoURL" class="col-sm-2 control-label  pt-2"></label>
-                        <div class="col-sm-4">
-                            <img class="img-thumbnail" src="@Model.LogoURL" width="75">
-                        </div>
-                    </div>
-
                     <div class="form-group row">
                         <label asp-for="LastModifiedAt" class="col-sm-2 control-label  pt-2"></label>
                         <div class="col-sm-4">

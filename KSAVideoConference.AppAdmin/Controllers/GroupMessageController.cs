@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using KSAVideoConference.AppAdmin.Filters;
-using KSAVideoConference.AppAdmin.Services;
 using KSAVideoConference.CommonBL;
 using KSAVideoConference.DAL;
 using KSAVideoConference.Entity.AppModel;
@@ -21,29 +20,25 @@ namespace KSAVideoConference.AppAdmin.Controllers
         private readonly DataContext _DBContext;
         private readonly AppUnitOfWork _UnitOfWork;
         private readonly IMapper _Mapper;
-        private readonly AppSetting _AppSetting;
 
-
-        public GroupMessageController(ILogger<GroupMessageController> logger, DataContext DBContext, AppUnitOfWork UnitOfWork, IMapper Mapper, AppSetting AppSetting)
+        public GroupMessageController(ILogger<GroupMessageController> logger, DataContext DBContext, AppUnitOfWork UnitOfWork, IMapper Mapper)
         {
             _logger = logger;
             _DBContext = DBContext;
             _UnitOfWork = UnitOfWork;
             _Mapper = Mapper;
-            _AppSetting = AppSetting;
-
         }
 
         // GET: GroupMessage
         [Authorize((int)AccessLevelEnum.ViewAccess)]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int Fk_Group = 0, int Fk_User = 0)
         {
             if (_UnitOfWork.ControlLevelRepository.GetControlLevel() == (int)ControlLevelEnum.Owner)
             {
-                return View(await _UnitOfWork.GroupMessageRepository.GetAllAsyncIclude(AppMainData.Email));
+                return View(await _UnitOfWork.GroupMessageRepository.GetAllAsyncIclude(Fk_Group, Fk_User, AppMainData.Email));
             }
 
-            return View(await _UnitOfWork.GroupMessageRepository.GetAllAsyncIclude());
+            return View(await _UnitOfWork.GroupMessageRepository.GetAllAsyncIclude(Fk_Group, Fk_User));
         }
 
         // GET: GroupMessage/Details/5

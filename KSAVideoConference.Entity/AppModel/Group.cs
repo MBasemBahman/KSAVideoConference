@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using KSAVideoConference.CommonBL;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,7 +15,7 @@ namespace KSAVideoConference.Entity.AppModel
         [DisplayName("شعار المجموعه")]
         [DataType(DataType.ImageUrl)]
         [Url]
-        public string LogoURL { get; set; }
+        public string LogoURL { get; set; } = AppMainData.DomainName;
 
         [DisplayName("العدد الأقصى للمجموعة")]
         public int MaxGroupCount { get; set; } = 100;
@@ -24,7 +25,7 @@ namespace KSAVideoConference.Entity.AppModel
 
         [Required(ErrorMessage = "العنصر مطلوب")]
         [DisplayName("معرف جلسة البث")]
-        public string SessionId { get; set; }
+        public string SessionId { get; set; } = ".";
 
         [DisplayName("التنشيط")]
         public bool IsActive { get; set; } = true;

@@ -107,6 +107,7 @@ namespace KSAVideoConference.Repository.AutoMapper
                .ForMember(dest => dest.Id, opt => opt.Ignore())
                .ForMember(dest => dest.LogoURL, opt => opt.Ignore())
                .ForMember(dest => dest.Creator, opt => opt.Ignore())
+               .ForMember(dest => dest.SessionId, opt => opt.Ignore())
                .ForMember(dest => dest.GroupMembers, opt => opt.Ignore())
                .ForMember(dest => dest.GroupMessages, opt => opt.Ignore())
                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())

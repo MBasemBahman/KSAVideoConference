@@ -4,24 +4,24 @@
 }
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <section class="card card-featured-left card-featured-primary mb-4">
             <div class="card-body">
                 <div class="widget-summary widget-summary-xlg">
                     <div class="widget-summary-col widget-summary-col-icon">
                         <div class="summary-icon bg-primary">
-                            <i class="fas fa-medal"></i>
+                            <i class="fas fa-users"></i>
                         </div>
                     </div>
                     <div class="widget-summary-col">
                         <div class="summary">
-                            <h4 class="title">Active Clients</h4>
+                            <h4 class="title">المستخدمين</h4>
                             <div class="info">
-                                <strong class="amount">@Model.ActiveRestaurant</strong>
+                                <strong class="amount">@Model.User</strong>
                             </div>
                         </div>
                         <div class="summary-footer">
-                            <a class="text-muted text-uppercase" asp-action="Index" asp-controller="Restaurant">(view all)</a>
+                            <a class="text-muted text-uppercase" asp-action="Index" asp-controller="User">(view all)</a>
                         </div>
                     </div>
                 </div>
@@ -29,24 +29,24 @@
         </section>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-6">
         <section class="card card-featured-left card-featured-primary mb-4">
             <div class="card-body">
                 <div class="widget-summary widget-summary-xlg">
                     <div class="widget-summary-col widget-summary-col-icon">
                         <div class="summary-icon bg-primary">
-                            <i class="fas fa-medal"></i>
+                            <i class="fas fa-layer-group"></i>
                         </div>
                     </div>
                     <div class="widget-summary-col">
                         <div class="summary">
-                            <h4 class="title">Pending Clients</h4>
+                            <h4 class="title">المجموعات</h4>
                             <div class="info">
-                                <strong class="amount">@Model.PendingRestaurant</strong>
+                                <strong class="amount">@Model.Group</strong>
                             </div>
                         </div>
                         <div class="summary-footer">
-                            <a class="text-muted text-uppercase" asp-action="Index" asp-controller="Restaurant">(view all)</a>
+                            <a class="text-muted text-uppercase" asp-action="Index" asp-controller="Group">(view all)</a>
                         </div>
                     </div>
                 </div>
@@ -54,178 +54,28 @@
         </section>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-12">
         <section class="card card-featured-left card-featured-primary mb-4">
             <div class="card-body">
                 <div class="widget-summary widget-summary-xlg">
                     <div class="widget-summary-col widget-summary-col-icon">
                         <div class="summary-icon bg-primary">
-                            <i class="fas fa-medal"></i>
+                            <i class="fas fa-user-plus"></i>
                         </div>
                     </div>
                     <div class="widget-summary-col">
                         <div class="summary">
-                            <h4 class="title">Blocked Clients</h4>
+                            <h4 class="title">متوسط عدد الاعضاء  فى المجموعه</h4>
                             <div class="info">
-                                <strong class="amount">@Model.BlockRestaurant</strong>
+                                <strong class="amount">@Model.AvgGroupMember</strong>
                             </div>
                         </div>
                         <div class="summary-footer">
-                            <a class="text-muted text-uppercase" asp-action="Index" asp-controller="Restaurant">(view all)</a>
+                            <a class="text-muted text-uppercase" asp-action="Index" asp-controller="GroupMember">(view all)</a>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
     </div>
-
-    <div class="col-md-4">
-        <section class="card card-featured-left card-featured-primary mb-4">
-            <div class="card-body">
-                <div class="widget-summary widget-summary-xlg">
-                    <div class="widget-summary-col widget-summary-col-icon">
-                        <div class="summary-icon bg-primary">
-                            <i class="far fa-address-book"></i>
-                        </div>
-                    </div>
-                    <div class="widget-summary-col">
-                        <div class="summary">
-                            <h4 class="title">Total Categories</h4>
-                            <div class="info">
-                                <strong class="amount">@Model.FoodCategory</strong>
-                            </div>
-                        </div>
-                        <div class="summary-footer">
-                            <a class="text-muted text-uppercase" asp-action="Index" asp-controller="FoodCategory">(view all)</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <div class="col-md-4">
-        <section class="card card-featured-left card-featured-primary mb-4">
-            <div class="card-body">
-                <div class="widget-summary widget-summary-xlg">
-                    <div class="widget-summary-col widget-summary-col-icon">
-                        <div class="summary-icon bg-primary">
-                            <i class="fas fa-map-marked-alt"></i>
-                        </div>
-                    </div>
-                    <div class="widget-summary-col">
-                        <div class="summary">
-                            <h4 class="title">Total Areas</h4>
-                            <div class="info">
-                                <strong class="amount">@Model.Area</strong>
-                            </div>
-                        </div>
-                        <div class="summary-footer">
-                            <a class="text-muted text-uppercase" asp-action="Index" asp-controller="Area">(view all)</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <div class="col-md-4">
-        <section class="card card-featured-left card-featured-primary mb-4">
-            <div class="card-body">
-                <div class="widget-summary widget-summary-xlg">
-                    <div class="widget-summary-col widget-summary-col-icon">
-                        <div class="summary-icon bg-primary">
-                            <i class="fas fa-archive"></i>
-                        </div>
-                    </div>
-                    <div class="widget-summary-col">
-                        <div class="summary">
-                            <h4 class="title">Total Packages</h4>
-                            <div class="info">
-                                <strong class="amount">@Model.Package</strong>
-                            </div>
-                        </div>
-                        <div class="summary-footer">
-                            <a class="text-muted text-uppercase" asp-action="Index" asp-controller="Package">(view all)</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <div class="col-md-4">
-        <section class="card card-featured-left card-featured-primary mb-4">
-            <div class="card-body">
-                <div class="widget-summary widget-summary-xlg">
-                    <div class="widget-summary-col widget-summary-col-icon">
-                        <div class="summary-icon bg-primary">
-                            <i class="fas fa-images"></i>
-                        </div>
-                    </div>
-                    <div class="widget-summary-col">
-                        <div class="summary">
-                            <h4 class="title">Total Gallary Images</h4>
-                            <div class="info">
-                                <strong class="amount">@Model.Gallary</strong>
-                            </div>
-                        </div>
-                        <div class="summary-footer">
-                            <a class="text-muted text-uppercase" asp-action="Index" asp-controller="SystemUser">(view all)</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <div class="col-md-4">
-        <section class="card card-featured-left card-featured-primary mb-4">
-            <div class="card-body">
-                <div class="widget-summary widget-summary-xlg">
-                    <div class="widget-summary-col widget-summary-col-icon">
-                        <div class="summary-icon bg-primary">
-                            <i class="fas fa-file-image"></i>
-                        </div>
-                    </div>
-                    <div class="widget-summary-col">
-                        <div class="summary">
-                            <h4 class="title">Total Product Images</h4>
-                            <div class="info">
-                                <strong class="amount">@Model.Menu</strong>
-                            </div>
-                        </div>
-                        <div class="summary-footer">
-                            <a class="text-muted text-uppercase" asp-action="Index" asp-controller="SystemUser">(view all)</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-    <div class="col-md-4">
-        <section class="card card-featured-left card-featured-primary mb-4">
-            <div class="card-body">
-                <div class="widget-summary widget-summary-xlg">
-                    <div class="widget-summary-col widget-summary-col-icon">
-                        <div class="summary-icon bg-primary">
-                            <i class="fas fa-bell"></i>
-                        </div>
-                    </div>
-                    <div class="widget-summary-col">
-                        <div class="summary">
-                            <h4 class="title">Total Notifications</h4>
-                            <div class="info">
-                                <strong class="amount">@Model.Notification</strong>
-                            </div>
-                        </div>
-                        <div class="summary-footer">
-                            <a class="text-muted text-uppercase" asp-action="Index" asp-controller="Notification">(view all)</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-
 </div>

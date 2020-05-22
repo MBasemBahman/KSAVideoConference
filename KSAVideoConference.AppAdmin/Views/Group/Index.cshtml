@@ -28,12 +28,12 @@
                             <th>@Html.DisplayNameFor(model => model.Id)</th>
                             <th>@Html.DisplayNameFor(model => model.Name)</th>
                             <th>@Html.DisplayNameFor(model => model.LogoURL)</th>
+                            <th>@Html.DisplayNameFor(model => model.Creator)</th>
                             <th>@Html.DisplayNameFor(model => model.MaxGroupCount)</th>
                             <th>@Html.DisplayNameFor(model => model.MaxStreamCount)</th>
-                            <th>@Html.DisplayNameFor(model => model.SessionId)</th>
-                            <th>@Html.DisplayNameFor(model => model.IsActive)</th>
-                            <th>@Html.DisplayNameFor(model => model.Creator)</th>
                             <th>@Html.DisplayNameFor(model => model.GroupMembers)</th>
+                            <th>@Html.DisplayNameFor(model => model.GroupMessages)</th>
+                            <th>@Html.DisplayNameFor(model => model.IsActive)</th>
                             <th>
                                 @if (ControlAccess)
                                 {
@@ -100,7 +100,7 @@
 
     <script>
         $(document).ready(function () {
-            $('#datatable-tabletools').on('click', '.Displaybtn',function () {
+            $('#datatable-tabletools').on('click', '.Displaybtn', function () {
                 event.preventDefault();
                 var href = $(this).attr('href');
                 $('#Display').load(href);

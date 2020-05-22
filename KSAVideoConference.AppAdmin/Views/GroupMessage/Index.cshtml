@@ -30,13 +30,6 @@
                             <th>@Html.DisplayNameFor(model => model.Group)</th>
                             <th>@Html.DisplayNameFor(model => model.Attachment)</th>
                             <th>
-                                @if (ControlAccess)
-                                {
-                                    <a asp-action="CreateOrEdit" class="btn btn-outline-primary a-btn-slide-text">
-                                        <i class="fas fa-plus-circle"></i>
-                                        <span><strong>Create New</strong></span>
-                                    </a>
-                                }
                             </th>
                         </tr>
                     </thead>
@@ -49,12 +42,6 @@
                                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-success a-btn-slide-text Displaybtn">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    @if (ControlAccess)
-                                    {
-                                        <a asp-action="CreateOrEdit" asp-route-id="@item.Id" class="btn btn-outline-primary a-btn-slide-text">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                    }
                                     @if (FullAccess)
                                     {
                                         <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger a-btn-slide-text Displaybtn">

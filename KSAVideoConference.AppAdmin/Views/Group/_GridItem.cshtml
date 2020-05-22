@@ -12,21 +12,27 @@
     </a>
 </td>
 <td>
+    <a asp-action="Index" asp-controller="User" asp-all-route-data="@(new Dictionary<string, string> { { "Id", Model.Creator.Id.ToString() } })" target="_blank">
+        @Html.DisplayFor(modelItem => Model.Creator.FullName)
+    </a>
+</td>
+<td>
     @Html.DisplayFor(modelItem => Model.MaxGroupCount)
 </td>
 <td>
     @Html.DisplayFor(modelItem => Model.MaxStreamCount)
 </td>
 <td>
-    @Html.DisplayFor(modelItem => Model.SessionId)
+    <a asp-action="Index" asp-controller="GroupMember" asp-all-route-data="@(new Dictionary<string, string> { { "Fk_Group", Model.Id.ToString() } })" target="_blank">
+        @Html.DisplayFor(modelItem => Model.GroupMembers.Count)
+    </a>
+</td>
+<td>
+    <a asp-action="Index" asp-controller="GroupMessage" asp-all-route-data="@(new Dictionary<string, string> { { "Fk_Group", Model.Id.ToString() } })" target="_blank">
+        @Html.DisplayFor(modelItem => Model.GroupMessages.Count)
+    </a>
 </td>
 <td>
     @Html.DisplayFor(modelItem => Model.IsActive)
-</td>
-<td>
-    @Html.DisplayFor(modelItem => Model.Creator.FullName)
-</td>
-<td>
-    @Html.DisplayFor(modelItem => Model.GroupMembers.Count)
 </td>
 

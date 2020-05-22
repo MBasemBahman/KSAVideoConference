@@ -7,7 +7,9 @@ using KSAVideoConference.Entity.AppModel;
 using KSAVideoConference.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 using System.Threading.Tasks;
 using static KSAVideoConference.CommonBL.EnumModel;
 
@@ -31,14 +33,14 @@ namespace KSAVideoConference.AppAdmin.Controllers
 
         // GET: GroupMember
         [Authorize((int)AccessLevelEnum.ViewAccess)]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int Fk_Group = 0, int Fk_User = 0)
         {
             if (_UnitOfWork.ControlLevelRepository.GetControlLevel() == (int)ControlLevelEnum.Owner)
             {
-                return View(await _UnitOfWork.GroupMemberRepository.GetAllAsync(AppMainData.Email));
+                return View(await _UnitOfWork.GroupMemberRepository.GetAllAsyncIclude(Fk_Group, Fk_User, AppMainData.Email));
             }
 
-            return View(await _UnitOfWork.GroupMemberRepository.GetAllAsyncIclude());
+            return View(await _UnitOfWork.GroupMemberRepository.GetAllAsyncIclude(Fk_Group, Fk_User));
         }
 
         // GET: GroupMember/Details/5
@@ -100,8 +102,15 @@ namespace KSAVideoConference.AppAdmin.Controllers
                 {
                     if (id == 0)
                     {
-                        _UnitOfWork.GroupMemberRepository.CreateEntityAsync(GroupMember);
-                        await _UnitOfWork.GroupMemberRepository.SaveAsync();
+                        Group Group = await _UnitOfWork.GroupRepository.GetByIDAsync(GroupMember.Fk_Group);
+                        if (Group.Fk_Creator != GroupMember.Fk_User)
+                        {
+                            if (!_DBContext.GroupMember.Any(a => a.Fk_User == GroupMember.Fk_User && a.Fk_Group == GroupMember.Fk_Group))
+                            {
+                                _UnitOfWork.GroupMemberRepository.CreateEntityAsync(GroupMember);
+                                await _UnitOfWork.GroupMemberRepository.SaveAsync();
+                            }
+                        }
                     }
                     else
                     {
@@ -112,6 +121,11 @@ namespace KSAVideoConference.AppAdmin.Controllers
                             return View(AppMainData.UnAuthorized);
                         }
 
+                        if (Data.Group.Fk_Creator == GroupMember.Fk_User ||
+                            !_DBContext.GroupMember.Any(a => a.Fk_User == GroupMember.Fk_User && a.Fk_Group == GroupMember.Fk_Group && a.Id == Data.Id))
+                        {
+                            GroupMember.Fk_User = Data.Fk_User;
+                        }
                         _Mapper.Map(GroupMember, Data);
 
                         _UnitOfWork.GroupMemberRepository.UpdateEntity(Data);
@@ -150,11 +164,6 @@ namespace KSAVideoConference.AppAdmin.Controllers
             }
 
             ViewBag.CanDelete = true;
-
-            //if (id == (int)GroupMemberEnum.Arabic || id == (int)GroupMemberEnum.English)
-            //{
-            //    ViewBag.CanDelete = false;
-            //}
 
             return View(GroupMember);
         }

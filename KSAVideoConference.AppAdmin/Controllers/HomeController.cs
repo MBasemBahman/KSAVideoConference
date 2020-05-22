@@ -1,9 +1,12 @@
 ﻿using KSAVideoConference.AppAdmin.Filters;
 using KSAVideoConference.AppAdmin.Models;
+using KSAVideoConference.AppAdmin.Services;
 using KSAVideoConference.AppAdmin.ViewModel;
+using KSAVideoConference.DAL;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using System.Linq;
 using static KSAVideoConference.CommonBL.EnumModel;
 
 namespace KSAVideoConference.AppAdmin.Controllers
@@ -11,16 +14,25 @@ namespace KSAVideoConference.AppAdmin.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly DataContext _DBContext;
+        private readonly AppSetting _AppSetting;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, DataContext DBContext, AppSetting AppSetting)
         {
             _logger = logger;
+            _DBContext = DBContext;
+            _AppSetting = AppSetting;
         }
 
         [Authorize((int)AccessLevelEnum.ViewAccess)]
         public IActionResult Index()
         {
-            var Home = new HomeViewModel();
+            HomeViewModel Home = new HomeViewModel
+            {
+                Group = _DBContext.Group.Count(),
+                User = _DBContext.User.Count(),
+                AvgGroupMember = _DBContext.GroupMember.Count() / _DBContext.Group.Count()
+            };
             return View(Home);
         }
 

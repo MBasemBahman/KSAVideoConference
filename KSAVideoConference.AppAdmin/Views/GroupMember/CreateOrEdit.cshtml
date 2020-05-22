@@ -25,17 +25,18 @@
                             <select asp-for="Fk_User" class="form-control" asp-items="@(new SelectList(await _UnitOfWork.UserRepository.GetAllAsync(),"Id","FullName"))"></select>
                             <span asp-validation-for="Fk_User" class="text-danger"></span>
                         </div>
-                        <label asp-for="MemberType" class="col-sm-2 control-label  pt-2"></label>
-                        <div class="col-sm-4">
-                            <select asp-for="Fk_MemberType" class="form-control" asp-items="@(new SelectList(await _UnitOfWork.MemberTypeRepository.GetAllAsync(),"Id","Name"))"></select>
-                            <span asp-validation-for="Fk_MemberType" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="form-group row">
                         <label asp-for="Group" class="col-sm-2 control-label  pt-2"></label>
                         <div class="col-sm-4">
                             <select asp-for="Fk_Group" class="form-control" asp-items="@(new SelectList(await _UnitOfWork.GroupRepository.GetAllAsync(),"Id","Name"))"></select>
                             <span asp-validation-for="Fk_Group" class="text-danger"></span>
+                        </div>
+                        
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="MemberType" class="col-sm-2 control-label  pt-2"></label>
+                        <div class="col-sm-4">
+                            <select asp-for="Fk_MemberType" class="form-control" asp-items="@(new SelectList(await _UnitOfWork.MemberTypeRepository.GetAllAsync(),"Id","Name"))"></select>
+                            <span asp-validation-for="Fk_MemberType" class="text-danger"></span>
                         </div>
                         <label asp-for="IsActive" class="col-sm-2 control-label  pt-2"></label>
                         <div class="col-sm-4">
