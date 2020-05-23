@@ -20,16 +20,11 @@ namespace KSAVideoConference.CommonBL
             return sessionId;
         }
 
-        public static string GenerateToken(string sessionId, string type = null)
+        public static string GenerateToken(string sessionId)
         {
             OpenTok OpenTok = new OpenTok(ApiKey, ApiSecret);
 
-            if (string.IsNullOrEmpty(type))
-            {
-                return OpenTok.GenerateToken(sessionId);
-            }
-
-            return OpenTok.GenerateToken(sessionId, Role.PUBLISHER, 0, type);
+            return OpenTok.GenerateToken(sessionId);
         }
     }
 }

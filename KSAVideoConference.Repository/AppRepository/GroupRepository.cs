@@ -41,7 +41,9 @@ namespace KSAVideoConference.Repository.AppRepository
                                   .Where(a => a.Id == id)
                                   .Include(a => a.Creator)
                                   .Include(a => a.GroupMembers)
+                                  .ThenInclude(a => a.User)
                                   .Include(a => a.GroupMessages)
+                                  .ThenInclude(a => a.User)
                                   .FirstOrDefaultAsync();
         }
 

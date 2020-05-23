@@ -9,6 +9,11 @@
             Get : All Member Types 
             </summary>
         </member>
+        <member name="M:KSAVideoConference.AppService.Controllers.AppController.GenerateToken(System.Guid,System.Int32)">
+            <summary>
+            Post : Generate Conference Token
+            </summary>
+        </member>
         <member name="M:KSAVideoConference.AppService.Controllers.GroupController.CreateGroup(System.Guid,KSAVideoConference.ServiceModel.AppModel.IGroupModel)">
             <summary>
             Post : Create Group

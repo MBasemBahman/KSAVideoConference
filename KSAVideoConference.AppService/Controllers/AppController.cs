@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using KSAVideoConference.CommonBL;
 using KSAVideoConference.DAL;
 using KSAVideoConference.Entity.AppModel;
 using KSAVideoConference.Repository;
@@ -90,6 +91,53 @@ namespace KSAVideoConference.AppService.Controllers
             Response.Headers.Add("X-Status", JsonSerializer.Serialize(Status));
 
             return PagedData;
+        }
+
+        /// <summary>
+        /// Post : Generate Conference Token
+        /// </summary>
+        [HttpPost]
+        [Route(nameof(GenerateToken))]
+        public async Task<string> GenerateToken([FromQuery]Guid Token, [FromQuery]int Fk_Group)
+        {
+            var returnData = "";
+            Status Status = new Status();
+
+            try
+            {
+                Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.Common);
+
+                User UserDB = await _UnitOfWork.UserRepository.GetByTokenAsync(Token);
+                if (UserDB == null)
+                {
+                    Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.UnAuth);
+                }
+                else if (!UserDB.IsActive)
+                {
+                    Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.UnActive, UserDB.Fk_Language);
+                }
+                else
+                {
+                    var Group = await _UnitOfWork.GroupRepository.GetByIDAsync(Fk_Group);
+                    
+                    if (Group != null && !string.IsNullOrEmpty(Group.SessionId))
+                    {
+                        returnData = OpenTokManager.GenerateToken(Group.SessionId);
+
+                        Status = new Status(true);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Status.ExceptionMessage = ex.Message;
+            }
+
+            Status.ErrorMessage = _UnitOfWork.AppStaticMessageRepository.Encode(Status.ErrorMessage);
+
+            Response.Headers.Add("X-Status", JsonSerializer.Serialize(Status));
+
+            return returnData;
         }
     }
 }
