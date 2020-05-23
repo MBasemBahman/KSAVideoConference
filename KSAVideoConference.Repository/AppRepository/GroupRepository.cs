@@ -63,10 +63,32 @@ namespace KSAVideoConference.Repository.AppRepository
             _Mapper.Map(GroupDB.Creator, returnData.Creator);
 
             returnData.GroupMembers = new List<GroupMemberModel>();
-            _Mapper.Map(GroupDB.GroupMembers, returnData.GroupMembers);
+
+            foreach (var item in GroupDB.GroupMembers)
+            {
+                var item2 = new GroupMemberModel();
+
+                _Mapper.Map(item, item2);
+
+                item2.User = new UserModel();
+                _Mapper.Map(item.User, item2.User);
+
+                returnData.GroupMembers.Add(item2);
+            }
 
             returnData.GroupMessages = new List<GroupMessageModel>();
-            _Mapper.Map(GroupDB.GroupMessages, returnData.GroupMessages);
+
+            foreach (var item in GroupDB.GroupMessages)
+            {
+                var item2 = new GroupMessageModel();
+
+                _Mapper.Map(item, item2);
+
+                item2.User = new UserModel();
+                _Mapper.Map(item.User, item2.User);
+
+                returnData.GroupMessages.Add(item2);
+            }
 
             return returnData;
         }

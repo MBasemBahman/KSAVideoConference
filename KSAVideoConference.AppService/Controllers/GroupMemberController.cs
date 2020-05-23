@@ -74,7 +74,7 @@ namespace KSAVideoConference.AppService.Controllers
                 }
                 else
                 {
-                    if (GroupDB.Fk_Creator != UserDB.Id)
+                    if (GroupDB.Fk_Creator != GroupMember.Fk_User)
                     {
                         GroupMember GroupMemberDB = GroupDB.GroupMembers.FirstOrDefault(a => a.Fk_User == UserDB.Id);
 
