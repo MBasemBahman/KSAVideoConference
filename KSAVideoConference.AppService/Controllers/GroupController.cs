@@ -205,11 +205,27 @@ namespace KSAVideoConference.AppService.Controllers
                                                              .Where(a => MyGroups == false ? true : a.GroupMembers.Any(b => b.IsActive == true && b.Fk_User == UserDB.Id))
                                                              .Where(a => MyOwnGroups == false ? true : a.Fk_Creator == UserDB.Id)
                                                              .Include(a => a.GroupMembers)
+                                                             .ThenInclude(a => a.User)
                                                              .ToListAsync();
 
                     IEnumerable<Group> OrderData = OrderBy<Group>.OrderData(Data, paging.OrderBy);
 
-                    _Mapper.Map(OrderData, returnData);
+                    foreach (var item in OrderData)
+                    {
+                        var item2 = new GroupModel();
+
+                        _Mapper.Map(item, item2);
+
+                        item2.SummaryMemberNames = "";
+
+                        var Names = item.GroupMembers.Select(a => a.User.FullName).ToList();
+                        foreach (var item3 in Names)
+                        {
+                            item2.SummaryMemberNames += item3 + ", ";
+                        }
+
+                        returnData.Add(item2);
+                    }
 
                     PagedData = PagedList<GroupModel>.Create(returnData, paging.PageNumber, paging.PageSize);
 

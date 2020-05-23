@@ -76,7 +76,7 @@ namespace KSAVideoConference.AppService.Controllers
                 {
                     if (GroupDB.Fk_Creator != GroupMember.Fk_User)
                     {
-                        GroupMember GroupMemberDB = GroupDB.GroupMembers.FirstOrDefault(a => a.Fk_User == UserDB.Id);
+                        GroupMember GroupMemberDB = GroupDB.GroupMembers.FirstOrDefault(a => a.Fk_User == GroupMember.Fk_User);
 
                         if (GroupMemberDB != null)
                         {
@@ -141,7 +141,7 @@ namespace KSAVideoConference.AppService.Controllers
                 }
                 else
                 {
-                    if (GroupMemberDB.Group.Fk_Creator != UserDB.Id)
+                    if (GroupMemberDB.Group.Fk_Creator != GroupMember.Fk_User)
                     {
                         GroupMemberDB.IsActive = false;
                         _UnitOfWork.GroupMemberRepository.UpdateEntity(GroupMemberDB);

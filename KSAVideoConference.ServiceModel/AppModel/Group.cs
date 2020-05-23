@@ -24,6 +24,8 @@ namespace KSAVideoConference.ServiceModel.AppModel
     {
         public string Name { get; set; }
 
+        public string SummaryMemberNames { get; set; }
+
         public string LogoURL { get; set; }
 
         public int MaxGroupCount { get; set; } = 100;

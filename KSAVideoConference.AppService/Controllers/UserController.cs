@@ -213,12 +213,12 @@ namespace KSAVideoConference.AppService.Controllers
                     }
 
                     List<User> Data = await _DBContext.User.Where(a => a.IsActive == true)
-                                                            .Where(a => a.Phone.Contains(phone))
+                                                            .Where(a => string.IsNullOrEmpty(phone) ? true : a.Phone.Contains(phone))
                                                             .Where(a => MyOwnContact == false ? true : a.MyUserContacts.Any(a => a.Fk_User == UserDB.Id))
                                                             .ToListAsync();
                     if (Fk_Group > 0 && Data.Any())
                     {
-                        List<User> GroupMembers = await _DBContext.GroupMember.Where(a => a.Fk_Group == Fk_Group)
+                        List<User> GroupMembers = await _DBContext.GroupMember.Where(a => a.Fk_Group == Fk_Group && a.IsActive == true)
                                                                        .Select(a => a.User)
                                                                        .ToListAsync();
 

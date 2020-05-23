@@ -66,6 +66,7 @@ namespace KSAVideoConference.Repository.AppRepository
 
             returnData.GroupMembers = new List<GroupMemberModel>();
 
+            GroupDB.GroupMembers = GroupDB.GroupMembers.Where(a => a.IsActive == true).ToList();
             foreach (var item in GroupDB.GroupMembers)
             {
                 var item2 = new GroupMemberModel();
