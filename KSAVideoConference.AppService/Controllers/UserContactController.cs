@@ -7,7 +7,6 @@ using KSAVideoConference.ServiceModel.AppModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading.Tasks;
 using static KSAVideoConference.CommonBL.EnumModel;
@@ -65,19 +64,12 @@ namespace KSAVideoConference.AppService.Controllers
                 }
                 else
                 {
-                    UserContact UserContactDB = new UserContact();
-                    _Mapper.Map(UserContact, UserContactDB);
-
-                    if (UserDB.MyUserContacts == null)
-                    {
-                        UserDB.MyUserContacts = new List<UserContact>();
-                    }
-                    UserDB.MyUserContacts.Add(UserContactDB);
+                    UserDB = _UnitOfWork.UserContactRepository.AddContact(UserContact, UserDB);
 
                     _UnitOfWork.UserRepository.UpdateEntity(UserDB);
                     _UnitOfWork.UserRepository.Save();
 
-                    returnData = await _UnitOfWork.UserRepository.GetUserProfile(UserContactDB.Fk_Contact);
+                    returnData = await _UnitOfWork.UserRepository.GetUserProfile(UserContact.Fk_Contact);
 
                     Status = new Status(true);
                 }

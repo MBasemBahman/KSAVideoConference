@@ -202,8 +202,9 @@ namespace KSAVideoConference.AppService.Controllers
                 {
                     List<Group> Data = await _DBContext.Group.Where(a => a.IsActive == IsActive)
                                                              .Where(a => string.IsNullOrEmpty(Name) ? true : a.Name.Contains(Name))
-                                                             .Where(a => MyOwnGroups == false ? true : a.Fk_Creator == UserDB.Id
-                                                                         || MyGroups == false ? true : a.GroupMembers.Any(b => b.Fk_User == UserDB.Id))
+                                                             .Where(a => MyOwnGroups == true && MyGroups == true ? a.Fk_Creator == UserDB.Id || a.GroupMembers.Any(b => b.Fk_User == UserDB.Id) : true)
+                                                             .Where(a => MyOwnGroups == true && MyGroups == false ? a.Fk_Creator == UserDB.Id : true)
+                                                             .Where(a => MyOwnGroups == false && MyGroups == true ? a.GroupMembers.Any(b => b.Fk_User == UserDB.Id) : true)
                                                              .Include(a => a.GroupMembers)
                                                              .ThenInclude(a => a.User)
                                                              .ToListAsync();

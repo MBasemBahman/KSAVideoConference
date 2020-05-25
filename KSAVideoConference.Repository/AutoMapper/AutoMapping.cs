@@ -158,6 +158,9 @@ namespace KSAVideoConference.Repository.AutoMapper
 
             CreateMap<IGroupMessageModel, GroupMessage>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
+
+            CreateMap<IUserContactModel, UserContact>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
         }
     }
 

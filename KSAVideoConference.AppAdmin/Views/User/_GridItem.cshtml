@@ -18,7 +18,7 @@
     @Html.DisplayFor(modelItem => Model.Language.Name)
 </td>
 <td>
-    <a asp-action="Index" asp-controller="User" asp-all-route-data="@(new Dictionary<string, string> { { "Fk_JoinGroup", Model.Id.ToString() } })" target="_blank">
+    <a asp-action="Index" asp-controller="User" asp-all-route-data="@(new Dictionary<string, string> { { "Fk_User", Model.Id.ToString() } })" target="_blank">
         @Html.DisplayFor(modelItem => Model.MyUserContacts.Count)
     </a>
 </td>

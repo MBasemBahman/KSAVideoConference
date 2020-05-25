@@ -90,9 +90,17 @@ namespace KSAVideoConference.AppService.Controllers
                             }
                             GroupDB.GroupMembers.Add(GroupMemberDB);
 
+                            IUserContactModel UserContact = new IUserContactModel
+                            {
+                                Fk_Contact = GroupMemberDB.Fk_User,
+                            };
+
+                            UserDB = _UnitOfWork.UserContactRepository.AddContact(UserContact, UserDB);
+
+                            _UnitOfWork.UserRepository.UpdateEntity(UserDB);
+
                             _UnitOfWork.GroupRepository.UpdateEntity(GroupDB);
                             _UnitOfWork.GroupRepository.Save();
-
 
                             await _hubContext.Groups.AddToGroupAsync(UserDB.Id.ToString(), GroupDB.Id.ToString());
                             await _hubContext.Clients.Group(GroupDB.Id.ToString()).Send($"{UserDB.FullName} لقد انضم إلى المجموعة {GroupDB.Name}.");
