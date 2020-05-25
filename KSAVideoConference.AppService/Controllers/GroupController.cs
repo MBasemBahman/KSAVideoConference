@@ -202,24 +202,24 @@ namespace KSAVideoConference.AppService.Controllers
                 {
                     List<Group> Data = await _DBContext.Group.Where(a => a.IsActive == IsActive)
                                                              .Where(a => string.IsNullOrEmpty(Name) ? true : a.Name.Contains(Name))
-                                                             .Where(a => MyGroups == false ? true : a.GroupMembers.Any(b => b.IsActive == true && b.Fk_User == UserDB.Id))
-                                                             .Where(a => MyOwnGroups == false ? true : a.Fk_Creator == UserDB.Id)
+                                                             .Where(a => MyOwnGroups == false ? true : a.Fk_Creator == UserDB.Id
+                                                                         || MyGroups == false ? true : a.GroupMembers.Any(b => b.Fk_User == UserDB.Id))
                                                              .Include(a => a.GroupMembers)
                                                              .ThenInclude(a => a.User)
                                                              .ToListAsync();
 
                     IEnumerable<Group> OrderData = OrderBy<Group>.OrderData(Data, paging.OrderBy);
 
-                    foreach (var item in OrderData)
+                    foreach (Group item in OrderData)
                     {
-                        var item2 = new GroupModel();
+                        GroupModel item2 = new GroupModel();
 
                         _Mapper.Map(item, item2);
 
                         item2.SummaryMemberNames = "";
 
-                        var Names = item.GroupMembers.Select(a => a.User.FullName).ToList();
-                        foreach (var item3 in Names)
+                        List<string> Names = item.GroupMembers.Select(a => a.User.FullName).ToList();
+                        foreach (string item3 in Names)
                         {
                             item2.SummaryMemberNames += item3 + ", ";
                         }
@@ -231,13 +231,13 @@ namespace KSAVideoConference.AppService.Controllers
 
                     if (PagedData.Any())
                     {
-                        if (MyGroups)
-                        {
-                            PagedData.ForEach(a => a.IsJoin = true);
-                        }
-                        else if (MyOwnGroups)
+                        if (MyOwnGroups)
                         {
                             PagedData.ForEach(a => { a.IsJoin = true; a.IsOwner = true; });
+                        }
+                        else if (MyGroups)
+                        {
+                            PagedData.ForEach(a => a.IsJoin = true);
                         }
                         else
                         {
@@ -307,7 +307,7 @@ namespace KSAVideoConference.AppService.Controllers
                 {
                     Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.NotActiveGroup, UserDB.Fk_Language);
                 }
-                else if (!(GroupDB.Fk_Creator == UserDB.Id || GroupDB.GroupMembers.Any(a => a.Fk_User == UserDB.Id && a.IsActive == true)))
+                else if (!(GroupDB.Fk_Creator == UserDB.Id || GroupDB.GroupMembers.Any(a => a.Fk_User == UserDB.Id)))
                 {
                     Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.JoinGroup, UserDB.Fk_Language);
                 }

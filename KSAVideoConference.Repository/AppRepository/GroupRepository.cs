@@ -66,10 +66,9 @@ namespace KSAVideoConference.Repository.AppRepository
 
             returnData.GroupMembers = new List<GroupMemberModel>();
 
-            GroupDB.GroupMembers = GroupDB.GroupMembers.Where(a => a.IsActive == true).ToList();
-            foreach (var item in GroupDB.GroupMembers)
+            foreach (GroupMember item in GroupDB.GroupMembers)
             {
-                var item2 = new GroupMemberModel();
+                GroupMemberModel item2 = new GroupMemberModel();
 
                 _Mapper.Map(item, item2);
 
@@ -81,9 +80,9 @@ namespace KSAVideoConference.Repository.AppRepository
 
             returnData.GroupMessages = new List<GroupMessageModel>();
 
-            foreach (var item in GroupDB.GroupMessages)
+            foreach (GroupMessage item in GroupDB.GroupMessages)
             {
-                var item2 = new GroupMessageModel();
+                GroupMessageModel item2 = new GroupMessageModel();
 
                 _Mapper.Map(item, item2);
 

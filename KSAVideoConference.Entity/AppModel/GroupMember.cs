@@ -26,8 +26,5 @@ namespace KSAVideoConference.Entity.AppModel
 
         [DisplayName("نوع المستخدم")]
         public MemberType MemberType { get; set; }
-
-        [DisplayName("التنشيط")]
-        public bool IsActive { get; set; } = true;
     }
 }

@@ -21,7 +21,5 @@
         public int Fk_MemberType { get; set; }
 
         public MemberTypeModel MemberType { get; set; }
-
-        public bool IsActive { get; set; } = true;
     }
 }

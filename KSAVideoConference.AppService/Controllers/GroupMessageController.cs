@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading.Tasks;
 using static KSAVideoConference.CommonBL.EnumModel;
@@ -79,6 +80,12 @@ namespace KSAVideoConference.AppService.Controllers
                     _Mapper.Map(GroupMessage, GroupMessageDB);
 
                     GroupMessageDB.Fk_User = UserDB.Id;
+
+                    if (GroupDB.GroupMessages == null)
+                    {
+                        GroupDB.GroupMessages = new List<GroupMessage>();
+                    }
+
                     GroupDB.GroupMessages.Add(GroupMessageDB);
 
                     _UnitOfWork.GroupRepository.UpdateEntity(GroupDB);
@@ -123,14 +130,22 @@ namespace KSAVideoConference.AppService.Controllers
 
                 User UserDB = await _UnitOfWork.UserRepository.GetByTokenAsync(Token);
                 GroupMessage GroupMessageDB = await _UnitOfWork.GroupMessageRepository.GetByIDAsyncIclude(GroupMessage.Id);
-
-                if (UserDB == null)
+               
+                if (GroupMessageDB == null)
+                {
+                    Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.Common);
+                }
+                else if(UserDB == null)
                 {
                     Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.UnAuth);
                 }
                 else if (!UserDB.IsActive)
                 {
                     Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.UnActive, UserDB.Fk_Language);
+                }
+                else if (GroupMessageDB.Fk_User != UserDB.Id && GroupMessageDB.Group.Fk_Creator != UserDB.Id)
+                {
+                    Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.NotOwner, UserDB.Fk_Language);
                 }
                 else
                 {

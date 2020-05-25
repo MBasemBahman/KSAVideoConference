@@ -218,7 +218,7 @@ namespace KSAVideoConference.AppService.Controllers
                                                             .ToListAsync();
                     if (Fk_Group > 0 && Data.Any())
                     {
-                        List<User> GroupMembers = await _DBContext.GroupMember.Where(a => a.Fk_Group == Fk_Group && a.IsActive == true)
+                        List<User> GroupMembers = await _DBContext.GroupMember.Where(a => a.Fk_Group == Fk_Group)
                                                                        .Select(a => a.User)
                                                                        .ToListAsync();
 

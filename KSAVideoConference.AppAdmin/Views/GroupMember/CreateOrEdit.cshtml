@@ -38,13 +38,7 @@
                             <select asp-for="Fk_MemberType" class="form-control" asp-items="@(new SelectList(await _UnitOfWork.MemberTypeRepository.GetAllAsync(),"Id","Name"))"></select>
                             <span asp-validation-for="Fk_MemberType" class="text-danger"></span>
                         </div>
-                        <label asp-for="IsActive" class="col-sm-2 control-label  pt-2"></label>
-                        <div class="col-sm-4">
-                            <input asp-for="IsActive" class="form-control" />
-                            <span asp-validation-for="IsActive" class="text-danger"></span>
-                        </div>
                     </div>
-
                 </div>
                 <footer class="card-footer text-left">
                     <button class="btn btn-primary">Submit </button>

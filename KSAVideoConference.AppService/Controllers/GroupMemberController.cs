@@ -7,8 +7,10 @@ using KSAVideoConference.ServiceModel;
 using KSAVideoConference.ServiceModel.AppModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -78,24 +80,24 @@ namespace KSAVideoConference.AppService.Controllers
                     {
                         GroupMember GroupMemberDB = GroupDB.GroupMembers.FirstOrDefault(a => a.Fk_User == GroupMember.Fk_User);
 
-                        if (GroupMemberDB != null)
-                        {
-                            GroupDB.GroupMembers.Remove(GroupMemberDB);
-                            GroupMemberDB.IsActive = true;
-                        }
-                        else
+                        if (GroupMemberDB == null)
                         {
                             GroupMemberDB = new GroupMember();
                             _Mapper.Map(GroupMember, GroupMemberDB);
+
+                            if (GroupDB.GroupMembers == null)
+                            {
+                                GroupDB.GroupMembers = new List<GroupMember>();
+                            }
+                            GroupDB.GroupMembers.Add(GroupMemberDB);
+
+                            _UnitOfWork.GroupRepository.UpdateEntity(GroupDB);
+                            _UnitOfWork.GroupRepository.Save();
+
+
+                            await _hubContext.Groups.AddToGroupAsync(UserDB.Id.ToString(), GroupDB.Id.ToString());
+                            await _hubContext.Clients.Group(GroupDB.Id.ToString()).Send($"{UserDB.FullName} لقد انضم إلى المجموعة {GroupDB.Name}.");
                         }
-
-                        GroupDB.GroupMembers.Add(GroupMemberDB);
-
-                        _UnitOfWork.GroupRepository.UpdateEntity(GroupDB);
-                        _UnitOfWork.GroupRepository.Save();
-
-                        await _hubContext.Groups.AddToGroupAsync(UserDB.Id.ToString(), GroupDB.Id.ToString());
-                        await _hubContext.Clients.Group(GroupDB.Id.ToString()).Send($"{UserDB.FullName} لقد انضم إلى المجموعة {GroupDB.Name}.");
                     }
 
                     returnData = await _UnitOfWork.GroupRepository.GetGroupProfile(GroupDB.Id, UserDB.Id);
@@ -131,7 +133,11 @@ namespace KSAVideoConference.AppService.Controllers
                 User UserDB = await _UnitOfWork.UserRepository.GetByTokenAsync(Token);
                 GroupMember GroupMemberDB = await _UnitOfWork.GroupMemberRepository.GetByIDAsyncIclude(GroupMember.Id);
 
-                if (UserDB == null)
+                if (GroupMemberDB == null)
+                {
+                    Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.Common);
+                }
+                else if (UserDB == null)
                 {
                     Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.UnAuth);
                 }
@@ -139,24 +145,20 @@ namespace KSAVideoConference.AppService.Controllers
                 {
                     Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.UnActive, UserDB.Fk_Language);
                 }
+                else if (GroupMemberDB.Fk_User != UserDB.Id && GroupMemberDB.Group.Fk_Creator != UserDB.Id)
+                {
+                    Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.NotOwner, UserDB.Fk_Language);
+                }
                 else
                 {
-                    if (GroupMemberDB.Group.Fk_Creator != GroupMember.Fk_User)
-                    {
-                        GroupMemberDB.IsActive = false;
-                        _UnitOfWork.GroupMemberRepository.UpdateEntity(GroupMemberDB);
-                        await _UnitOfWork.GroupMemberRepository.SaveAsync();
+                    _UnitOfWork.GroupMemberRepository.DeleteEntity(GroupMemberDB);
+                    await _UnitOfWork.GroupMemberRepository.SaveAsync();
 
-                        await _hubContext.Groups.RemoveFromGroupAsync(UserDB.Id.ToString(), GroupMemberDB.Fk_Group.ToString());
-                        await _hubContext.Clients.Group(GroupMemberDB.Fk_Group.ToString()).Send($"{UserDB.FullName} غادر المجموعة {GroupMemberDB.Group.Name}.");
+                    await _hubContext.Groups.RemoveFromGroupAsync(UserDB.Id.ToString(), GroupMemberDB.Fk_Group.ToString());
+                    await _hubContext.Clients.Group(GroupMemberDB.Fk_Group.ToString()).Send($"{UserDB.FullName} غادر المجموعة {GroupMemberDB.Group.Name}.");
 
-                        returnData = true;
-                        Status = new Status(true);
-                    }
-                    else
-                    {
-                        Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.OwnerCantExit, UserDB.Fk_Language);
-                    }
+                    returnData = true;
+                    Status = new Status(true);
                 }
             }
             catch (Exception ex)

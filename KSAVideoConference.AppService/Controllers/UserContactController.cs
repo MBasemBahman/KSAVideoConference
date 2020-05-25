@@ -5,8 +5,11 @@ using KSAVideoConference.Repository;
 using KSAVideoConference.ServiceModel;
 using KSAVideoConference.ServiceModel.AppModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using static KSAVideoConference.CommonBL.EnumModel;
@@ -67,6 +70,10 @@ namespace KSAVideoConference.AppService.Controllers
                     UserContact UserContactDB = new UserContact();
                     _Mapper.Map(UserContact, UserContactDB);
 
+                    if (UserDB.MyUserContacts == null)
+                    {
+                        UserDB.MyUserContacts = new List<UserContact>();
+                    }
                     UserDB.MyUserContacts.Add(UserContactDB);
 
                     _UnitOfWork.UserRepository.UpdateEntity(UserDB);
@@ -105,13 +112,21 @@ namespace KSAVideoConference.AppService.Controllers
                 User UserDB = await _UnitOfWork.UserRepository.GetByTokenAsync(Token);
                 UserContact UserContactDB = await _UnitOfWork.UserContactRepository.GetByIDAsyncIclude(UserContact.Id);
 
-                if (UserDB == null)
+                if (UserContactDB == null)
+                {
+                    Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.Common);
+                }
+                else if (UserDB == null)
                 {
                     Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.UnAuth);
                 }
                 else if (!UserDB.IsActive)
                 {
                     Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.UnActive, UserDB.Fk_Language);
+                }
+                else if (UserContactDB.Fk_User != UserDB.Id)
+                {
+                    Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.NotOwner, UserDB.Fk_Language);
                 }
                 else
                 {

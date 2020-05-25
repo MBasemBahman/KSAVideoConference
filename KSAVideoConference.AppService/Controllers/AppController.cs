@@ -100,7 +100,7 @@ namespace KSAVideoConference.AppService.Controllers
         [Route(nameof(GenerateToken))]
         public async Task<string> GenerateToken([FromQuery]Guid Token, [FromQuery]int Fk_Group)
         {
-            var returnData = "";
+            string returnData = "";
             Status Status = new Status();
 
             try
@@ -118,8 +118,8 @@ namespace KSAVideoConference.AppService.Controllers
                 }
                 else
                 {
-                    var Group = await _UnitOfWork.GroupRepository.GetByIDAsync(Fk_Group);
-                    
+                    Group Group = await _UnitOfWork.GroupRepository.GetByIDAsync(Fk_Group);
+
                     if (Group != null && !string.IsNullOrEmpty(Group.SessionId))
                     {
                         returnData = OpenTokManager.GenerateToken(Group.SessionId);
