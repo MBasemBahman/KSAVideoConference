@@ -7,7 +7,6 @@ using KSAVideoConference.ServiceModel;
 using KSAVideoConference.ServiceModel.AppModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;

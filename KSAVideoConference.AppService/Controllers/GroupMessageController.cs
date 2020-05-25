@@ -130,12 +130,12 @@ namespace KSAVideoConference.AppService.Controllers
 
                 User UserDB = await _UnitOfWork.UserRepository.GetByTokenAsync(Token);
                 GroupMessage GroupMessageDB = await _UnitOfWork.GroupMessageRepository.GetByIDAsyncIclude(GroupMessage.Id);
-               
+
                 if (GroupMessageDB == null)
                 {
                     Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.Common);
                 }
-                else if(UserDB == null)
+                else if (UserDB == null)
                 {
                     Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.UnAuth);
                 }
