@@ -51,6 +51,8 @@ namespace KSAVideoConference.Repository.AutoMapper
 
             CreateMap<GroupMember, GroupMember>()
                .ForMember(dest => dest.Id, opt => opt.Ignore())
+               .ForMember(dest => dest.Fk_Group, opt => opt.Ignore())
+               .ForMember(dest => dest.Fk_User, opt => opt.Ignore())
                .ForMember(dest => dest.Group, opt => opt.Ignore())
                .ForMember(dest => dest.User, opt => opt.Ignore())
                .ForMember(dest => dest.MemberType, opt => opt.Ignore())

@@ -48,7 +48,7 @@ namespace KSAVideoConference.AppService.Controllers
         /// </summary>
         [HttpPost]
         [Route("CreateGroup")]
-        public async Task<GroupModel> CreateGroup([FromQuery]Guid Token, [FromForm]IGroupModel Group)
+        public async Task<GroupModel> CreateGroup([FromQuery] Guid Token, [FromForm] IGroupModel Group)
         {
             GroupModel returnData = new GroupModel();
             Status Status = new Status();
@@ -109,7 +109,7 @@ namespace KSAVideoConference.AppService.Controllers
         /// </summary>
         [HttpPatch]
         [Route(nameof(UpdateGroup))]
-        public async Task<GroupModel> UpdateGroup([FromQuery]Guid Token, [FromForm]IGroupModel Group)
+        public async Task<GroupModel> UpdateGroup([FromQuery] Guid Token, [FromForm] IGroupModel Group)
         {
             GroupModel returnData = new GroupModel();
             Status Status = new Status();
@@ -129,7 +129,7 @@ namespace KSAVideoConference.AppService.Controllers
                 {
                     Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.UnActive, UserDB.Fk_Language);
                 }
-                else if (GroupDB.Fk_Creator != UserDB.Id)
+                else if (!await _UnitOfWork.GroupMemberRepository.IsAdmin(GroupDB.Id, UserDB.Id))
                 {
                     Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.NotOwner, UserDB.Fk_Language);
                 }
@@ -176,9 +176,9 @@ namespace KSAVideoConference.AppService.Controllers
         /// </summary>
         [HttpGet]
         [Route(nameof(GetGroups))]
-        public async Task<PagedList<GroupModel>> GetGroups([FromQuery] Paging paging, [FromQuery]Guid Token,
-            [FromQuery]string Name, [FromQuery]bool MyGroups = false, [FromQuery]bool MyOwnGroups = false,
-            [FromQuery]bool IsActive = true)
+        public async Task<PagedList<GroupModel>> GetGroups([FromQuery] Paging paging, [FromQuery] Guid Token,
+            [FromQuery] string Name, [FromQuery] bool MyGroups = false, [FromQuery] bool MyOwnGroups = false,
+            [FromQuery] bool IsActive = true)
         {
             string ActionName = nameof(GetGroups);
             List<GroupModel> returnData = new List<GroupModel>();
@@ -201,10 +201,10 @@ namespace KSAVideoConference.AppService.Controllers
                 else
                 {
                     List<Group> Data = await _DBContext.Group.Where(a => a.IsActive == IsActive)
-                                                             .Where(a => string.IsNullOrEmpty(Name) ? true : a.Name.Contains(Name))
-                                                             .Where(a => MyOwnGroups == true && MyGroups == true ? a.Fk_Creator == UserDB.Id || a.GroupMembers.Any(b => b.Fk_User == UserDB.Id) : true)
-                                                             .Where(a => MyOwnGroups == true && MyGroups == false ? a.Fk_Creator == UserDB.Id : true)
-                                                             .Where(a => MyOwnGroups == false && MyGroups == true ? a.GroupMembers.Any(b => b.Fk_User == UserDB.Id) : true)
+                                                             .Where(a => string.IsNullOrEmpty(Name) || a.Name.Contains(Name))
+                                                             .Where(a => MyOwnGroups != true || MyGroups != true || a.Fk_Creator == UserDB.Id || a.GroupMembers.Any(b => b.Fk_User == UserDB.Id))
+                                                             .Where(a => MyOwnGroups != true || MyGroups != false || a.Fk_Creator == UserDB.Id)
+                                                             .Where(a => MyOwnGroups != false || MyGroups != true || a.GroupMembers.Any(b => b.Fk_User == UserDB.Id))
                                                              .Include(a => a.GroupMembers)
                                                              .ThenInclude(a => a.User)
                                                              .ToListAsync();
@@ -220,9 +220,15 @@ namespace KSAVideoConference.AppService.Controllers
                         item2.SummaryMemberNames = "";
 
                         List<string> Names = item.GroupMembers.Select(a => a.User.FullName).ToList();
+                        var index = Names.Count();
                         foreach (string item3 in Names)
                         {
-                            item2.SummaryMemberNames += item3 + ", ";
+                            item2.SummaryMemberNames += item3;
+                            if (index > 0)
+                            {
+                                item2.SummaryMemberNames += ", ";
+                            }
+                            index--;
                         }
 
                         returnData.Add(item2);
@@ -284,7 +290,7 @@ namespace KSAVideoConference.AppService.Controllers
         /// </summary>
         [HttpGet]
         [Route("GetGroupProfile")]
-        public async Task<GroupModel> GetGroupProfile([FromQuery]Guid Token, [FromQuery]int Id)
+        public async Task<GroupModel> GetGroupProfile([FromQuery] Guid Token, [FromQuery] int Id)
         {
             GroupModel returnData = new GroupModel();
             Status Status = new Status();

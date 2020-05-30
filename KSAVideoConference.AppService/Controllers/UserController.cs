@@ -43,7 +43,7 @@ namespace KSAVideoConference.AppService.Controllers
         /// </summary>
         [HttpPost]
         [Route(nameof(CreateAccount))]
-        public async Task<UserModel> CreateAccount([FromForm]IUserModel User)
+        public async Task<UserModel> CreateAccount([FromForm] IUserModel User)
         {
             UserModel returnData = new UserModel();
             Status Status = new Status();
@@ -91,7 +91,7 @@ namespace KSAVideoConference.AppService.Controllers
         /// </summary>
         [HttpPatch]
         [Route(nameof(UpdateAccount))]
-        public async Task<UserModel> UpdateAccount([FromQuery]Guid Token, [FromForm]IUserModel User)
+        public async Task<UserModel> UpdateAccount([FromQuery] Guid Token, [FromForm] IUserModel User)
         {
             UserModel returnData = new UserModel();
             Status Status = new Status();
@@ -143,7 +143,7 @@ namespace KSAVideoConference.AppService.Controllers
         /// </summary>
         [HttpPost]
         [Route(nameof(Login))]
-        public async Task<UserModel> Login([FromForm]string Phone)
+        public async Task<UserModel> Login([FromForm] string Phone, int Fk_Language)
         {
             UserModel returnData = new UserModel();
             Status Status = new Status();
@@ -153,6 +153,10 @@ namespace KSAVideoConference.AppService.Controllers
                 Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.Common);
 
                 User UserDB = await _UnitOfWork.UserRepository.GetByPhoneAsync(Phone);
+                if (UserDB != null)
+                {
+                    UserDB.Fk_Language = Fk_Language;
+                }
                 if (UserDB == null)
                 {
                     Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.UnAuth);
@@ -163,6 +167,9 @@ namespace KSAVideoConference.AppService.Controllers
                 }
                 else
                 {
+                    _UnitOfWork.UserRepository.UpdateEntity(UserDB);
+                    await _UnitOfWork.UserRepository.SaveAsync();
+
                     returnData = await _UnitOfWork.UserRepository.GetUserProfile(UserDB.Id);
                     Status = new Status(true);
                 }
@@ -184,8 +191,8 @@ namespace KSAVideoConference.AppService.Controllers
         /// </summary>
         [HttpGet]
         [Route(nameof(GetUsers))]
-        public async Task<PagedList<UserModel>> GetUsers([FromQuery] Paging paging, [FromQuery]Guid Token, [FromQuery]string phone,
-            [FromQuery]bool MyOwnContact = false, [FromQuery]int Fk_Group = 0, [FromQuery]bool InGroup = false)
+        public async Task<PagedList<UserModel>> GetUsers([FromQuery] Paging paging, [FromQuery] Guid Token, [FromQuery] string phone,
+            [FromQuery] bool MyOwnContact = false, [FromQuery] int Fk_Group = 0, [FromQuery] bool InGroup = false)
         {
             string ActionName = nameof(GetUsers);
             List<UserModel> returnData = new List<UserModel>();
@@ -214,8 +221,8 @@ namespace KSAVideoConference.AppService.Controllers
 
                     List<User> Data = await _DBContext.User.Where(a => a.IsActive == true)
                                                            .Where(a => a.Id != UserDB.Id)
-                                                           .Where(a => string.IsNullOrEmpty(phone) ? true : a.Phone.Contains(phone))
-                                                           .Where(a => MyOwnContact == false ? true : a.MeInUserContacts.Any(b => b.Fk_User == UserDB.Id))
+                                                           .Where(a => string.IsNullOrEmpty(phone) || a.Phone.Contains(phone))
+                                                           .Where(a => MyOwnContact == false || a.MeInUserContacts.Any(b => b.Fk_User == UserDB.Id))
                                                            .ToListAsync();
 
                     if (Fk_Group > 0 && Data.Any())

@@ -45,7 +45,7 @@ namespace KSAVideoConference.AppService.Controllers
         /// </summary>
         [HttpPost]
         [Route(nameof(JoinGroup))]
-        public async Task<GroupModel> JoinGroup([FromQuery]Guid Token, [FromBody]IGroupMemberModel GroupMember)
+        public async Task<GroupModel> JoinGroup([FromQuery] Guid Token, [FromBody] IGroupMemberModel GroupMember)
         {
             GroupModel returnData = new GroupModel();
             Status Status = new Status();
@@ -124,11 +124,11 @@ namespace KSAVideoConference.AppService.Controllers
         }
 
         /// <summary>
-        /// Patch : Exit Group
+        /// Post : Edit Member Type
         /// </summary>
-        [HttpPatch]
-        [Route(nameof(ExitGroup))]
-        public async Task<bool> ExitGroup([FromQuery]Guid Token, [FromBody]IGroupMemberModel GroupMember)
+        [HttpPost]
+        [Route(nameof(EditMemberType))]
+        public async Task<bool> EditMemberType([FromQuery] Guid Token, [FromBody] IGroupMemberModel GroupMember)
         {
             bool returnData = new bool();
             Status Status = new Status();
@@ -152,20 +152,88 @@ namespace KSAVideoConference.AppService.Controllers
                 {
                     Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.UnActive, UserDB.Fk_Language);
                 }
-                else if (GroupMemberDB.Fk_User != UserDB.Id && GroupMemberDB.Group.Fk_Creator != UserDB.Id)
+                else if (!await _UnitOfWork.GroupMemberRepository.IsAdmin(GroupMemberDB.Fk_Group, UserDB.Id))
                 {
                     Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.NotOwner, UserDB.Fk_Language);
                 }
                 else
                 {
-                    _UnitOfWork.GroupMemberRepository.DeleteEntity(GroupMemberDB);
+                    _Mapper.Map(GroupMember, GroupMemberDB);
+                    _UnitOfWork.GroupMemberRepository.UpdateEntity(GroupMemberDB);
                     await _UnitOfWork.GroupMemberRepository.SaveAsync();
-
-                    await _hubContext.Groups.RemoveFromGroupAsync(UserDB.Id.ToString(), GroupMemberDB.Fk_Group.ToString());
-                    await _hubContext.Clients.Group(GroupMemberDB.Fk_Group.ToString()).Send($"{UserDB.FullName} غادر المجموعة {GroupMemberDB.Group.Name}.");
 
                     returnData = true;
                     Status = new Status(true);
+                }
+            }
+            catch (Exception ex)
+            {
+                Status.ExceptionMessage = ex.Message;
+            }
+
+            Status.ErrorMessage = _UnitOfWork.AppStaticMessageRepository.Encode(Status.ErrorMessage);
+            Response.Headers.Add("X-Status", JsonSerializer.Serialize(Status));
+
+            return returnData;
+        }
+
+        /// <summary>
+        /// Patch : Exit Group
+        /// </summary>
+        [HttpPatch]
+        [Route(nameof(ExitGroup))]
+        public async Task<bool> ExitGroup([FromQuery] Guid Token, [FromBody] IGroupMemberModel GroupMember)
+        {
+            bool returnData = new bool();
+            Status Status = new Status();
+
+            try
+            {
+                Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.Common);
+
+                User UserDB = await _UnitOfWork.UserRepository.GetByTokenAsync(Token);
+                GroupMember GroupMemberDB = await _UnitOfWork.GroupMemberRepository.GetByIDAsyncIclude(GroupMember.Id);
+
+                if (GroupMemberDB == null)
+                {
+                    Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.Common);
+                }
+                else if (UserDB == null)
+                {
+                    Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.UnAuth);
+                }
+                else if (!UserDB.IsActive)
+                {
+                    Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.UnActive, UserDB.Fk_Language);
+                }
+                else
+                {
+                    var valid = false;
+
+                    if (await _UnitOfWork.GroupMemberRepository.IsAdmin(GroupMemberDB.Fk_Group, UserDB.Id))
+                    {
+                        valid = true;
+                    }
+                    else if (GroupMemberDB.Fk_User == UserDB.Id)
+                    {
+                        valid = true;
+                    }
+
+                    if (valid)
+                    {
+                        _UnitOfWork.GroupMemberRepository.DeleteEntity(GroupMemberDB);
+                        await _UnitOfWork.GroupMemberRepository.SaveAsync();
+
+                        await _hubContext.Groups.RemoveFromGroupAsync(UserDB.Id.ToString(), GroupMemberDB.Fk_Group.ToString());
+                        await _hubContext.Clients.Group(GroupMemberDB.Fk_Group.ToString()).Send($"{UserDB.FullName} غادر المجموعة {GroupMemberDB.Group.Name}.");
+
+                        returnData = true;
+                        Status = new Status(true);
+                    }
+                    else
+                    {
+                        Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.NotOwner, UserDB.Fk_Language);
+                    }
                 }
             }
             catch (Exception ex)
