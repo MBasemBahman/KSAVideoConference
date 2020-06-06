@@ -6,7 +6,9 @@ using KSAVideoConference.Entity.AppModel;
 using KSAVideoConference.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 using System.Threading.Tasks;
 using static KSAVideoConference.CommonBL.EnumModel;
 
@@ -137,7 +139,7 @@ namespace KSAVideoConference.AppAdmin.Controllers
         [Authorize((int)AccessLevelEnum.FullAccess)]
         public async Task<IActionResult> Delete(int id)
         {
-            MemberType MemberType = await _UnitOfWork.MemberTypeRepository.GetByIDAsync(id);
+            MemberType MemberType = await _UnitOfWork.MemberTypeRepository.GetByIDAsyncIclude(id);
             if (MemberType == null)
             {
                 return NotFound();
@@ -150,9 +152,9 @@ namespace KSAVideoConference.AppAdmin.Controllers
 
             ViewBag.CanDelete = true;
 
-            if (await _UnitOfWork.MemberTypeRepository.DeleteEntity(id))
+            if (!await _UnitOfWork.MemberTypeRepository.DeleteEntity(id) || MemberType.GroupMembers.Any())
             {
-                ViewBag.CanDelete = true;
+                ViewBag.CanDelete = false;
             }
 
             return View(MemberType);
@@ -171,7 +173,10 @@ namespace KSAVideoConference.AppAdmin.Controllers
                 return View(AppMainData.UnAuthorized);
             }
 
-            _UnitOfWork.MemberTypeRepository.DeleteEntity(MemberType);
+            if (!MemberType.GroupMembers.Any())
+            {
+                _UnitOfWork.MemberTypeRepository.DeleteEntity(MemberType);
+            }
 
             await _UnitOfWork.MemberTypeRepository.SaveAsync();
             return RedirectToAction(nameof(Index));

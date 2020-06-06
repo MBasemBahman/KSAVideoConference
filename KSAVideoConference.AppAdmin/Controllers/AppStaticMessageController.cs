@@ -171,7 +171,7 @@ namespace KSAVideoConference.AppAdmin.Controllers
 
             ViewBag.CanDelete = false;
 
-            if (await _UnitOfWork.AppStaticMessageRepository.DeleteEntity(id))
+            if (!await _UnitOfWork.AppStaticMessageRepository.DeleteEntity(id))
             {
                 ViewBag.CanDelete = true;
             }

@@ -256,10 +256,14 @@ namespace KSAVideoConference.AppAdmin.Controllers
             SystemUserViewModel data = new SystemUserViewModel
             {
                 SystemUser = SystemUser,
-                SelectedFullAccess = SystemUser.SystemUserPermissions.Where(a => a.Fk_AccessLevel == (int)AccessLevelEnum.FullAccess).Select(a => a.Fk_SystemView).ToList(),
-                SelectedControlAccess = SystemUser.SystemUserPermissions.Where(a => a.Fk_AccessLevel == (int)AccessLevelEnum.ControlAccess).Select(a => a.Fk_SystemView).ToList(),
-                SelectedViewAccess = SystemUser.SystemUserPermissions.Where(a => a.Fk_AccessLevel == (int)AccessLevelEnum.ViewAccess).Select(a => a.Fk_SystemView).ToList(),
             };
+
+            if (SystemUser.SystemUserPermissions != null && SystemUser.SystemUserPermissions.Any())
+            {
+                data.SelectedFullAccess = SystemUser.SystemUserPermissions.Where(a => a.Fk_AccessLevel == (int)AccessLevelEnum.FullAccess).Select(a => a.Fk_SystemView).ToList();
+                data.SelectedControlAccess = SystemUser.SystemUserPermissions.Where(a => a.Fk_AccessLevel == (int)AccessLevelEnum.ControlAccess).Select(a => a.Fk_SystemView).ToList();
+                data.SelectedViewAccess = SystemUser.SystemUserPermissions.Where(a => a.Fk_AccessLevel == (int)AccessLevelEnum.ViewAccess).Select(a => a.Fk_SystemView).ToList();
+            }
 
             return data;
         }
