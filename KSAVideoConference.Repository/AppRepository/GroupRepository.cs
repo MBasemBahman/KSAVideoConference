@@ -74,6 +74,8 @@ namespace KSAVideoConference.Repository.AppRepository
 
                 item2.User = new UserModel();
                 _Mapper.Map(item.User, item2.User);
+                item2.MemberType = new MemberTypeModel();
+                _Mapper.Map(item.MemberType, item2.MemberType);
 
                 returnData.GroupMembers.Add(item2);
             }

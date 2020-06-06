@@ -39,6 +39,11 @@
             Post : Join Group
             </summary>
         </member>
+        <member name="M:KSAVideoConference.AppService.Controllers.GroupMemberController.EditMemberType(System.Guid,KSAVideoConference.ServiceModel.AppModel.IGroupMemberModel)">
+            <summary>
+            Post : Edit Member Type
+            </summary>
+        </member>
         <member name="M:KSAVideoConference.AppService.Controllers.GroupMemberController.ExitGroup(System.Guid,KSAVideoConference.ServiceModel.AppModel.IGroupMemberModel)">
             <summary>
             Patch : Exit Group
@@ -74,7 +79,7 @@
             Patch : Update User Account Profile
             </summary>
         </member>
-        <member name="M:KSAVideoConference.AppService.Controllers.UserController.Login(System.String)">
+        <member name="M:KSAVideoConference.AppService.Controllers.UserController.Login(System.String,System.Int32)">
             <summary>
             Post : Login With Phone
             </summary>
