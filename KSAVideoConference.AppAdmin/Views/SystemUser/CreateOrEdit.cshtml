@@ -3,6 +3,8 @@
 @{
     ViewData["Title"] = "إنشاء أو تعديل مدير النظام";
     await Html.RenderPartialAsync("PartialView/_FormStylesPartial");
+
+    var SystemViews = _UnitOfWork.SystemViewRepository.GetAllAsync();
 }
 
 <div class="row">
@@ -54,7 +56,7 @@
                     <div class="form-group row">
                         <label asp-for="SelectedFullAccess" class="col-sm-2 control-label  pt-2"></label>
                         <div class="col-sm-10">
-                            <select asp-for="SelectedFullAccess" data-plugin-selectTwo class="form-control populate" asp-items="@(new MultiSelectList(await _UnitOfWork.SystemViewRepository.GetAllAsync(),"Id","Name"))">
+                            <select asp-for="SelectedFullAccess" data-plugin-selectTwo class="form-control populate" asp-items="@(new MultiSelectList(await SystemViews,"Id","Name",Model.SelectedFullAccess))">
                             </select>
                             <span asp-validation-for="SelectedFullAccess" class="text-danger"></span>
                         </div>
@@ -62,7 +64,7 @@
                     <div class="form-group row">
                         <label asp-for="SelectedControlAccess" class="col-sm-2 control-label  pt-2"></label>
                         <div class="col-sm-10">
-                            <select asp-for="SelectedControlAccess" data-plugin-selectTwo class="form-control populate" asp-items="@(new MultiSelectList(await _UnitOfWork.SystemViewRepository.GetAllAsync(),"Id","Name"))">
+                            <select asp-for="SelectedControlAccess" data-plugin-selectTwo class="form-control populate" asp-items="@(new MultiSelectList(await SystemViews,"Id","Name",Model.SelectedControlAccess))">
                             </select>
                             <span asp-validation-for="SelectedControlAccess" class="text-danger"></span>
                         </div>
@@ -70,7 +72,7 @@
                     <div class="form-group row">
                         <label asp-for="SelectedViewAccess" class="col-sm-2 control-label  pt-2"></label>
                         <div class="col-sm-10">
-                            <select asp-for="SelectedViewAccess" data-plugin-selectTwo class="form-control populate" asp-items="@(new MultiSelectList(await _UnitOfWork.SystemViewRepository.GetAllAsync(),"Id","Name"))">
+                            <select asp-for="SelectedViewAccess" data-plugin-selectTwo class="form-control populate" asp-items="@(new MultiSelectList(await SystemViews,"Id","Name",Model.SelectedViewAccess))">
                             </select>
                             <span asp-validation-for="SelectedViewAccess" class="text-danger"></span>
                         </div>
