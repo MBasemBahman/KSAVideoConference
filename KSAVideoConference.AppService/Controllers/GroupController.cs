@@ -205,6 +205,7 @@ namespace KSAVideoConference.AppService.Controllers
                                                              .Where(a => MyOwnGroups != true || MyGroups != true || a.Fk_Creator == UserDB.Id || a.GroupMembers.Any(b => b.Fk_User == UserDB.Id))
                                                              .Where(a => MyOwnGroups != true || MyGroups != false || a.Fk_Creator == UserDB.Id)
                                                              .Where(a => MyOwnGroups != false || MyGroups != true || a.GroupMembers.Any(b => b.Fk_User == UserDB.Id))
+                                                             .Include(a => a.Creator)
                                                              .Include(a => a.GroupMembers)
                                                              .ThenInclude(a => a.User)
                                                              .ToListAsync();
@@ -224,12 +225,11 @@ namespace KSAVideoConference.AppService.Controllers
                         foreach (string item3 in Names)
                         {
                             item2.SummaryMemberNames += item3;
-                            if (index > 0)
-                            {
-                                item2.SummaryMemberNames += ", ";
-                            }
+                            item2.SummaryMemberNames += ", ";
                             index--;
                         }
+
+                        item2.SummaryMemberNames += item.Creator.FullName;
 
                         returnData.Add(item2);
                     }

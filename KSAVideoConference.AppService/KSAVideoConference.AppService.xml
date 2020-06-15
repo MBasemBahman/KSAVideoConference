@@ -59,7 +59,7 @@
             Delete : Delete Message
             </summary>
         </member>
-        <member name="M:KSAVideoConference.AppService.Controllers.UserContactController.AddContact(System.Guid,KSAVideoConference.ServiceModel.AppModel.IUserContactModel)">
+        <member name="M:KSAVideoConference.AppService.Controllers.UserContactController.AddContact(System.Guid,System.Collections.Generic.List{System.String})">
             <summary>
             Post : Add Contact
             </summary>

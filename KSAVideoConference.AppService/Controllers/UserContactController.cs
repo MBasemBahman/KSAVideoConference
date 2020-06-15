@@ -5,8 +5,12 @@ using KSAVideoConference.Repository;
 using KSAVideoConference.ServiceModel;
 using KSAVideoConference.ServiceModel.AppModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using static KSAVideoConference.CommonBL.EnumModel;
@@ -38,9 +42,9 @@ namespace KSAVideoConference.AppService.Controllers
         /// </summary>
         [HttpPost]
         [Route(nameof(AddContact))]
-        public async Task<UserModel> AddContact([FromQuery]Guid Token, [FromBody]IUserContactModel UserContact)
+        public async Task<int> AddContact([FromQuery] Guid Token, [FromQuery] List<string> Phones)
         {
-            UserModel returnData = new UserModel();
+            int returnData = 0;
             Status Status = new Status();
 
             try
@@ -48,8 +52,6 @@ namespace KSAVideoConference.AppService.Controllers
                 Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.Common);
 
                 User UserDB = await _UnitOfWork.UserRepository.GetByTokenAsync(Token);
-                User ContactDB = await _UnitOfWork.UserRepository.GetByIDAsyncIclude(UserContact.Fk_Contact);
-
                 if (UserDB == null)
                 {
                     Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.UnAuth);
@@ -64,12 +66,21 @@ namespace KSAVideoConference.AppService.Controllers
                 }
                 else
                 {
-                    UserDB = _UnitOfWork.UserContactRepository.AddContact(UserContact, UserDB);
+                    if (Phones != null && Phones.Any())
+                    {
+                        var Users = await _UnitOfWork.UserRepository.GetAllAsync(a => Phones.Contains(a.Phone));
+                        if (Users.Any())
+                        {
+                            UserDB.MyUserContacts = new List<UserContact>();
 
-                    _UnitOfWork.UserRepository.UpdateEntity(UserDB);
-                    _UnitOfWork.UserRepository.Save();
+                            Users.ForEach(Contact => UserDB.MyUserContacts.Add(new UserContact { Fk_Contact = Contact.Id }));
 
-                    returnData = await _UnitOfWork.UserRepository.GetUserProfile(UserContact.Fk_Contact);
+                            _UnitOfWork.UserRepository.UpdateEntity(UserDB);
+                            _UnitOfWork.UserRepository.Save();
+
+                            returnData = Users.Count;
+                        }
+                    }
 
                     Status = new Status(true);
                 }
@@ -90,7 +101,7 @@ namespace KSAVideoConference.AppService.Controllers
         /// </summary>
         [HttpDelete]
         [Route(nameof(DeleteContact))]
-        public async Task<bool> DeleteContact([FromQuery]Guid Token, [FromBody]IUserContactModel UserContact)
+        public async Task<bool> DeleteContact([FromQuery] Guid Token, [FromBody] IUserContactModel UserContact)
         {
             bool returnData = new bool();
             Status Status = new Status();
