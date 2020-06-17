@@ -42,7 +42,7 @@ namespace KSAVideoConference.AppService.Controllers
         /// </summary>
         [HttpPost]
         [Route(nameof(AddContact))]
-        public async Task<int> AddContact([FromQuery] Guid Token, [FromQuery] List<string> Phones)
+        public async Task<int> AddContact([FromQuery] Guid Token, [FromBody] List<string> Phones)
         {
             int returnData = 0;
             Status Status = new Status();
@@ -66,9 +66,16 @@ namespace KSAVideoConference.AppService.Controllers
                 }
                 else
                 {
+                    var Length = 10;
                     if (Phones != null && Phones.Any())
                     {
-                        var Users = await _UnitOfWork.UserRepository.GetAllAsync(a => Phones.Contains(a.Phone));
+                        for (int i = 0; i < Phones.Count; i++)
+                        {
+                            Phones[i] = Phones[i].Substring(Phones[i].Length - Length, Length);
+                        }
+
+                        var Users = await _UnitOfWork.UserRepository.GetAllAsync(a => Phones.Contains(a.Phone.Substring(a.Phone.Length - Length, Length)));
+                        
                         if (Users.Any())
                         {
                             UserDB.MyUserContacts = new List<UserContact>();
