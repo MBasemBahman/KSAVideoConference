@@ -69,6 +69,8 @@ namespace KSAVideoConference.AppService.Controllers
                     var Length = 10;
                     if (Phones != null && Phones.Any())
                     {
+                        Phones = Phones.Where(a => a.Length > Length).ToList();
+
                         for (int i = 0; i < Phones.Count; i++)
                         {
                             Phones[i] = Phones[i].Substring(Phones[i].Length - Length, Length);
