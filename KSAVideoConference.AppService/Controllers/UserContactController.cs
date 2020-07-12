@@ -9,7 +9,6 @@ using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -66,7 +65,7 @@ namespace KSAVideoConference.AppService.Controllers
                 }
                 else
                 {
-                    var Length = 10;
+                    int Length = 10;
                     if (Phones != null && Phones.Any())
                     {
                         Phones = Phones.Where(a => a.Length > Length).ToList();
@@ -76,8 +75,8 @@ namespace KSAVideoConference.AppService.Controllers
                             Phones[i] = Phones[i].Substring(Phones[i].Length - Length, Length);
                         }
 
-                        var Users = await _UnitOfWork.UserRepository.GetAllAsync(a => Phones.Contains(a.Phone.Substring(a.Phone.Length - Length, Length)));
-                        
+                        List<User> Users = await _UnitOfWork.UserRepository.GetAllAsync(a => Phones.Contains(a.Phone.Substring(a.Phone.Length - Length, Length)));
+
                         if (Users.Any())
                         {
                             UserDB.MyUserContacts = new List<UserContact>();

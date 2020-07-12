@@ -208,7 +208,7 @@ namespace KSAVideoConference.AppService.Controllers
                 }
                 else
                 {
-                    var valid = false;
+                    bool valid = false;
 
                     if (await _UnitOfWork.GroupMemberRepository.IsAdmin(GroupMemberDB.Fk_Group, UserDB.Id))
                     {

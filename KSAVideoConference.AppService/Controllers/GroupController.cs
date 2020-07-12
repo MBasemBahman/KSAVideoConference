@@ -221,7 +221,7 @@ namespace KSAVideoConference.AppService.Controllers
                         item2.SummaryMemberNames = "";
 
                         List<string> Names = item.GroupMembers.Select(a => a.User.FullName).ToList();
-                        var index = Names.Count();
+                        int index = Names.Count();
                         foreach (string item3 in Names)
                         {
                             item2.SummaryMemberNames += item3;

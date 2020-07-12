@@ -40,7 +40,7 @@ namespace KSAVideoConference.AppService.Controllers
         /// </summary>
         [HttpGet]
         [Route(nameof(GetMemberTypes))]
-        public async Task<PagedList<MemberTypeModel>> GetMemberTypes([FromQuery] Paging paging, [FromQuery]Guid Token)
+        public async Task<PagedList<MemberTypeModel>> GetMemberTypes([FromQuery] Paging paging, [FromQuery] Guid Token)
         {
             string ActionName = nameof(GetMemberTypes);
             List<MemberTypeModel> returnData = new List<MemberTypeModel>();
@@ -98,7 +98,7 @@ namespace KSAVideoConference.AppService.Controllers
         /// </summary>
         [HttpPost]
         [Route(nameof(GenerateToken))]
-        public async Task<string> GenerateToken([FromQuery]Guid Token, [FromQuery]int Fk_Group)
+        public async Task<string> GenerateToken([FromQuery] Guid Token, [FromQuery] int Fk_Group)
         {
             string returnData = "";
             Status Status = new Status();

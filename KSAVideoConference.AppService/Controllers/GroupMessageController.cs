@@ -46,7 +46,7 @@ namespace KSAVideoConference.AppService.Controllers
         /// </summary>
         [HttpPost]
         [Route(nameof(SendMessage))]
-        public async Task<GroupMessageModel> SendMessage([FromQuery]Guid Token, [FromForm]IGroupMessageModel GroupMessage)
+        public async Task<GroupMessageModel> SendMessage([FromQuery] Guid Token, [FromForm] IGroupMessageModel GroupMessage)
         {
             GroupMessageModel returnData = new GroupMessageModel();
             Status Status = new Status();
@@ -119,7 +119,7 @@ namespace KSAVideoConference.AppService.Controllers
         /// </summary>
         [HttpDelete]
         [Route(nameof(DeleteMessage))]
-        public async Task<bool> DeleteMessage([FromQuery]Guid Token, [FromBody]IGroupMessageModel GroupMessage)
+        public async Task<bool> DeleteMessage([FromQuery] Guid Token, [FromBody] IGroupMessageModel GroupMessage)
         {
             bool returnData = new bool();
             Status Status = new Status();
