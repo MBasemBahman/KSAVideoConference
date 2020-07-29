@@ -105,6 +105,78 @@ namespace KSAVideoConference.AppService.Controllers
         }
 
         /// <summary>
+        /// Post : Create SubGroup
+        /// </summary>
+        [HttpPost]
+        [Route("CreateSubGroup")]
+        public async Task<GroupModel> CreateSubGroup([FromQuery] Guid Token, [FromBody] List<int> Fk_User)
+        {
+            GroupModel returnData = new GroupModel();
+            Status Status = new Status();
+
+            try
+            {
+                Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.Common);
+
+                User UserDB = await _UnitOfWork.UserRepository.GetByTokenAsync(Token);
+                if (UserDB == null)
+                {
+                    Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.UnAuth);
+                }
+                else if (!UserDB.IsActive)
+                {
+                    Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.UnActive, UserDB.Fk_Language);
+                }
+                else if (!ModelState.IsValid)
+                {
+                    Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.InCompleteData, UserDB.Fk_Language);
+                }
+                else
+                {
+                    var Users = await _UnitOfWork.UserRepository.GetAllAsync(a => Fk_User.Contains(a.Id));
+
+                    Group GroupDB = new Group
+                    {
+                        SessionId = await OpenTokManager.CreateSessionId(),
+                        Fk_Creator = UserDB.Id,
+                        Name = "",
+                        GroupMembers = new List<GroupMember>()
+                    };
+
+                    foreach (var User in Users)
+                    {
+                        GroupDB.Name += $"{User.FullName},";
+
+                        GroupDB.GroupMembers.Add(new GroupMember
+                        {
+                            Fk_User = User.Id
+                        });
+                    }
+
+                    _UnitOfWork.GroupRepository.CreateEntityAsync(GroupDB);
+                    await _UnitOfWork.GroupRepository.SaveAsync();
+
+                    await _hubContext.Groups.AddToGroupAsync(GroupDB.Fk_Creator.ToString(), GroupDB.Id.ToString());
+                    await _hubContext.Clients.Group(GroupDB.Id.ToString()).Send($"{UserDB.FullName} لقد انضم إلى المجموعة {GroupDB.Name}.");
+
+                    returnData = await _UnitOfWork.GroupRepository.GetGroupProfile(GroupDB.Id, UserDB.Id);
+
+                    Status = new Status(true);
+                }
+            }
+            catch (Exception ex)
+            {
+                Status.ExceptionMessage = ex.Message;
+            }
+
+            Status.ErrorMessage = _UnitOfWork.AppStaticMessageRepository.Encode(Status.ErrorMessage);
+
+            Response.Headers.Add("X-Status", JsonSerializer.Serialize(Status));
+
+            return returnData;
+        }
+
+        /// <summary>
         /// Patch : Update Group
         /// </summary>
         [HttpPatch]
