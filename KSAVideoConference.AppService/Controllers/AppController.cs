@@ -125,6 +125,8 @@ namespace KSAVideoConference.AppService.Controllers
                         returnData = OpenTokManager.GenerateToken(Group.SessionId);
 
                         Status = new Status(true);
+
+
                     }
                 }
             }
