@@ -126,6 +126,16 @@ namespace KSAVideoConference.AppService.Controllers
 
                         Status = new Status(true);
 
+                        NotificationManager.Notification = new FirebaseNotificationModel
+                        {
+                            NotificationType = new KeyValuePair<int, string>((int)NotificationTypeEnum.Group, Enum.GetName(typeof(NotificationTypeEnum), (int)NotificationTypeEnum.Group)),
+                            TargetId = Group.Id,
+                            MessageHeading = "انضمام عضو جديد",
+                            MessageContent = $"لقد انضم {UserDB.FullName} الى المحادثه",
+                            Topic = Enum.GetName(typeof(NotificationTypeEnum), (int)NotificationTypeEnum.Group)
+                        };
+
+                        NotificationManager.SendToTopicAsync(NotificationManager.CreateMessage(NotificationManager.Notification));
 
                     }
                 }

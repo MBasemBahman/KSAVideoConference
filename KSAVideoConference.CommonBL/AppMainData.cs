@@ -46,6 +46,11 @@
             Arabic = 2,
         };
 
+        public enum NotificationTypeEnum
+        {
+            Group = 1
+        }
+
         public enum AppStaticMessageEnum
         {
             Common = 1,
