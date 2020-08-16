@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using static KSAVideoConference.CommonBL.EnumModel;
@@ -135,9 +136,71 @@ namespace KSAVideoConference.AppService.Controllers
                             Topic = Enum.GetName(typeof(NotificationTypeEnum), (int)NotificationTypeEnum.Group)
                         };
 
-                        NotificationManager.SendToTopicAsync(NotificationManager.CreateMessage(NotificationManager.Notification));
+                        var Members = (await _UnitOfWork.GroupMemberRepository.GetAllAsync(a => a.Fk_Group == Fk_Group)).Select(a=>a.User.NotificationToken).ToList();
 
+                        if (Members.Any())
+                        {
+                            NotificationManager.Notification.RegistrationTokens = Members;
+
+                            await NotificationManager.SendMulticast(NotificationManager.CreateMulticastMessage(NotificationManager.Notification));
+                        }
                     }
+                }
+            }
+            catch (Exception ex)
+            {
+                Status.ExceptionMessage = ex.Message;
+            }
+
+            Status.ErrorMessage = _UnitOfWork.AppStaticMessageRepository.Encode(Status.ErrorMessage);
+
+            Response.Headers.Add("X-Status", JsonSerializer.Serialize(Status));
+
+            return returnData;
+        }
+
+        /// <summary>
+        /// Post : Test Notification
+        /// </summary>
+        [HttpPost]
+        [Route(nameof(TestNotification))]
+        public async Task<string> TestNotification([FromQuery] Guid Token, [FromQuery] NotificationModelTest Notification)
+        {
+            string returnData = "";
+            Status Status = new Status();
+
+            try
+            {
+                Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.Common);
+
+                User UserDB = await _UnitOfWork.UserRepository.GetByTokenAsync(Token);
+                if (UserDB == null)
+                {
+                    Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.UnAuth);
+                }
+                else if (!UserDB.IsActive)
+                {
+                    Status.ErrorMessage = await _UnitOfWork.AppStaticMessageRepository.GetStaticMessage((int)AppStaticMessageEnum.UnActive, UserDB.Fk_Language);
+                }
+                else
+                {
+                    Status = new Status(true);
+
+                    NotificationManager.Notification = new FirebaseNotificationModel
+                    {
+                        NotificationType = new KeyValuePair<int, string>((int)NotificationTypeEnum.Group, Enum.GetName(typeof(NotificationTypeEnum), (int)NotificationTypeEnum.Group)),
+                        TargetId = 1,
+                        MessageHeading = Notification.MessageHeading,
+                        MessageContent = Notification.MessageContent,
+                        Topic = Enum.GetName(typeof(NotificationTypeEnum), (int)NotificationTypeEnum.Group)
+                    };
+
+                    NotificationManager.Notification.RegistrationTokens = new List<string>
+                    {
+                        Notification.RegistrationToken
+                    };
+
+                    await NotificationManager.SendMulticast(NotificationManager.CreateMulticastMessage(NotificationManager.Notification));
                 }
             }
             catch (Exception ex)

@@ -8,7 +8,7 @@ namespace KSAVideoConference.CommonBL
     {
         public static FirebaseNotificationModel Notification { get; set; }
 
-        public static async Task<string> SendToTopicAsync(Message message)
+        public static async Task<string> SendToTopic(Message message)
         {
             // Send a message to the device corresponding to the provided
             // registration token.
@@ -18,7 +18,7 @@ namespace KSAVideoConference.CommonBL
             // [END send_to_token]
         }
 
-        public static async Task<int> SendMulticastAsync(MulticastMessage message)
+        public static async Task<int> SendMulticast(MulticastMessage message)
         {
             BatchResponse response = await FirebaseMessaging.DefaultInstance.SendMulticastAsync(message);
             // See the BatchResponse reference documentation
@@ -27,7 +27,7 @@ namespace KSAVideoConference.CommonBL
             // [END send_multicast]
         }
 
-        public static async Task<int> SubscribeToTopicAsync(List<string> registrationTokens, string topic)
+        public static async Task<int> SubscribeToTopic(List<string> registrationTokens, string topic)
         {
             // Subscribe the devices corresponding to the registration tokens to the
             // topic
@@ -126,5 +126,14 @@ namespace KSAVideoConference.CommonBL
         public List<string> RegistrationTokens { get; set; }
 
         public string Topic { get; set; } = "all";
+    }
+
+    public class NotificationModelTest
+    {
+        public string RegistrationToken { get; set; }
+
+        public string MessageHeading { get; set; }
+
+        public string MessageContent { get; set; }
     }
 }

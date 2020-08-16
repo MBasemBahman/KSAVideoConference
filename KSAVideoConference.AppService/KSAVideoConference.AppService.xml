@@ -14,9 +14,19 @@
             Post : Generate Conference Token
             </summary>
         </member>
+        <member name="M:KSAVideoConference.AppService.Controllers.AppController.TestNotification(System.Guid,KSAVideoConference.CommonBL.NotificationModelTest)">
+            <summary>
+            Post : Test Notification
+            </summary>
+        </member>
         <member name="M:KSAVideoConference.AppService.Controllers.GroupController.CreateGroup(System.Guid,KSAVideoConference.ServiceModel.AppModel.IGroupModel)">
             <summary>
             Post : Create Group
+            </summary>
+        </member>
+        <member name="M:KSAVideoConference.AppService.Controllers.GroupController.CreateSubGroup(System.Guid,System.Collections.Generic.List{System.Int32})">
+            <summary>
+            Post : Create SubGroup
             </summary>
         </member>
         <member name="M:KSAVideoConference.AppService.Controllers.GroupController.UpdateGroup(System.Guid,KSAVideoConference.ServiceModel.AppModel.IGroupModel)">
