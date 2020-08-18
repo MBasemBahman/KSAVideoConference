@@ -136,7 +136,7 @@ namespace KSAVideoConference.AppService.Controllers
                             Topic = Enum.GetName(typeof(NotificationTypeEnum), (int)NotificationTypeEnum.Group)
                         };
 
-                        var Members = (await _UnitOfWork.UserRepository.GetAllAsync(a => a.GroupMembers.Any(b => b.Fk_Group == Fk_Group))).Select(a => a.NotificationToken).ToList();
+                        var Members = (await _UnitOfWork.UserRepository.GetAllAsync(a => a.GroupMembers.Any(b => b.Fk_Group == Fk_Group) || a.Groups.Any(b => b.Id == Fk_Group))).Select(a => a.NotificationToken).ToList();
 
                         if (Members.Any())
                         {
