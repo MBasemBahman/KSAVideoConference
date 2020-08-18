@@ -140,6 +140,8 @@ namespace KSAVideoConference.AppService.Controllers
 
                         if (Members.Any())
                         {
+                            Members.Remove(UserDB.NotificationToken);
+
                             NotificationManager.Notification.RegistrationTokens = Members;
 
                             await NotificationManager.SendMulticast(NotificationManager.CreateMulticastMessage(NotificationManager.Notification));
