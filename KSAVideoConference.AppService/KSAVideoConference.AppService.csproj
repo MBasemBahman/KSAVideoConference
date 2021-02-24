@@ -4,6 +4,7 @@
 		<TargetFramework>netcoreapp3.1</TargetFramework>
 		<AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
 		<AspNetCoreModuleName>AspNetCoreModule</AspNetCoreModuleName>
+		<UserSecretsId>2beaf1e3-690f-4274-9de7-4ae16e4e1d02</UserSecretsId>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -36,9 +37,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Uploud\Group\" />
-		<Folder Include="Uploud\Attachment\" />
-		<Folder Include="Uploud\User\" />
+	  <Folder Include="Uploud\Attachment\" />
+	  <Folder Include="Uploud\Group\" />
+	  <Folder Include="Uploud\User\" />
 	</ItemGroup>
 
 

@@ -143,7 +143,7 @@ namespace KSAVideoConference.AppService.Controllers
         /// </summary>
         [HttpPost]
         [Route(nameof(Login))]
-        public async Task<UserModel> Login([FromForm] string Phone, int Fk_Language)
+        public async Task<UserModel> Login([FromForm] string Phone, int Fk_Language = (int)LanguageEnum.Arabic)
         {
             UserModel returnData = new UserModel();
             Status Status = new Status();
