@@ -5,8 +5,8 @@ namespace KSAVideoConference.CommonBL
 {
     public static class OpenTokManager
     {
-        private static readonly int ApiKey = 46693282;
-        private static readonly string ApiSecret = "1a54c61b9442c382630630024d9d5e352bf9e920";
+        private static readonly int ApiKey ;
+        private static readonly string ApiSecret ;
 
         public static async Task<string> CreateSessionId()
         {
